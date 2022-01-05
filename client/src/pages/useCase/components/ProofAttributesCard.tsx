@@ -71,7 +71,7 @@ export const ProofAttributesCard: React.FC<Props> = ({ entity, requestedCredenti
   })
 
   return (
-    <div className="flex flex-col bg-animo-white dark:bg-animo-black p-4 md:mb-8 rounded-lg shadow max-h-72 my-2 sm:max-h-96 md:max-h-full overflow-y-scroll md:overflow-hidden">
+    <div className="flex flex-col bg-animo-white dark:bg-animo-black p-4 md:mb-8 rounded-lg shadow max-h-64 my-2 sm:max-h-72 md:max-h-96 overflow-auto">
       <div className="flex-1-1 title">
         <div className="flex flex-row">
           <h1 className="flex flex-1 font-semibold dark:text-white">{entity.name} would like to know:</h1>
