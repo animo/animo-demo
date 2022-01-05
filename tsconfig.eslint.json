@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.build.json",
+
+  "include": ["client", "server", "./.eslintrc.js"],
+  "exclude": ["node_modules", "build"]
+}

@@ -1,0 +1,9 @@
+{
+  "projectId": "idy916",
+  "baseUrl": "http://localhost:3000",
+  "viewportWidth": 1400,
+  "viewportHeight": 860,
+  "env": {
+    "apiUrl": "http://localhost:5000"
+  }
+}

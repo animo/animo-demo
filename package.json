@@ -1,0 +1,49 @@
+{
+  "name": "animo-demo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "Animo Solutions - Verifiable Credential Demo",
+  "repository": {
+    "url": "https://github.com/animo/animo-demo",
+    "type": "git"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "dependencies": {},
+  "scripts": {
+    "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
+    "lint": "eslint --ignore-path .gitignore .",
+    "format": "yarn prettier --write",
+    "prepare": "husky install",
+    "client:start": "yarn workspace client start",
+    "client:build": "yarn workspace client build",
+    "server:dev": "yarn workspace server dev",
+    "server:build": "yarn workspace server build",
+    "dev": "concurrently -n 'client,server ' -c 'green.bold,red.bold' 'yarn client:start' 'yarn server:dev'",
+    "test": "yarn run cypress open",
+    "build": "yarn workspace client build && yarn workspace server build",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.8.1",
+    "@typescript-eslint/visitor-keys": "^5.8.1",
+    "concurrently": "^6.4.0",
+    "cypress": "^9.1.1",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "husky": "^7.0.1",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.3"
+  }
+}

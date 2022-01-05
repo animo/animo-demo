@@ -1,0 +1,38 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [release]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Libindy
+        uses: ./.github/actions/setup-libindy
+
+      - name: Setup NodeJS
+        uses: ./.github/actions/setup-node
+        with:
+          node-version: 16
+
+      - name: Start App
+        run: |
+          yarn
+          NODE_ENV=test AGENT_WALLET_KEY=ba8e2462-f9ac-4da0-a9c6-99592a7dbc12 REACT_APP_HOST_BACKEND=http://localhost:5000 AGENT_PUBLIC_DID_SEED=testtesttesttesttesttesttesttest yarn dev &
+
+      - name: Wait for credential defs to be created
+        run: sleep 120s
+        shell: bash
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          browser: chrome
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  server:
+    platform: linux/amd64
+    image: ghcr.io/animo/animo-demo/server:release
+    environment:
+      VIRTUAL_HOST: server.demo.animo.id:5000,didcomm.demo.animo.id:5001
+      LETSENCRYPT_HOST: server.demo.animo.id,didcomm.demo.animo.id
+      AGENT_PUBLIC_DID_SEED: ${AGENT_PUBLIC_DID_SEED}
+      AGENT_ENDPOINT: https://didcomm.demo.animo.id
+    ports:
+      - 5000
+      - 5001
+    networks:
+      - https-proxy
+  client:
+    image: ghcr.io/animo/animo-demo/client:release
+    environment:
+      VIRTUAL_HOST: demo.animo.id:80
+      LETSENCRYPT_HOST: demo.animo.id
+    networks:
+      - https-proxy
+    ports:
+      - 80
+
+networks:
+  https-proxy:
+    external: true
+    name: https-proxy
