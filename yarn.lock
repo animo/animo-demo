@@ -2163,6 +2163,11 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.8.1.tgz#04c6b49ebc8c99238238a6b8b43f2fc613983b5a"
   integrity sha512-L/FlWCCgnjKOLefdok90/pqInkomLnAcF9UAzNr+DSqMC3IffzumHTQTrINXhP1gVp9zlHiYYjvozVZDPleLcA==
 
+"@typescript-eslint/types@5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.9.0.tgz#e5619803e39d24a03b3369506df196355736e1a3"
+  integrity sha512-mWp6/b56Umo1rwyGCk8fPIzb9Migo8YOniBGPAQDNC6C52SeyNGN4gsVwQTAR+RS2L5xyajON4hOLwAGwPtUwg==
+
 "@typescript-eslint/typescript-estree@5.8.0":
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.8.0.tgz#900469ba9d5a37f4482b014ecce4a5dbb86cb4dd"
@@ -2197,12 +2202,20 @@
     "@typescript-eslint/types" "5.8.0"
     eslint-visitor-keys "^3.0.0"
 
-"@typescript-eslint/visitor-keys@5.8.1", "@typescript-eslint/visitor-keys@^5.8.1":
+"@typescript-eslint/visitor-keys@5.8.1":
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.8.1.tgz#58a2c566265d5511224bc316149890451c1bbab0"
   integrity sha512-SWgiWIwocK6NralrJarPZlWdr0hZnj5GXHIgfdm8hNkyKvpeQuFyLP6YjSIe9kf3YBIfU6OHSZLYkQ+smZwtNg==
   dependencies:
     "@typescript-eslint/types" "5.8.1"
+    eslint-visitor-keys "^3.0.0"
+
+"@typescript-eslint/visitor-keys@^5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.9.0.tgz#7585677732365e9d27f1878150fab3922784a1a6"
+  integrity sha512-6zq0mb7LV0ThExKlecvpfepiB+XEtFv/bzx7/jKSgyXTFD7qjmSu1FoiS0x3OZaiS+UIXpH2vd9O89f02RCtgw==
+  dependencies:
+    "@typescript-eslint/types" "5.9.0"
     eslint-visitor-keys "^3.0.0"
 
 "@webassemblyjs/ast@1.11.1":
