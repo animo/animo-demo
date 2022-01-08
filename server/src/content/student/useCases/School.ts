@@ -17,23 +17,23 @@ export const School: UseCase = {
   stepper: [
     {
       id: uuid(),
-      name: `Apply on the University's website`,
-      description: `Browse the University website and make your choice.`,
+      name: `Connect with the university`,
+      description: `Setup a secure connection with the university.`,
       steps: 1,
       section: 1,
     },
     {
       id: uuid(),
       name: 'Submit your application',
-      description: 'Connect with the University to submit your application.',
-      steps: 6,
+      description: 'Use the connection to submit your application.',
+      steps: 4,
       section: 1,
     },
     {
       id: uuid(),
       name: 'Receive your student pass',
       description: 'Accept your new Student pass that is issued by the University.',
-      steps: 8,
+      steps: 7,
       section: 1,
     },
   ],
@@ -143,8 +143,7 @@ export const School: UseCase = {
             {
               id: uuid(),
               title: 'You safely presented your data',
-              description:
-                `Without showing all of your data, you successfully applied by accepting the university's request.`,
+              description: `Without showing all of your data, you successfully applied by accepting the university's request.`,
               image: `${URL}/student-secure.svg`,
             },
             {
