@@ -92,7 +92,8 @@ export const Sport: UseCase = {
           id: uuid(),
           type: StepType.CONNECTION,
           title: 'Connect with the gym',
-          description: 'Just scan the QR-code to connect. The gym has connection details available online, as well as at the registration desk.'
+          description:
+            'Just scan the QR-code to connect. The gym has connection details available online, as well as at the registration desk.',
         },
         {
           id: uuid(),

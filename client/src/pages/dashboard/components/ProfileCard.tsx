@@ -24,8 +24,8 @@ export const ProfileCard: React.FC<Props> = ({ currentCharacter }) => {
   before you switch to another character.`
 
   const reset = () => {
-    dispatch({ type: 'demo/RESET' })
     navigate('/demo')
+    dispatch({ type: 'demo/RESET' })
   }
 
   const cancel = () => {

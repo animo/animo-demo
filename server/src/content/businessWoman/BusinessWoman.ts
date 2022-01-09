@@ -8,7 +8,7 @@ export const BusinessWoman: Character = {
   name: 'Ana',
   type: 'Businesswoman',
   backstory:
-    "Ana is on her way to the top! She's the CEO of a fortune 500 company and is always working around the clock to keep business going, join her in her endeavor!.",
+    "Ana is on her way to the top! She's the CEO of a fortune 500 company and is always working around the clock to keep business going, join her in her endeavor!",
   starterCredentials: [
     {
       id: uuid(),

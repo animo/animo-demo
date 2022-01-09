@@ -8,7 +8,6 @@ import {
   AutoAcceptCredential,
   HttpOutboundTransport,
 } from '@aries-framework/core'
-import { JsonEncoder } from '@aries-framework/core/build/utils/JsonEncoder'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { startServer } from '@aries-framework/rest'
 import { static as stx } from 'express'
@@ -66,25 +65,9 @@ const run = async () => {
   })
 
   httpInbound.app.get('/', async (req, res) => {
-    // eslint-disable-next-line no-console
     if (typeof req.query.c_i === 'string') {
       const invitation = await ConnectionInvitationMessage.fromUrl(req.url.replace('d_m=', 'c_i='))
       res.send(invitation.toJSON())
-    }
-    if (typeof req.query.d_m === 'string') {
-      const base64 = req.query.d_m.split('?')[0]
-      const proof = JsonEncoder.fromBase64(base64)
-      res.send(proof)
-    }
-    if (typeof req.query.id === 'string') {
-      const proof = await agent.proofs.getById(req.query.id)
-
-      let message = ''
-      if (proof.requestMessage) {
-        message = JsonEncoder.toBase64URL(proof.requestMessage.toJSON())
-      }
-
-      res.redirect(agent.config.endpoints[0] + '/?d_m=' + message)
     }
   })
 

@@ -243,7 +243,7 @@ export const OnboardingContainer: React.FC<Props> = ({
       <div className="flex flex-col grid justify-items-end w-full lg:w-2/3 px-8">
         <div className="">
           <motion.p variants={fadeDelay}>
-            <FiLogOut onClick={showLeaveModal} className="inline h-12 cursor-pointer" />
+            <FiLogOut onClick={showLeaveModal} className="inline h-12 cursor-pointer dark:text-white" />
           </motion.p>
         </div>
         <AnimatePresence exitBeforeEnter>{getComponentToRender(onboardingStep)}</AnimatePresence>

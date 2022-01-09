@@ -33,7 +33,7 @@ export const AirTravel: UseCase = {
       id: uuid(),
       name: 'Receive your airplane ticket.',
       description: 'Share your personal information and receive your flight details.',
-      steps: 8,
+      steps: 5,
       section: 1,
     },
   ],
@@ -96,7 +96,7 @@ export const AirTravel: UseCase = {
           type: StepType.INFO,
           image: `${URL}/airtravel-details.svg`,
           title: 'Sunrise Airways wants some information',
-          description: `You now have a secure connection with Sunrise Airways and are ready to book your vacation. Use the credentials in your wallet to finish the reservation process.`
+          description: `You now have a secure connection with Sunrise Airways and are ready to book your vacation. Use the credentials in your wallet to finish the reservation process.`,
         },
         {
           id: uuid(),
@@ -113,7 +113,7 @@ export const AirTravel: UseCase = {
           type: StepType.INFO,
           image: `${URL}/airtravel-secure.svg`,
           title: 'Your flight has been booked!',
-          description: `Great! You've booked your ticket. Before you go pack your bags, Sunrise Airways will first issue you a ticket. `
+          description: `Great! You've booked your ticket. Before you go pack your bags, Sunrise Airways will first issue you a ticket. `,
         },
         {
           id: uuid(),
@@ -128,7 +128,7 @@ export const AirTravel: UseCase = {
           type: StepType.INFO,
           image: `${URL}/airtravel-beach.svg`,
           title: `Time to relax!`,
-          description: `Leave your laptop at home because it is time to work on nothing but your tan. `
+          description: `Leave your laptop at home because it is time to work on nothing but your tan. `,
         },
         {
           id: uuid(),

@@ -14,8 +14,7 @@ export const Laptop: UseCase = {
   card: {
     title: `Let's buy a new laptop`,
     image: `${URL}/laptop-card.svg`,
-    description:
-      "It's time for a new laptop. Let's buy a nice one using verifiable credentials.",
+    description: "It's time for a new laptop. Let's buy a nice one using verifiable credentials.",
   },
   stepper: [
     {
@@ -29,7 +28,7 @@ export const Laptop: UseCase = {
       id: uuid(),
       name: 'Make a purchase',
       description: 'We need to share our payment details.',
-      steps: 6,
+      steps: 5,
       section: 1,
     },
     {
