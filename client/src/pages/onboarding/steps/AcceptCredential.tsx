@@ -93,7 +93,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           <FailedRequestModal key="credentialModal" action={sendNewCredentials} close={closeFailedRequestModal} />
         )}
       </div>
-      <ActionCTA isCompleted={credentialsAccepted} onFail={showFailedRequestModal} />
+      <ActionCTA isCompleted={credentialsAccepted && credentials.length > 0} onFail={showFailedRequestModal} />
     </motion.div>
   )
 }

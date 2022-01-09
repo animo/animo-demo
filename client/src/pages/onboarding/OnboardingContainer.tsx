@@ -59,6 +59,7 @@ export const OnboardingContainer: React.FC<Props> = ({
     onboardingStep === Progress.CHOOSE_WALLET ||
     (onboardingStep === Progress.RECEIVE_IDENTITY && !connectionCompleted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && !credentialsAccepted) ||
+    (onboardingStep === Progress.ACCEPT_CREDENTIAL && credentials.length === 0) ||
     (onboardingStep === Progress.PICK_CHARACTER && !currentCharacter)
 
   const addOnboardingProgress = () => {
