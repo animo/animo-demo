@@ -59,6 +59,7 @@ export const OnboardingContainer: React.FC<Props> = ({
     onboardingStep === Progress.CHOOSE_WALLET ||
     (onboardingStep === Progress.RECEIVE_IDENTITY && !connectionCompleted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && !credentialsAccepted) ||
+    (onboardingStep === Progress.ACCEPT_CREDENTIAL && credentials.length === 0) ||
     (onboardingStep === Progress.PICK_CHARACTER && !currentCharacter)
 
   const addOnboardingProgress = () => {
@@ -231,7 +232,7 @@ export const OnboardingContainer: React.FC<Props> = ({
   const closeLeave = () => setLeaveModal(false)
 
   const leave = () => {
-    navigate('/dashboard')
+    navigate('/')
     dispatch({ type: 'demo/RESET' })
   }
 
@@ -241,7 +242,7 @@ export const OnboardingContainer: React.FC<Props> = ({
       style={style}
     >
       <div className="flex flex-col grid justify-items-end w-full lg:w-2/3 px-8">
-        <div className="">
+        <div className="w-full">
           <motion.p variants={fadeDelay}>
             <FiLogOut onClick={showLeaveModal} className="inline h-12 cursor-pointer dark:text-white" />
           </motion.p>
