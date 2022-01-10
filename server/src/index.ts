@@ -20,9 +20,19 @@ import { TestLogger } from './logger'
 import { AgentCleanup } from './utils/AgentCleanup'
 import { BCOVRIN_TEST_GENESIS } from './utils/utils'
 
-const run = async () => {
-  const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.error : LogLevel.debug)
+const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.error : LogLevel.debug)
 
+process.on('unhandledRejection', (error) => {
+  if (error instanceof Error) {
+    logger.fatal(`Unhandled promise rejection: ${error.message}`, { error })
+  } else {
+    logger.fatal('Unhandled promise rejection due to non-error error', {
+      error,
+    })
+  }
+})
+
+const run = async () => {
   const endpoint = process.env.AGENT_ENDPOINT ?? (await connect(5001))
   const agentConfig: InitConfig = {
     label: 'Animo',
@@ -66,8 +76,13 @@ const run = async () => {
 
   httpInbound.app.get('/', async (req, res) => {
     if (typeof req.query.c_i === 'string') {
-      const invitation = await ConnectionInvitationMessage.fromUrl(req.url.replace('d_m=', 'c_i='))
-      res.send(invitation.toJSON())
+      try {
+        const invitation = await ConnectionInvitationMessage.fromUrl(req.url.replace('d_m=', 'c_i='))
+        res.send(invitation.toJSON())
+      } catch (error) {
+        res.status(500)
+        res.send({ detail: 'Unknown error occurred' })
+      }
     }
   })
 
