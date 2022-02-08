@@ -72,7 +72,7 @@ export const Job: UseCase = {
           id: uuid(),
           name: 'Proof of Employment',
           attributes: [
-            { name: 'Name', value: 'Karim Müller' },
+            { name: 'Name', value: 'Noah Müller' },
             { name: 'Organization', value: 'eCorp' },
             { name: 'Date', value: today.toString() },
             { name: 'Title', value: 'Developer' },
@@ -100,7 +100,6 @@ export const Job: UseCase = {
           title: 'Share your information',
           image: `${URL}/job-private.svg`,
           description: `You now have a secure connection. Using this connection, you are going to share some personal information that is needed to complete the application.`,
-          
         },
         {
           id: uuid(),
@@ -117,7 +116,7 @@ export const Job: UseCase = {
           type: StepType.INFO,
           title: 'Your application has been approved.',
           image: `${URL}/job-interview.svg`,
-          description: `Congratulations! You've found a great new job at eCorp. Before you tell anyone, first receive your employee badge.`
+          description: `Congratulations! You've found a great new job at eCorp. Before you tell anyone, first receive your employee badge.`,
         },
         {
           id: uuid(),

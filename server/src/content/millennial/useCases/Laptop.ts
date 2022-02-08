@@ -71,7 +71,7 @@ export const Laptop: UseCase = {
           id: uuid(),
           name: 'Laptop Invoice',
           attributes: [
-            { name: 'Name', value: 'Karim Müller' },
+            { name: 'Name', value: 'Noah Müller' },
             { name: 'Street', value: 'Dorfstrasse 23' },
             { name: 'City', value: 'Zürich' },
             { name: 'Store', value: 'Pear Store' },

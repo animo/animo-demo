@@ -80,7 +80,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
 
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
-      if (cred.state !== 'credential-issued') {
+      if (cred.state !== 'credential-issued' && cred.state !== 'done') {
         dispatch(deleteCredentialById(cred.id))
 
         const newCredential = issuedCredData.find((item) => {
