@@ -23,7 +23,7 @@ jobs:
         run: yarn lint
 
       - name: Prettier
-        run: yarn check-format
+        run: yarn format
 
       - name: Start App
         run: |
