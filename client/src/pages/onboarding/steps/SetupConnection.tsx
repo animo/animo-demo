@@ -37,7 +37,7 @@ export const SetupConnection: React.FC<Props> = ({ content, connectionId, invita
 
   useInterval(
     () => {
-      if (connectionId) {
+      if (connectionId && document.visibilityState === 'visible') {
         dispatch(fetchConnectionById(connectionId))
       }
     },

@@ -52,7 +52,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
 
   useInterval(
     () => {
-      dispatch(fetchCredentialsByConId(connectionId))
+      if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
     },
     !credentialsAccepted ? 1000 : null
   )

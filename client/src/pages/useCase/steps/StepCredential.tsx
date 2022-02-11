@@ -73,7 +73,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
 
   useInterval(
     () => {
-      dispatch(fetchCredentialsByConId(connectionId))
+      if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
     },
     !credentialsAccepted ? 1000 : null
   )
