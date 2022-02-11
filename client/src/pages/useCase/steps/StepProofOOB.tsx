@@ -15,7 +15,6 @@ import { StepInfo } from '../components/StepInfo'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QR = require('qrcode.react')
-// const Qrize = require('qrize')
 
 export interface Props {
   proof?: ProofRecord
@@ -104,16 +103,6 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
       <p>Success! You can continue.</p>
     </motion.div>
   )
-
-  // useEffect(() => {
-  //   if (proofUrl) {
-  //     const qrize = new Qrize({
-  //       element: document.getElementById('qr-target'),
-  //       cellSize: 10,
-  //     })
-  //     qrize.createImg({ url: proofUrl })
-  //   }
-  // }, [proofUrl])
 
   return (
     <motion.div variants={fadeX} initial="hidden" animate="show" exit="exit" className="flex flex-col h-full">
