@@ -12,21 +12,11 @@
     "client",
     "server"
   ],
-  "dependencies": {
-    "lint-staged": "^12.3.3"
-  },
-  "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --config .prettierrc --write",
-      "git add"
-    ]
-  },
+  "dependencies": {},
   "scripts": {
-    "precommit": "yarn lint-staged && yarn lint",
     "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "yarn prettier --write",
-    "check-format": "yarn prettier --list-different",
     "prepare": "husky install",
     "client:start": "yarn workspace client start",
     "client:build": "yarn workspace client build",
