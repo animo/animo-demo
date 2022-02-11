@@ -12,8 +12,8 @@
     "client",
     "server"
   ],
-  "dependencies": {},
   "scripts": {
+    "check-types": "tsc --noEmit",
     "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "yarn prettier --write",

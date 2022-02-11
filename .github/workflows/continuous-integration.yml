@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: [release]
+    branches: [main, release]
 
 jobs:
   cypress-run:
@@ -24,6 +24,9 @@ jobs:
 
       - name: Prettier
         run: yarn format
+
+      - name: Compile
+        run: yarn check-types
 
       - name: Start App
         run: |
