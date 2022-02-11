@@ -8,7 +8,7 @@ export const Student: Character = {
   name: 'Jan',
   type: 'Student',
   backstory:
-    'Jan is feeling great, he just got into law school and is ready to experience everything that student life has to offer. Help him navigate the experience!',
+    'Jan is feeling great! He just got into law school and is ready to experience everything that student life has to offer. Help him navigate the experience!',
   starterCredentials: [
     {
       id: uuid(),

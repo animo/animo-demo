@@ -14,6 +14,7 @@
   ],
   "dependencies": {},
   "scripts": {
+    "precommit": "yarn lint && yarn prettier",
     "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "yarn prettier --write",
