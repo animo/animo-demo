@@ -19,6 +19,12 @@ jobs:
         with:
           node-version: 16
 
+      - name: Linting
+        run: yarn lint
+
+      - name: Prettier
+        run: yarn check-format
+
       - name: Start App
         run: |
           yarn
