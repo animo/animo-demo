@@ -40,6 +40,10 @@ const credentialSlice = createSlice({
         state.isLoading = false
         state.credentials = action.payload
       })
+      .addCase(issueCredential.rejected, (state, action) => {
+        // eslint-disable-next-line no-console
+        console.log(action.error)
+      })
       .addCase(issueCredential.pending, (state) => {
         state.isLoading = true
       })
