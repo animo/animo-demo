@@ -76,7 +76,7 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
 
   useInterval(
     () => {
-      if (!proofReceived && proof) {
+      if (!proofReceived && proof && document.visibilityState === 'visible') {
         dispatch(fetchProofById(proof.id))
       }
     },

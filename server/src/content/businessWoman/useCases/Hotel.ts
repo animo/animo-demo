@@ -11,8 +11,7 @@ export const Hotel: UseCase = {
   card: {
     title: 'Book a hotel room',
     image: `${URL}/hotel-card.svg`,
-    description:
-      `You are in the city for a business conference. During this two-day event you'll need to find a hotel to stay at.`,
+    description: `You are in the city for a business conference. During this two-day event you'll need to find a hotel to stay at.`,
   },
 
   stepper: [
@@ -72,7 +71,7 @@ export const Hotel: UseCase = {
           properties: [{ name: 'Name' }],
           attributes: [
             { name: 'Hotel', value: 'Paramount Hotels' },
-            { name: 'Name', value: 'Ana Brown' },
+            { name: 'Name', value: 'Joyce Brown' },
             { name: 'Room', value: '213' },
           ],
           icon: `${URL}/hotel-icon-keycard.png`,
@@ -97,7 +96,7 @@ export const Hotel: UseCase = {
           id: uuid(),
           type: StepType.CONNECTION,
           title: 'Connect with Paramount Hotels',
-          description: `Use your wallet to make a connection with the hotel. Paramount Hotels has a QR-code available online, or at the reception desk.`
+          description: `Use your wallet to make a connection with the hotel. Paramount Hotels has a QR-code available online, or at the reception desk.`,
         },
         {
           id: uuid(),
@@ -127,7 +126,7 @@ export const Hotel: UseCase = {
           id: uuid(),
           type: StepType.CREDENTIAL,
           title: 'Accept your hotel keycard.',
-          description: `Grab your wallet, and accept your new hotel keycard. You can use this credential to get acces to your room with your mobile phone.`, 
+          description: `Grab your wallet, and accept your new hotel keycard. You can use this credential to get acces to your room with your mobile phone.`,
           useProof: false,
         },
         {

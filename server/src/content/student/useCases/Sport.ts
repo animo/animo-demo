@@ -73,7 +73,7 @@ export const Sport: UseCase = {
           id: uuid(),
           name: 'Gym Membership',
           attributes: [
-            { name: 'Name', value: 'Timo van Dalen' },
+            { name: 'Name', value: 'Jan van Dalen' },
             { name: 'Date of birth', value: '19990101' },
             { name: 'Valid until', value: nextYear.toString() },
           ],

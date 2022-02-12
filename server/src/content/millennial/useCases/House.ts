@@ -16,8 +16,7 @@ export const House: UseCase = {
   card: {
     title: 'Find a new place',
     image: `${URL}/house-card.svg`,
-    description:
-      "Let's look for a new place close to your new job in a nice neighborhood.",
+    description: "Let's look for a new place close to your new job in a nice neighborhood.",
   },
 
   stepper: [
@@ -75,7 +74,7 @@ export const House: UseCase = {
           id: uuid(),
           name: 'Rent Agreement',
           attributes: [
-            { name: 'Tenant', value: 'Karim Müller' },
+            { name: 'Tenant', value: 'Noah Müller' },
             { name: 'Landlord', value: 'Mary' },
             { name: 'Rent', value: '$1000' },
             { name: 'Start date', value: today.toString() },
@@ -111,7 +110,6 @@ export const House: UseCase = {
           title: 'Mary needs some verification.',
           image: `${URL}/house-secure.svg`,
           description: `You now have a secure connection. Using this connection, you are going to share some personal information that is needed to apply for homes.`,
-          
         },
         {
           id: uuid(),

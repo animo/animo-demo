@@ -10,7 +10,7 @@ import sectionSlice from './section/sectionSlice'
 import useCaseSlice from './useCases/useCasesSlice'
 import walletsSlice from './wallets/walletsSlice'
 
-const VERSION = 1
+export const VERSION = 1
 
 const rootReducer = combineReducers({
   wallets: walletsSlice,

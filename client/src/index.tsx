@@ -5,11 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import App from './App'
-// eslint-disable-next-line import/order
-import reportWebVitals from './reportWebVitals'
-
 import './index.css'
-
 import * as Redux from './store/configureStore'
 import { KBar } from './utils/KBar'
 
@@ -30,6 +26,3 @@ render(
 
   document.getElementById('root')
 )
-
-// eslint-disable-next-line no-console
-reportWebVitals(console.log())

@@ -13,8 +13,10 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true
   },
-  "include": ["**/*.ts"],
+  "include": ["client", "server"],
   "exclude": ["node_modules", "build"]
 }
