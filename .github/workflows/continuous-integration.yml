@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: [release]
+    branches: [main, release]
 
 jobs:
   cypress-run:
@@ -18,6 +18,18 @@ jobs:
         uses: ./.github/actions/setup-node
         with:
           node-version: 16
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Linting
+        run: yarn lint
+
+      - name: Prettier
+        run: yarn format
+
+      - name: Compile
+        run: yarn check-types
 
       - name: Start App
         run: |

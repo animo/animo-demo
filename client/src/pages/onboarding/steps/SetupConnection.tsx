@@ -12,6 +12,7 @@ import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
 import { createInvitation, fetchConnectionById } from '../../../slices/connection/connectionThunks'
 import { setOnboardingConnectionId } from '../../../slices/onboarding/onboardingSlice'
+import { setConnectionDate } from '../../../slices/preferences/preferencesSlice'
 import { StepInformation } from '../components/StepInformation'
 
 export interface Props {
@@ -32,12 +33,14 @@ export const SetupConnection: React.FC<Props> = ({ content, connectionId, invita
   useEffect(() => {
     if (connectionId) {
       dispatch(setOnboardingConnectionId(connectionId))
+      const date = new Date()
+      dispatch(setConnectionDate(date))
     }
   }, [connectionId])
 
   useInterval(
     () => {
-      if (connectionId) {
+      if (connectionId && document.visibilityState === 'visible') {
         dispatch(fetchConnectionById(connectionId))
       }
     },

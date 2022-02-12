@@ -30,7 +30,7 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
 
   useInterval(
     () => {
-      if (id) dispatch(fetchConnectionById(id))
+      if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
     },
     !isCompleted ? 1000 : null
   )
