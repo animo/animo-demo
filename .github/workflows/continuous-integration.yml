@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install dependencies
+        run: yarn install
+
       - name: Linting
         run: yarn lint
 

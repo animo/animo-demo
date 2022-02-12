@@ -29,7 +29,7 @@ describe('UseCase Page', () => {
 
       cy.request('GET', `${API_URL}/credentials/`).should((response) => {
         const record = response.body.find((x) => x.threadId === threadId && x.state === 'offer-received')
-        cy.request('POST', `${API_URL}/credentials/${record.id}/accept-offer`).then((response) => {
+        cy.request('POST', `${API_URL}/credentials/${record.id}/accept-offer`).then(() => {
           cy.get('[data-cy=next-onboarding-step]').click()
         })
       })
