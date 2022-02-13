@@ -95,6 +95,10 @@ const run = async () => {
   const job = AgentCleanup(agent)
   job.start()
 
+  app.get('/server/last-reset', async (req, res) => {
+    res.send(job.lastDate())
+  })
+
   await startServer(agent, {
     port: 5000,
     app: app,

@@ -35,7 +35,9 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
   const showFailedRequestModal = () => setIsFailedRequestModalOpen(true)
   const closeFailedRequestModal = () => setIsFailedRequestModalOpen(false)
 
-  const credentialsAccepted = Object.values(credentials).every((x) => x.state === 'credential-issued')
+  const credentialsAccepted = Object.values(credentials).every(
+    (x) => x.state === 'credential-issued' || x.state === 'done'
+  )
 
   useEffect(() => {
     if (credentials.length === 0) {
@@ -50,14 +52,14 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
 
   useInterval(
     () => {
-      dispatch(fetchCredentialsByConId(connectionId))
+      if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
     },
     !credentialsAccepted ? 1000 : null
   )
 
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
-      if (cred.state !== 'credential-issued') {
+      if (cred.state !== 'credential-issued' && cred.state !== 'done') {
         dispatch(deleteCredentialById(cred.id))
 
         const newCredential = currentCharacter.starterCredentials.find((item) => {

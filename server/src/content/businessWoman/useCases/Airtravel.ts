@@ -72,7 +72,7 @@ export const AirTravel: UseCase = {
             { name: 'Airline', value: 'Sunrise Airways' },
             { name: 'Class', value: 'Business' },
             { name: 'Seat', value: '13A' },
-            { name: 'Passenger', value: 'Ana Brown' },
+            { name: 'Passenger', value: 'Joyce Brown' },
           ],
           icon: `${URL}/icon-ticket.png`,
         },

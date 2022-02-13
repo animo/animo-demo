@@ -9,7 +9,7 @@ export const persistConfig = {
   key: 'root',
   storage,
   whitelist: ['preferences', 'characters', 'onboarding', 'credentials', 'connection'],
-  version: 1,
+  version: 2,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
