@@ -21,19 +21,21 @@ export const MainSection: React.FC = () => {
 
   const renderMobileTitle = (
     <motion.div className="flex-1 dark:text-white text-left text-4xl font-semibold my-8 leading-snug ">
-      <div className="overflow-hidden py-1">
-        <motion.h1 variants={landingTitle}>Decentralized </motion.h1>
-        <motion.h1 variants={landingTitle}>identity is changing </motion.h1>
-      </div>
-      <div className="overflow-hidden py-1">
-        <motion.span variants={fade} className="text-6xl text-animo-coral dark:text-animo-blue filter drop-shadow">
-          the future.
-        </motion.span>
-      </div>
+      <h1>
+        <div className="overflow-hidden py-1">
+          <motion.p variants={landingTitle}>Decentralized </motion.p>
+          <motion.p variants={landingTitle}>identity is changing </motion.p>
+        </div>
+        <div className="overflow-hidden py-1">
+          <motion.span variants={fade} className="text-6xl text-animo-coral dark:text-animo-blue filter drop-shadow">
+            the future.
+          </motion.span>
+        </div>
+      </h1>
       <div className="overflow-hidden">
-        <motion.p variants={fade} className="text-lg font-normal mt-6 dark:text-animo-lightgrey text-animo-darkgrey">
+        <motion.h2 variants={fade} className="text-lg font-normal mt-6 dark:text-animo-lightgrey text-animo-darkgrey">
           Experience a world where self-sovereign identity is the standard.
-        </motion.p>
+        </motion.h2>
       </div>
       <div className="flex flex-col justify-center text-base sxl:text-lg font-normal mt-6 m-auto">
         <motion.button
