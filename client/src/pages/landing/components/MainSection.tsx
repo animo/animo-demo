@@ -60,22 +60,24 @@ export const MainSection: React.FC = () => {
 
   const renderDesktopTitle = (
     <motion.div className="flex-1 text-left text-animo-black dark:text-animo-white font-semibold text-4xl lg:text-5xl xl:text-6xl m-auto">
-      <div className="overflow-hidden py-1 leading-tight		">
-        <motion.h1 variants={landingTitle}>Decentralized</motion.h1>
-      </div>
-      <div className="overflow-hidden py-1 leading-tight		">
-        <motion.h1 variants={landingTitle}>identity is changing </motion.h1>
-        <motion.span variants={fade} className="text-animo-coral dark:text-animo-blue filter drop-shadow">
-          the future.
-        </motion.span>
-      </div>
+      <h1>
+        <div className="overflow-hidden py-1 leading-tight">
+          <motion.p variants={landingTitle}>Decentralized</motion.p>
+        </div>
+        <div className="overflow-hidden py-1 leading-tight">
+          <motion.p variants={landingTitle}>identity is changing </motion.p>
+          <motion.span variants={fade} className="text-animo-coral dark:text-animo-blue filter drop-shadow">
+            the future.
+          </motion.span>
+        </div>
+      </h1>
       <div className="overflow-hidden">
-        <motion.p
+        <motion.h2
           variants={fadeDelay}
           className="text-base lg:text-lg font-normal mt-6 dark:text-animo-lightgrey text-animo-darkgrey"
         >
           Experience a world where self-sovereign identity is the standard.
-        </motion.p>
+        </motion.h2>
       </div>
       <div className="flex flex-row justify-start text-base sxl:text-lg  font-normal mt-6">
         <motion.button
