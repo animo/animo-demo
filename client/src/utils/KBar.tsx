@@ -30,7 +30,7 @@ export const KBar: React.FC = ({ children }) => {
     {
       id: 'confetti',
       name: 'Make it rain…',
-      shortcut: ['r'],
+      shortcut: ['c'],
       keywords: 'confetti',
       perform: () => {
         setConfettiPieces(200)
