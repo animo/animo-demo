@@ -2,29 +2,83 @@ version: '3.5'
 
 services:
   server:
-    platform: linux/amd64
     image: ghcr.io/animo/animo-demo/server:release
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      labels:
+        traefik.enable: 'true'
+
+        # AFJ Rest agent inbound transport
+        traefik.http.routers.didcomm-demo.rule: Host(`didcomm.demo.animo.id`)
+        traefik.http.routers.didcomm-demo.entrypoints: web-secure
+        traefik.http.routers.didcomm-demo.tls.certresolver: zerossl
+        traefik.http.routers.didcomm-demo.service: didcomm-demo-service
+        traefik.http.services.didcomm-demo-service.loadbalancer.server.port: 5001
+
+        # AFJ Rest API
+        traefik.http.routers.server-demo.rule: Host(`server.demo.animo.id`)
+        traefik.http.routers.server-demo.entrypoints: web-secure
+        traefik.http.routers.server-demo.tls.certresolver: zerossl
+        traefik.http.routers.server-demo.service: server-demo-service
+        traefik.http.services.server-demo-service.loadbalancer.server.port: 5000
+
     environment:
-      VIRTUAL_HOST: server.demo.animo.id:5000,didcomm.demo.animo.id:5001
-      LETSENCRYPT_HOST: server.demo.animo.id,didcomm.demo.animo.id
-      AGENT_PUBLIC_DID_SEED: ${AGENT_PUBLIC_DID_SEED}
+      AGENT_WALLET_KEY: ${AGENT_WALLET_KEY}
       AGENT_ENDPOINT: https://didcomm.demo.animo.id
-    ports:
-      - 5000
-      - 5001
+      AGENT_PUBLIC_DID_SEED: ${AGENT_PUBLIC_DID_SEED}
+
+    volumes:
+      - indy_client:/root/.indy_client
+
+    configs:
+      - source: afj_config
+        target: /config.json
+
     networks:
-      - https-proxy
+      - traefik
+
+    ports:
+      - '5000'
+      - '5001'
+
+    command: --config /config.json
+
   client:
     image: ghcr.io/animo/animo-demo/client:release
-    environment:
-      VIRTUAL_HOST: demo.animo.id:80
-      LETSENCRYPT_HOST: demo.animo.id
-    networks:
-      - https-proxy
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      labels:
+        # Enable traefik so the container can be exposed to the outside world
+        traefik.enable: 'true'
+
+        traefik.http.routers.client-demo.rule: Host(`demo.animo.id`)
+        traefik.http.routers.client-demo.entrypoints: web-secure
+        traefik.http.routers.client-demo.tls.certresolver: zerossl
+        traefik.http.routers.client-demo.service: client-demo-service
+        traefik.http.routers.client-demo.middlewares: chain-oauth@file
+        traefik.http.services.client-demo-service.loadbalancer.server.port: 80
+      update_config:
+        monitor: 30s
+        delay: 10s
+        order: start-first
     ports:
       - 80
+    networks:
+      - traefik
+
+volumes:
+  indy_client:
+
+configs:
+  afj_config:
+    external: true
+    name: demo_afj_rest_config_${AFJ_CONFIG_ID}
 
 networks:
-  https-proxy:
+  traefik:
     external: true
-    name: https-proxy
+    name: traefik
