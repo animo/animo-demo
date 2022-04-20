@@ -45,6 +45,9 @@ services:
       labels:
         traefik.enable: 'true'
         traefik.http.routers.client-demo.rule: Host(`demo.animo.id`)
+        traefik.http.routers.client-demo.entrypoints: web-secure
+        traefik.http.routers.client-demo.tls.certresolver: zerossl
+        traefik.http.routers.client-demo.service: client-demo-service
         traefik.http.services.client-demo-service.loadbalancer.server.port: 80
       update_config:
         monitor: 30s
