@@ -1,4 +1,5 @@
 import type { CredentialRecord } from '@aries-framework/core'
+import type { SerializedError } from '@reduxjs/toolkit'
 
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -13,13 +14,18 @@ interface CredentialState {
   credentials: CredentialRecord[]
   issuedCredentials: CredentialRecord[]
   isLoading: boolean
+  isIssueCredentialLoading: boolean
+  error: SerializedError | undefined
 }
 
 const initialState: CredentialState = {
   credentials: [],
   issuedCredentials: [],
   isLoading: true,
+  isIssueCredentialLoading: true,
+  error: undefined,
 }
+
 const credentialSlice = createSlice({
   name: 'credentials',
   initialState,
@@ -41,14 +47,14 @@ const credentialSlice = createSlice({
         state.credentials = action.payload
       })
       .addCase(issueCredential.rejected, (state, action) => {
-        // eslint-disable-next-line no-console
-        console.log(action.error)
+        state.isIssueCredentialLoading = false
+        state.error = action.error
       })
       .addCase(issueCredential.pending, (state) => {
-        state.isLoading = true
+        state.isIssueCredentialLoading = true
       })
       .addCase(issueCredential.fulfilled, (state, action) => {
-        state.isLoading = false
+        state.isIssueCredentialLoading = false
         state.credentials.push(action.payload)
       })
       .addCase(fetchCredentialById.pending, (state) => {

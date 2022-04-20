@@ -146,36 +146,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Copy single file to remote
+
+      - name: Copy stack file to remote
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
           local: docker-compose.yml
           remote: animo-demo/docker-compose.yml
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          privateKey: ${{ secrets.SERVER_SSH_KEY }}
-        # TODO: Update to use docker stack deploy
-      - name: Deploy to Digital Ocean droplet via SSH action
+          host: dashboard.dev.animo.id
+          username: root
+          privateKey: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Docker Swarm via SSH action
         uses: appleboy/ssh-action@v0.1.4
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_REGISTRY: ${{ env.REGISTRY }}
-          AGENT_PUBLIC_DID_SEED: ${{ secrets.AGENT_PUBLIC_DID_SEED }}
-          AGENT_WALLET_KEY: ${{ secrets.AGENT_WALLET_KEY }}
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          envs: DOCKER_USERNAME,DOCKER_PASSWORD,DOCKER_REGISTRY,AGENT_PUBLIC_DID_SEED,AGENT_WALLET_KEY
+          host: dashboard.dev.animo.id
+          username: root
+          key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
           script: |
-            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY
-
-            docker-compose --file animo-demo/docker-compose.yml down
-
-            docker rmi ghcr.io/animo/animo-demo/client:release
-            docker rmi ghcr.io/animo/animo-demo/server:release
-            docker pull ghcr.io/animo/animo-demo/client:release
-            docker pull ghcr.io/animo/animo-demo/server:release
-
-            AGENT_PUBLIC_DID_SEED=${AGENT_PUBLIC_DID_SEED} AGENT_WALLET_KEY=${AGENT_WALLET_KEY} docker-compose --file animo-demo/docker-compose.yml up --force-recreate -d
+            docker stack deploy --compose-file animo-demo/docker-compose.yml demo --with-registry-auth
