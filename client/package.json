@@ -7,11 +7,11 @@
   "dependencies": {
     "@aries-framework/core": "0.1.0",
     "@reduxjs/toolkit": "^1.7.2",
-    "axios": "^0.24.0",
+    "axios": "^0.26.0",
     "framer-motion": "^5.2.1",
     "insights-js": "^1.2.10",
     "js-base64": "^3.7.2",
-    "kbar": "0.1.0-beta.27",
+    "kbar": "0.1.0-beta.33",
     "qrcode.react": "^1.0.1",
     "react": "^17.0.2",
     "react-confetti": "^6.0.1",
@@ -19,7 +19,7 @@
     "react-icons": "^4.3.1",
     "react-redux": "^7.2.5",
     "react-responsive": "^9.0.0-beta.5",
-    "react-router-dom": "^6.0.1",
+    "react-router-dom": "^6.2.2",
     "redux": "^4.1.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1"
@@ -51,7 +51,7 @@
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
     "react-scripts": "5.0.0-next.58",
-    "tailwindcss": "^3.0.22",
+    "tailwindcss": "^3.0.23",
     "typescript": "^4.5.3"
   }
 }
