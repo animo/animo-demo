@@ -29,21 +29,12 @@ services:
       AGENT_ENDPOINT: https://didcomm.demo.animo.id
       AGENT_PUBLIC_DID_SEED: ${AGENT_PUBLIC_DID_SEED}
 
-    volumes:
-      - indy_client:/root/.indy_client
-
-    configs:
-      - source: afj_config
-        target: /config.json
-
     networks:
       - traefik
 
     ports:
       - '5000'
       - '5001'
-
-    command: --config /config.json
 
   client:
     image: ghcr.io/animo/animo-demo/client:release
@@ -52,14 +43,8 @@ services:
         constraints:
           - node.role == worker
       labels:
-        # Enable traefik so the container can be exposed to the outside world
         traefik.enable: 'true'
-
         traefik.http.routers.client-demo.rule: Host(`demo.animo.id`)
-        traefik.http.routers.client-demo.entrypoints: web-secure
-        traefik.http.routers.client-demo.tls.certresolver: zerossl
-        traefik.http.routers.client-demo.service: client-demo-service
-        traefik.http.routers.client-demo.middlewares: chain-oauth@file
         traefik.http.services.client-demo-service.loadbalancer.server.port: 80
       update_config:
         monitor: 30s
@@ -69,14 +54,6 @@ services:
       - 80
     networks:
       - traefik
-
-volumes:
-  indy_client:
-
-configs:
-  afj_config:
-    external: true
-    name: demo_afj_rest_config_${AFJ_CONFIG_ID}
 
 networks:
   traefik:
