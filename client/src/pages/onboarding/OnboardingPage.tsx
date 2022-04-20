@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { page } from '../../FramerAnimations'
@@ -8,9 +8,12 @@ import { useTitle } from '../../hooks/useTitle'
 import { useCharacters } from '../../slices/characters/charactersSelectors'
 import { fetchAllCharacters } from '../../slices/characters/charactersThunks'
 import { useConnection } from '../../slices/connection/connectionSelectors'
+import { clearConnection } from '../../slices/connection/connectionSlice'
 import { useCredentials } from '../../slices/credentials/credentialsSelectors'
+import { clearCredentials } from '../../slices/credentials/credentialsSlice'
 import { useOnboarding } from '../../slices/onboarding/onboardingSelectors'
 import { completeOnboarding } from '../../slices/onboarding/onboardingSlice'
+import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
 import { fetchWallets } from '../../slices/wallets/walletsThunks'
 import { Progress, StepperItems } from '../../utils/OnboardingUtils'
 
@@ -28,17 +31,20 @@ export const OnboardingPage: React.FC = () => {
   const { id, state, invitationUrl } = useConnection()
   const { credentials } = useCredentials()
 
-  useEffect(() => {
-    dispatch(fetchWallets())
-    dispatch(fetchAllCharacters())
-    if (onboardingStep === Progress.SETUP_COMPLETED || isCompleted) {
-      dispatch(completeOnboarding())
-      navigate('/dashboard')
-    }
+  const [mounted, setMounted] = useState(false)
 
-    // if user reloads on credential page, set back
-    if (onboardingStep === Progress.ACCEPT_CREDENTIAL) {
+  useEffect(() => {
+    if ((onboardingStep === Progress.SETUP_COMPLETED || isCompleted) && currentCharacter) {
+      dispatch(completeOnboarding())
+      dispatch(clearCredentials())
+      dispatch(clearConnection())
+      dispatch(fetchAllUseCasesByCharId(currentCharacter.id))
+      navigate('/dashboard')
+    } else {
       dispatch({ type: 'demo/RESET' })
+      dispatch(fetchWallets())
+      dispatch(fetchAllCharacters())
+      setMounted(true)
     }
   }, [dispatch])
 
@@ -52,15 +58,17 @@ export const OnboardingPage: React.FC = () => {
     >
       <Stepper steps={StepperItems} onboardingStep={onboardingStep} />
       <AnimatePresence exitBeforeEnter>
-        <OnboardingContainer
-          characters={characters}
-          currentCharacter={currentCharacter}
-          onboardingStep={onboardingStep}
-          connectionId={id}
-          connectionState={state}
-          invitationUrl={invitationUrl}
-          credentials={credentials}
-        />
+        {mounted && (
+          <OnboardingContainer
+            characters={characters}
+            currentCharacter={currentCharacter}
+            onboardingStep={onboardingStep}
+            connectionId={id}
+            connectionState={state}
+            invitationUrl={invitationUrl}
+            credentials={credentials}
+          />
+        )}
       </AnimatePresence>
     </motion.div>
   )
