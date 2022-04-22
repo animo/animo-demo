@@ -92,6 +92,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            AGENT_WALLET_KEY=${{ secrets.AGENT_WALLET_KEY }}
+            AGENT_PUBLIC_DID_SEED=${{ secrets.AGENT_PUBLIC_DID_SEED }}
 
   build-and-push-image-client:
     needs:

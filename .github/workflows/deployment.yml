@@ -96,10 +96,13 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ./client
+          context: ./server
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            AGENT_WALLET_KEY=${{ secrets.AGENT_WALLET_KEY }}
+            AGENT_PUBLIC_DID_SEED=${{ secrets.AGENT_PUBLIC_DID_SEED }}
 
   deploy:
     runs-on: ubuntu-latest
