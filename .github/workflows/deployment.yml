@@ -1,0 +1,30 @@
+name: Continuous Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Copy stack file to remote
+        uses: garygrossgarten/github-action-scp@v0.7.3
+        with:
+          local: docker-compose.yml
+          remote: animo-demo/docker-compose.yml
+          host: dashboard.dev.animo.id
+          username: root
+          privateKey: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Docker Swarm via SSH action
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: dashboard.dev.animo.id
+          username: root
+          key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          script: |
+            docker stack deploy --compose-file animo-demo/docker-compose.yml demo --with-registry-auth
