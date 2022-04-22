@@ -92,9 +92,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            AGENT_WALLET_KEY=${{ secrets.AGENT_WALLET_KEY }}
-            AGENT_PUBLIC_DID_SEED=${{ secrets.AGENT_PUBLIC_DID_SEED }}
 
   build-and-push-image-client:
     needs:
@@ -161,9 +158,13 @@ jobs:
 
       - name: Deploy to Docker Swarm via SSH action
         uses: appleboy/ssh-action@v0.1.4
+        env:
+          AGENT_PUBLIC_DID_SEED: ${{ secrets.AGENT_PUBLIC_DID_SEED }}
+          AGENT_WALLET_KEY: ${{ secrets.AGENT_WALLET_KEY }}
         with:
           host: dashboard.dev.animo.id
           username: root
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          envs: AGENT_PUBLIC_DID_SEED,AGENT_WALLET_KEY
           script: |
-            docker stack deploy --compose-file animo-demo/docker-compose.yml demo --with-registry-auth
+            AGENT_PUBLIC_DID_SEED=${AGENT_PUBLIC_DID_SEED} AGENT_WALLET_KEY=${AGENT_WALLET_KEY} docker stack deploy --compose-file animo-demo/docker-compose.yml demo --with-registry-auth
