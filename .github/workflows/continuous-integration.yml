@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: [main, release]
+    branches: [main]
 
 jobs:
   cypress-run:
