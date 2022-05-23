@@ -1,4 +1,4 @@
-name: Deployment
+name: Continuous Build
 
 on:
   workflow_dispatch:
@@ -100,34 +100,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs:
-      - build-and-push-image-client
-      - build-and-push-image-server
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Copy stack file to remote
-        uses: garygrossgarten/github-action-scp@v0.7.3
-        with:
-          local: docker-compose.yml
-          remote: animo-demo/docker-compose.yml
-          host: dashboard.dev.animo.id
-          username: root
-          privateKey: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-
-      - name: Deploy to Docker Swarm via SSH action
-        uses: appleboy/ssh-action@v0.1.4
-        env:
-          AGENT_PUBLIC_DID_SEED: ${{ secrets.AGENT_PUBLIC_DID_SEED }}
-          AGENT_WALLET_KEY: ${{ secrets.AGENT_WALLET_KEY }}
-        with:
-          host: dashboard.dev.animo.id
-          username: root
-          key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-          envs: AGENT_PUBLIC_DID_SEED,AGENT_WALLET_KEY
-          script: |
-            AGENT_PUBLIC_DID_SEED=${AGENT_PUBLIC_DID_SEED} AGENT_WALLET_KEY=${AGENT_WALLET_KEY} docker stack deploy --compose-file animo-demo/docker-compose.yml demo --with-registry-auth
