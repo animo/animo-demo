@@ -7,8 +7,8 @@
 <h1 align="center"><b>Animo Self-Sovereign Identity Demo</b></h1>
 <div align="center">
   
-  [![Continuous Integration](https://github.com/animo/animo-demo/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/animo/animo-demo/actions/workflows/continuous-integration.yml)
-  [![Continuous Deployment](https://github.com/animo/animo-demo/actions/workflows/continuous-deployment.yml/badge.svg)](https://github.com/animo/animo-demo/actions/workflows/continuous-deployment.yml)
+[![Continuous Build](https://github.com/animo/animo-demo/actions/workflows/continuous-build.yml/badge.svg)](https://github.com/animo/animo-demo/actions/workflows/continuous-build.yml)
+[![Continuous Deployment](https://github.com/animo/animo-demo/actions/workflows/continuous-deployment.yml/badge.svg)](https://github.com/animo/animo-demo/actions/workflows/continuous-deployment.yml)
     <a
     href="https://raw.githubusercontent.com/hyperledger/aries-framework-javascript/main/LICENSE"
     ><img
