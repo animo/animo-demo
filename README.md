@@ -84,5 +84,8 @@ yarn dev
 The demo has [Cypress](https://www.cypress.io/) integration tests. To run the tests, make sure you have both the client and the server running locally. You can start the tests with `yarn test`. This will open up cypress in chrome from where you can run the tests. 
 
 
-## How To Contribute
+## 🖇️ How To Contribute
 You're welcome to contribute to this demo. Please make sure to open an issue first!
+
+This demo is open source and you're more than welcome to customize and use it to create your own self-sovereign identity demo. If you do, an attribution to [Animo](https://animo.id) would be very much appreciated!
+
