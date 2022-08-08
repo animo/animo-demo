@@ -1,23 +1,23 @@
-import type { Character } from '../../slices/types'
 import type { CredentialRecord } from '@aries-framework/core'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 
-import { fadeDelay, fadeExit } from '../../FramerAnimations'
 import { Modal } from '../../components/Modal'
+import { fadeDelay, fadeExit } from '../../FramerAnimations'
 import { useAppDispatch } from '../../hooks/hooks'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { clearConnection } from '../../slices/connection/connectionSlice'
 import { clearCredentials } from '../../slices/credentials/credentialsSlice'
 import { completeOnboarding, nextOnboardingStep, prevOnboardingStep } from '../../slices/onboarding/onboardingSlice'
 import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
-import { Progress, OnboardingContent } from '../../utils/OnboardingUtils'
+import { OnboardingContent, Progress } from '../../utils/OnboardingUtils'
 
+import type { Character } from '../../slices/types'
 import { CharacterContent } from './components/CharacterContent'
 import { OnboardingBottomNav } from './components/OnboardingBottomNav'
 import { AcceptCredential } from './steps/AcceptCredential'
@@ -27,6 +27,8 @@ import { PickCharacter } from './steps/PickCharacter'
 import { SetupCompleted } from './steps/SetupCompleted'
 import { SetupConnection } from './steps/SetupConnection'
 import { SetupStart } from './steps/SetupStart'
+
+const { trackEvent } = Plausible()
 
 export interface Props {
   characters: Character[]
@@ -64,9 +66,8 @@ export const OnboardingContainer: React.FC<Props> = ({
 
   const addOnboardingProgress = () => {
     dispatch(nextOnboardingStep())
-    track({
-      id: 'onboarding-step-completed',
-      parameters: {
+    trackEvent('onboarding-step-completed', {
+      props: {
         step: onboardingStep.toString(),
       },
     })

@@ -1,4 +1,4 @@
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
@@ -6,6 +6,7 @@ import { CheckMark } from './Checkmark'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QR = require('qrcode.react')
+const { trackEvent } = Plausible()
 
 export interface Props {
   invitationUrl: string
@@ -19,11 +20,7 @@ export const QRCode: React.FC<Props> = ({ invitationUrl, connectionState }) => {
   const isCompleted = connectionState === 'responded' || connectionState === 'complete'
 
   useEffect(() => {
-    if (isCompleted) {
-      track({
-        id: 'connection-completed',
-      })
-    }
+    if (isCompleted) trackEvent('connection-completed')
   }, [isCompleted])
 
   const renderQRCode = invitationUrl && (

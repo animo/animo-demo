@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
 import { CredentialRecord, JsonTransformer } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -24,6 +23,8 @@ import {
 import { FailedRequestModal } from '../components/FailedRequestModal'
 import { StarterCredentials } from '../components/StarterCredentials'
 import { StepInformation } from '../components/StepInformation'
+
+const { trackEvent } = Plausible()
 
 export interface Props {
   content: Content
@@ -54,9 +55,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
     if (credentials.length === 0) {
       currentCharacter.starterCredentials.forEach((item) => {
         dispatch(issueCredential({ connectionId: connectionId, cred: item }))
-        track({
-          id: 'credential-issued',
-        })
+        trackEvent('credential-issued')
       })
       setCredentialsIssued(true)
     }

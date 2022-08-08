@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +22,8 @@ import { DashboardCard } from './components/DashboardCard'
 import { DemoCompletedModal } from './components/DemoCompletedModal'
 import { ProfileCard } from './components/ProfileCard'
 import { UseCaseContainer } from './components/UseCaseContainer'
+
+const { trackEvent } = Plausible()
 
 export const DashboardPage: React.FC = () => {
   useTitle('Dashboard | Animo Self-Sovereign Identity Demo')
@@ -69,14 +71,12 @@ export const DashboardPage: React.FC = () => {
     navigate('/')
     dispatch({ type: 'demo/RESET' })
 
-    if (currentCharacter) {
-      track({
-        id: 'demo-character-completed',
-        parameters: {
+    if (currentCharacter)
+      trackEvent('demo-character-completed', {
+        props: {
           character: currentCharacter.name,
         },
       })
-    }
   }
 
   return (

@@ -1,7 +1,7 @@
 import type { Step } from '../../../slices/types'
 
 import { motion } from 'framer-motion'
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -11,6 +11,8 @@ import { Button } from '../../../components/Button'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useCaseCompleted } from '../../../slices/preferences/preferencesSlice'
 import { prependApiUrl } from '../../../utils/Url'
+
+const { trackEvent } = Plausible()
 
 export interface Props {
   step: Step
@@ -29,9 +31,8 @@ export const EndContainer: React.FC<Props> = ({ step }) => {
       dispatch(useCaseCompleted(slug))
       dispatch({ type: 'clearUseCase' })
       navigate('/dashboard')
-      track({
-        id: 'use-case-completed',
-        parameters: {
+      trackEvent('use-case-completed', {
+        props: {
           useCase: slug,
         },
       })

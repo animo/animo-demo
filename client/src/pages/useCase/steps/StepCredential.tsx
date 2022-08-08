@@ -4,7 +4,7 @@ import type { CredReqMetadata } from 'indy-sdk'
 
 import { JsonTransformer, CredentialRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
+import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
@@ -21,6 +21,8 @@ import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { StepInfo } from '../components/StepInfo'
+
+const { trackEvent } = Plausible()
 
 export interface Props {
   step: Step
@@ -61,9 +63,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     // issue credentials
     credentialData.forEach((item) => {
       dispatch(issueCredential({ connectionId: connectionId, cred: item }))
-      track({
-        id: 'credential-issued',
-      })
+      trackEvent('credential-issued')
     })
   }
 
