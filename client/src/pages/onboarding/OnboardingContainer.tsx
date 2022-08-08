@@ -1,3 +1,4 @@
+import type { Character } from '../../slices/types'
 import type { CredentialRecord } from '@aries-framework/core'
 
 import { AnimatePresence, motion } from 'framer-motion'
@@ -7,8 +8,8 @@ import { FiLogOut } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 
-import { Modal } from '../../components/Modal'
 import { fadeDelay, fadeExit } from '../../FramerAnimations'
+import { Modal } from '../../components/Modal'
 import { useAppDispatch } from '../../hooks/hooks'
 import { useDarkMode } from '../../hooks/useDarkMode'
 import { clearConnection } from '../../slices/connection/connectionSlice'
@@ -17,7 +18,6 @@ import { completeOnboarding, nextOnboardingStep, prevOnboardingStep } from '../.
 import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
 import { OnboardingContent, Progress } from '../../utils/OnboardingUtils'
 
-import type { Character } from '../../slices/types'
 import { CharacterContent } from './components/CharacterContent'
 import { OnboardingBottomNav } from './components/OnboardingBottomNav'
 import { AcceptCredential } from './steps/AcceptCredential'
