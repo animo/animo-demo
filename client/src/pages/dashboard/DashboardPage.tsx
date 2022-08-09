@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
@@ -15,6 +14,7 @@ import { usePreferences } from '../../slices/preferences/preferencesSelectors'
 import { setDemoCompleted } from '../../slices/preferences/preferencesSlice'
 import { useAllUseCases } from '../../slices/useCases/useCasesSelectors'
 import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
+import { trackEvent } from '../../utils/Analytics'
 import { Footer } from '../landing/components/Footer'
 import { NavBar } from '../landing/components/Navbar'
 
@@ -69,14 +69,12 @@ export const DashboardPage: React.FC = () => {
     navigate('/')
     dispatch({ type: 'demo/RESET' })
 
-    if (currentCharacter) {
-      track({
-        id: 'demo-character-completed',
-        parameters: {
+    if (currentCharacter)
+      trackEvent('demo-character-completed', {
+        props: {
           character: currentCharacter.name,
         },
       })
-    }
   }
 
   return (

@@ -1,6 +1,7 @@
-import { track } from 'insights-js'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
+
+import { trackEvent } from '../utils/Analytics'
 
 import { CheckMark } from './Checkmark'
 
@@ -19,11 +20,7 @@ export const QRCode: React.FC<Props> = ({ invitationUrl, connectionState }) => {
   const isCompleted = connectionState === 'responded' || connectionState === 'complete'
 
   useEffect(() => {
-    if (isCompleted) {
-      track({
-        id: 'connection-completed',
-      })
-    }
+    if (isCompleted) trackEvent('connection-completed')
   }, [isCompleted])
 
   const renderQRCode = invitationUrl && (

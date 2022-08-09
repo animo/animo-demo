@@ -4,7 +4,6 @@ import type { CredReqMetadata } from 'indy-sdk'
 
 import { JsonTransformer, CredentialRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import { track } from 'insights-js'
 import React, { useEffect, useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
@@ -17,6 +16,7 @@ import {
   fetchCredentialsByConId,
   issueCredential,
 } from '../../../slices/credentials/credentialsThunks'
+import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
@@ -61,9 +61,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     // issue credentials
     credentialData.forEach((item) => {
       dispatch(issueCredential({ connectionId: connectionId, cred: item }))
-      track({
-        id: 'credential-issued',
-      })
+      trackEvent('credential-issued')
     })
   }
 

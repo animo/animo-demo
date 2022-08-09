@@ -1,7 +1,6 @@
 import type { Step } from '../../../slices/types'
 
 import { motion } from 'framer-motion'
-import { track } from 'insights-js'
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -10,6 +9,7 @@ import { fadeExit } from '../../../FramerAnimations'
 import { Button } from '../../../components/Button'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useCaseCompleted } from '../../../slices/preferences/preferencesSlice'
+import { trackEvent } from '../../../utils/Analytics'
 import { prependApiUrl } from '../../../utils/Url'
 
 export interface Props {
@@ -29,9 +29,8 @@ export const EndContainer: React.FC<Props> = ({ step }) => {
       dispatch(useCaseCompleted(slug))
       dispatch({ type: 'clearUseCase' })
       navigate('/dashboard')
-      track({
-        id: 'use-case-completed',
-        parameters: {
+      trackEvent('use-case-completed', {
+        props: {
           useCase: slug,
         },
       })

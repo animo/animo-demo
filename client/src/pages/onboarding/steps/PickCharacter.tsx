@@ -2,13 +2,13 @@ import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 
 import { motion } from 'framer-motion'
-import { track } from 'insights-js'
 import React from 'react'
 
 import { fadeX } from '../../../FramerAnimations'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useDarkMode } from '../../../hooks/useDarkMode'
 import { setCharacter } from '../../../slices/characters/charactersSlice'
+import { trackEvent } from '../../../utils/Analytics'
 import { prependApiUrl } from '../../../utils/Url'
 import { StepInformation } from '../components/StepInformation'
 
@@ -24,9 +24,8 @@ export const PickCharacter: React.FC<Props> = ({ content, currentCharacter, char
 
   const CharacterClickHandler = (char: Character) => {
     dispatch(setCharacter(char))
-    track({
-      id: 'character-selected',
-      parameters: {
+    trackEvent('character-selected', {
+      props: {
         character: char.name,
       },
     })
