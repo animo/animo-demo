@@ -2,7 +2,6 @@ import type { Character } from '../../slices/types'
 import type { CredentialRecord } from '@aries-framework/core'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
@@ -16,6 +15,7 @@ import { clearConnection } from '../../slices/connection/connectionSlice'
 import { clearCredentials } from '../../slices/credentials/credentialsSlice'
 import { completeOnboarding, nextOnboardingStep, prevOnboardingStep } from '../../slices/onboarding/onboardingSlice'
 import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
+import { trackEvent } from '../../utils/Analytics'
 import { OnboardingContent, Progress } from '../../utils/OnboardingUtils'
 
 import { CharacterContent } from './components/CharacterContent'
@@ -27,8 +27,6 @@ import { PickCharacter } from './steps/PickCharacter'
 import { SetupCompleted } from './steps/SetupCompleted'
 import { SetupConnection } from './steps/SetupConnection'
 import { SetupStart } from './steps/SetupStart'
-
-const { trackEvent } = Plausible()
 
 export interface Props {
   characters: Character[]

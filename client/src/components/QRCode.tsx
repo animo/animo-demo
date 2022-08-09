@@ -1,12 +1,12 @@
-import Plausible from 'plausible-tracker'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
+
+import { trackEvent } from '../utils/Analytics'
 
 import { CheckMark } from './Checkmark'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QR = require('qrcode.react')
-const { trackEvent } = Plausible()
 
 export interface Props {
   invitationUrl: string

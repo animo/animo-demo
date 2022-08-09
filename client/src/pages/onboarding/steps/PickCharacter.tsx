@@ -2,17 +2,15 @@ import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 
 import { motion } from 'framer-motion'
-import Plausible from 'plausible-tracker'
 import React from 'react'
 
 import { fadeX } from '../../../FramerAnimations'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useDarkMode } from '../../../hooks/useDarkMode'
 import { setCharacter } from '../../../slices/characters/charactersSlice'
+import { trackEvent } from '../../../utils/Analytics'
 import { prependApiUrl } from '../../../utils/Url'
 import { StepInformation } from '../components/StepInformation'
-
-const { trackEvent } = Plausible()
 
 export interface Props {
   content: Content

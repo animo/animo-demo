@@ -4,7 +4,6 @@ import type { CredReqMetadata } from 'indy-sdk'
 
 import { JsonTransformer, CredentialRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import Plausible from 'plausible-tracker'
 import React, { useEffect, useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
@@ -17,12 +16,11 @@ import {
   fetchCredentialsByConId,
   issueCredential,
 } from '../../../slices/credentials/credentialsThunks'
+import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { StepInfo } from '../components/StepInfo'
-
-const { trackEvent } = Plausible()
 
 export interface Props {
   step: Step
