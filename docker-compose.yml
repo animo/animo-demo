@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   server:
-    image: ghcr.io/animo/animo-demo/server:release
+    image: ghcr.io/animo/animo-demo/server:main
     deploy:
       placement:
         constraints:
@@ -38,7 +38,7 @@ services:
       - '5001'
 
   client:
-    image: ghcr.io/animo/animo-demo/client:release
+    image: ghcr.io/animo/animo-demo/client:main
     deploy:
       placement:
         constraints:

@@ -5,6 +5,8 @@ on:
 
 jobs:
   deploy:
+    # Only run on main branch
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
