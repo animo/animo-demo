@@ -47,7 +47,6 @@ const ResultItem = forwardRef(
             fontSize: 16,
           }}
         >
-          {action.icon && action.icon}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div>
               {ancestors.length > 0 &&

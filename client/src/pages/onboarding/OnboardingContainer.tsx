@@ -1,5 +1,5 @@
 import type { Character } from '../../slices/types'
-import type { CredentialRecord } from '@aries-framework/core'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
@@ -35,7 +35,7 @@ export interface Props {
   connectionState?: string
   invitationUrl?: string
   onboardingStep: number
-  credentials: CredentialRecord[]
+  credentials: CredentialExchangeRecord[]
 }
 
 export const OnboardingContainer: React.FC<Props> = ({

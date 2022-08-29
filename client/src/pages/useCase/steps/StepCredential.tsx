@@ -2,7 +2,7 @@ import type { Attribute, CredentialData, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { JsonTransformer, CredentialRecord } from '@aries-framework/core'
+import { JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
@@ -26,7 +26,7 @@ export interface Props {
   step: Step
   connectionId: string
   issueCredentials: CredentialData[]
-  credentials: CredentialRecord[]
+  credentials: CredentialExchangeRecord[]
   proof: ProofRecord | undefined
 }
 
@@ -82,7 +82,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
         dispatch(deleteCredentialById(cred.id))
 
         const newCredential = issuedCredData.find((item) => {
-          const credClass = JsonTransformer.fromJSON(cred, CredentialRecord)
+          const credClass = JsonTransformer.fromJSON(cred, CredentialExchangeRecord)
           return (
             item.credentialDefinitionId ===
             credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
@@ -98,7 +98,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     .slice()
     .map((cred, idx) => {
       const data = issueCredentials.find((item) => {
-        const credClass = JsonTransformer.fromJSON(cred, CredentialRecord)
+        const credClass = JsonTransformer.fromJSON(cred, CredentialExchangeRecord)
         return (
           item.credentialDefinitionId ===
           credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
