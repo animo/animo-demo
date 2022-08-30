@@ -9,18 +9,19 @@ import {
   HttpOutboundTransport,
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
-import { startServer } from '@aries-framework/rest'
 import { static as stx } from 'express'
 import { connect } from 'ngrok'
 import { createExpressServer, useContainer } from 'routing-controllers'
 import { Container } from 'typedi'
+
+import { startServer } from '../../node_modules/@aries-framework/rest/build/src/index'
 
 import { CredDefService } from './controllers/CredDefService'
 import { TestLogger } from './logger'
 import { AgentCleanup } from './utils/AgentCleanup'
 import { BCOVRIN_TEST_GENESIS } from './utils/utils'
 
-const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.error : LogLevel.debug)
+const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.debug : LogLevel.debug)
 
 process.on('unhandledRejection', (error) => {
   if (error instanceof Error) {
@@ -35,10 +36,10 @@ process.on('unhandledRejection', (error) => {
 const run = async () => {
   const endpoint = process.env.AGENT_ENDPOINT ?? (await connect(5001))
   const agentConfig: InitConfig = {
-    label: 'Animo',
+    label: 'Animo LOL',
     walletConfig: {
-      id: 'Animo Solutions',
-      key: process.env.AGENT_WALLET_KEY ?? 'Animo',
+      id: 'Animo Solutions LOL',
+      key: process.env.AGENT_WALLET_KEY ?? 'Animo LOL',
     },
     indyLedgers: [
       {
