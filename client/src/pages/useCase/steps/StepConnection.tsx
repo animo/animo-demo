@@ -10,7 +10,11 @@ import { fade, fadeX } from '../../../FramerAnimations'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
-import { createInvitation, fetchConnectionById } from '../../../slices/connection/connectionThunks'
+import {
+  createInvitation,
+  fetchConnectionById,
+  fetchConnectionByOutOfBandId,
+} from '../../../slices/connection/connectionThunks'
 import { StepInfo } from '../components/StepInfo'
 
 export interface Props {
@@ -21,8 +25,8 @@ export interface Props {
 
 export const StepConnection: React.FC<Props> = ({ step, connection, entity }) => {
   const dispatch = useAppDispatch()
-  const { id, state, invitationUrl } = connection
-  const isCompleted = state === 'responded' || state === 'complete'
+  const { id, state, invitationUrl, outOfBandId } = connection
+  const isCompleted = state === 'response-sent' || state === 'complete'
 
   useEffect(() => {
     if (!isCompleted) dispatch(createInvitation(entity))
@@ -30,9 +34,18 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
 
   useInterval(
     () => {
+      if (outOfBandId && document.visibilityState === 'visible') {
+        dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+      }
+    },
+    !id ? 1000 : null
+  )
+
+  useInterval(
+    () => {
       if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
     },
-    !isCompleted ? 1000 : null
+    !isCompleted && id ? 1000 : null
   )
 
   const renderQRCode = invitationUrl && <QRCode invitationUrl={invitationUrl} connectionState={state} />

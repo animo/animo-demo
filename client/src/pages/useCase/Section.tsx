@@ -71,7 +71,7 @@ export const Section: React.FC<Props> = ({
   const prev = () => dispatch(prevStep())
   const next = () => dispatch(nextStep())
 
-  const isConnectionCompleted = connection.state === 'responded' || connection.state === 'complete'
+  const isConnectionCompleted = connection.state === 'response-sent' || connection.state === 'complete'
   const isProofCompleted = proof?.state === 'presentation-received'
   const credentialsReceived = Object.values(credentials).every(
     (x) => x.state === 'credential-issued' || x.state === 'done'

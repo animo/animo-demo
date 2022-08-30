@@ -32,6 +32,7 @@ export interface Props {
   characters: Character[]
   currentCharacter?: Character
   connectionId?: string
+  outOfBandId?: string
   connectionState?: string
   invitationUrl?: string
   onboardingStep: number
@@ -42,6 +43,7 @@ export const OnboardingContainer: React.FC<Props> = ({
   characters,
   currentCharacter,
   onboardingStep,
+  outOfBandId,
   connectionId,
   connectionState,
   invitationUrl,
@@ -50,7 +52,7 @@ export const OnboardingContainer: React.FC<Props> = ({
   const darkMode = useDarkMode()
   const dispatch = useAppDispatch()
 
-  const connectionCompleted = connectionState === 'responded' || connectionState === 'complete'
+  const connectionCompleted = connectionState === 'response-sent' || connectionState === 'complete'
   const credentialsAccepted = Object.values(credentials).every(
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )
@@ -103,6 +105,7 @@ export const OnboardingContainer: React.FC<Props> = ({
         <SetupConnection
           key={Progress.RECEIVE_IDENTITY}
           content={OnboardingContent[progress]}
+          outOfBandId={outOfBandId}
           connectionId={connectionId}
           invitationUrl={invitationUrl}
           connectionState={connectionState}

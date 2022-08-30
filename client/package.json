@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "description": "Animo Solutions - Verifiable Credential Demo",
   "dependencies": {
-    "@aries-framework/core": "^0.2.0",
+    "@aries-framework/core": "^0.2.3",
     "@reduxjs/toolkit": "^1.7.2",
     "axios": "^0.27.2",
     "framer-motion": "^6.3.11",
