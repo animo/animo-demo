@@ -125,7 +125,7 @@ export const Section: React.FC<Props> = ({
   useEffect(() => {
     if (isMobile) {
       // reset mobile scroll on first & last step
-      if (step.type === StepType.START || step.type === StepType.END) {
+      if (step?.type === StepType.START || step?.type === StepType.END) {
         window.scrollTo(0, 0)
       }
     }
