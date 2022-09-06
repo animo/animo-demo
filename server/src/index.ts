@@ -14,7 +14,7 @@ import { connect } from 'ngrok'
 import { createExpressServer, useContainer } from 'routing-controllers'
 import { Container } from 'typedi'
 
-import { startServer } from '../../node_modules/@aries-framework/rest/build/src/index'
+import { startServer } from '../../node_modules/@aries-framework/rest/build/index'
 
 import { CredDefService } from './controllers/CredDefService'
 import { TestLogger } from './logger'

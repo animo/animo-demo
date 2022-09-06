@@ -35,7 +35,7 @@ export const SetupConnection: React.FC<Props> = ({
   connectionState,
 }) => {
   const dispatch = useAppDispatch()
-  const isCompleted = connectionState === 'response-sent' || connectionState === 'complete'
+  const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
 
   useEffect(() => {
     if (!isCompleted) dispatch(createInvitation())
@@ -61,8 +61,6 @@ export const SetupConnection: React.FC<Props> = ({
   useInterval(
     () => {
       if (connectionId && document.visibilityState === 'visible') {
-        // eslint-disable-next-line no-console
-        console.log('i run')
         dispatch(fetchConnectionById(connectionId))
       }
     },

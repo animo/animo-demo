@@ -52,7 +52,7 @@ export const OnboardingContainer: React.FC<Props> = ({
   const darkMode = useDarkMode()
   const dispatch = useAppDispatch()
 
-  const connectionCompleted = connectionState === 'response-sent' || connectionState === 'complete'
+  const connectionCompleted = connectionState === 'response-sent' || connectionState === 'completed'
   const credentialsAccepted = Object.values(credentials).every(
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )

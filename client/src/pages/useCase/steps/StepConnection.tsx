@@ -26,7 +26,7 @@ export interface Props {
 export const StepConnection: React.FC<Props> = ({ step, connection, entity }) => {
   const dispatch = useAppDispatch()
   const { id, state, invitationUrl, outOfBandId } = connection
-  const isCompleted = state === 'response-sent' || state === 'complete'
+  const isCompleted = state === 'response-sent' || state === 'completed'
 
   useEffect(() => {
     if (!isCompleted) dispatch(createInvitation(entity))
