@@ -36,10 +36,10 @@ process.on('unhandledRejection', (error) => {
 const run = async () => {
   const endpoint = process.env.AGENT_ENDPOINT ?? (await connect(5001))
   const agentConfig: InitConfig = {
-    label: 'Animo LOL',
+    label: 'Animo',
     walletConfig: {
-      id: 'Animo Solutions LOL',
-      key: process.env.AGENT_WALLET_KEY ?? 'Animo LOL',
+      id: 'Animo Solutions',
+      key: process.env.AGENT_WALLET_KEY ?? 'Animo',
     },
     indyLedgers: [
       {

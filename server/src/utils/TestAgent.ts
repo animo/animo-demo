@@ -26,7 +26,6 @@ const agentConfig: InitConfig = {
   autoAcceptConnections: true,
   autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
   useLegacyDidSovPrefix: true,
-  connectionImageUrl: 'https://i.imgur.com/g3abcCO.png',
 }
 
 const agent = new Agent(agentConfig, agentDependencies)
