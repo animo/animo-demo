@@ -42,6 +42,16 @@ agent.registerOutboundTransport(new HttpOutboundTransport())
 const runTestAgent = async () => {
   await agent.initialize()
 
+  await agent.connections.getAll().then((connections) => {
+    connections.map((connection) => agent.connections.deleteById(connection.id))
+  })
+  await agent.credentials.getAll().then((credentials) => {
+    credentials.map((credential) => agent.credentials.deleteById(credential.id))
+  })
+  await agent.proofs.getAll().then((proofs) => {
+    proofs.map((proof) => agent.proofs.deleteById(proof.id))
+  })
+
   await startServer(agent, {
     port: PORT,
   })
