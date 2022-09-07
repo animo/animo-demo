@@ -13,7 +13,7 @@ export const createProofRequest = (data: ProofRequestData): Promise<AxiosRespons
 
   return apiCall.post(`/proofs/request-proof`, {
     connectionId: data.connectionId,
-    proofRequestOptions: proofRequestOptions,
+    proofRequestOptions,
     comment: data.requestOptions?.comment,
   })
 }
@@ -27,7 +27,7 @@ export const createOOBProofRequest = (data: ProofRequestData): Promise<AxiosResp
   }
 
   return apiCall.post(`/proofs/request-outofband-proof`, {
-    proofRequestOptions: proofRequestOptions,
+    proofRequestOptions,
     comment: data.requestOptions?.comment,
   })
 }

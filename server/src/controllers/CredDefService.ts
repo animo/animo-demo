@@ -34,7 +34,7 @@ export class CredDefService {
 
   public async getAllCredentialsByConnectionId(connectionId: string) {
     const credentials = await this.agent.credentials.getAll()
-    const filtered = credentials.filter((cred: CredentialExchangeRecord) => cred.connectionId === connectionId)
+    const filtered = credentials.filter((cred) => cred.connectionId === connectionId)
 
     return filtered.map((c) => c.toJSON())
   }

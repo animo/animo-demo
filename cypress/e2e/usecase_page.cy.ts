@@ -36,14 +36,16 @@ describe('UseCase Page', () => {
       const threadId = interception.response?.body.threadId
 
       cy.request('GET', `${TEST_AGENT_URL}/credentials/`).should((response) => {
-        const testAgentRecord = response.body.find((x) => x.threadId === threadId && x.state === 'offer-received')
+        const testAgentRecord = response.body.find(
+          (credentialRecord) => credentialRecord.threadId === threadId && credentialRecord.state === 'offer-received'
+        )
 
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(3000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
-          const cred = resp.body.find((x) => x.threadId === threadId)
+          const cred = resp.body.find((credentialRecord) => credentialRecord.threadId === threadId)
           cy.wrap(cred).its('state').should('equal', 'done')
         })
 

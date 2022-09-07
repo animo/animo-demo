@@ -44,7 +44,7 @@ const connectionSlice = createSlice({
       })
       .addCase(fetchConnectionByOutOfBandId.fulfilled, (state, action) => {
         state.isLoading = false
-        if (action.payload.length) {
+        if (action.payload.length > 0) {
           state.id = action.payload[0].id
           state.state = action.payload[0].state
         }

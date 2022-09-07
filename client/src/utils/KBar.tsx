@@ -12,11 +12,11 @@ import { fetchWallets } from '../slices/wallets/walletsThunks'
 
 import { RenderResults } from './RenderResults'
 
-type Props = {
+type PropsWithChildren = {
   children: JSX.Element
 }
 
-export const KBar = ({ children }: Props) => {
+export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
   const { demoCompleted } = usePreferences()
   const [confettiPieces, setConfettiPieces] = useState(0)

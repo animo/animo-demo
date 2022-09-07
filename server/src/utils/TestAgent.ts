@@ -1,12 +1,14 @@
 import type { InitConfig } from '@aries-framework/core'
 
-import { AutoAcceptCredential, Agent, HttpOutboundTransport } from '@aries-framework/core'
+import { LogLevel, AutoAcceptCredential, Agent, HttpOutboundTransport } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { startServer } from '@aries-framework/rest'
 
+import { TestLogger } from './logger'
 import { BCOVRIN_TEST_GENESIS } from './utils'
 
 const PORT = 9000
+const logger = new TestLogger(LogLevel.debug)
 
 const agentConfig: InitConfig = {
   label: 'Animo Test Agent',
@@ -21,6 +23,7 @@ const agentConfig: InitConfig = {
       isProduction: false,
     },
   ],
+  logger: logger,
   publicDidSeed: 'qPa9E2iIwV2Sh37aqEj3LS3oLjZhiu5B',
   endpoints: ['http://localhost:9001'],
   autoAcceptConnections: true,
@@ -55,8 +58,7 @@ const runTestAgent = async () => {
     port: PORT,
   })
 
-  // eslint-disable-next-line no-console
-  console.log(`Test agent online at port ${PORT}`)
+  logger.info(`Test agent online at port ${PORT}`)
 }
 
 runTestAgent()
