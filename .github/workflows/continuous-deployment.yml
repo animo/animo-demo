@@ -111,9 +111,12 @@ jobs:
   deploy:
     # Only run on main branch
     runs-on: ubuntu-latest
-    if: inputs.build == true && github.ref == 'refs/heads/main'
     needs: [build-and-push-image-server, build-and-push-image-client]
-
+    if: |
+      always() &&
+      (needs.build-and-push-image-server.result == 'success' || needs.build-and-push-image-server.result == 'skipped') &&
+      (needs.build-and-push-image-client.result == 'success' || needs.build-and-push-image-client.result == 'skipped') &&
+      github.ref == 'refs/heads/main'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
