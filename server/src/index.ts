@@ -17,8 +17,8 @@ import { Container } from 'typedi'
 import { startServer } from '../../node_modules/@aries-framework/rest/build/index'
 
 import { CredDefService } from './controllers/CredDefService'
-import { TestLogger } from './logger'
 import { AgentCleanup } from './utils/AgentCleanup'
+import { TestLogger } from './utils/logger'
 import { BCOVRIN_TEST_GENESIS } from './utils/utils'
 
 const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.debug : LogLevel.debug)
@@ -75,7 +75,7 @@ const run = async () => {
     routePrefix: '/demo',
   })
 
-  httpInbound.app.get('/', async (req, res) => {
+  httpInbound.app.get('/', async (req: any, res: any) => {
     if (typeof req.query.c_i === 'string') {
       try {
         const invitation = await ConnectionInvitationMessage.fromUrl(req.url.replace('d_m=', 'c_i='))
