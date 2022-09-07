@@ -9,3 +9,26 @@
 .has-tooltip:hover .tooltip {
   @apply visible z-50;
 }
+
+.rainbow {
+  animation: colorRotate 6s linear 0s infinite;
+}
+
+@keyframes colorRotate {
+  from {
+    fill: #fe5000;
+    color: #fe5000;
+
+    /* fill: #6666ff; */
+  }
+  50% {
+    fill: #ea6767;
+    color: #ea6767;
+    /* fill: #00ff00; */
+  }
+  100% {
+    fill: #fe5000;
+    color: #fe5000;
+    /* fill: #6666ff; */
+  }
+}

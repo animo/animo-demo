@@ -10,12 +10,12 @@ const date = new Date()
 date.setFullYear(date.getFullYear() - 18)
 const ageDate = Number(date.toISOString().replace('-', '').split('T')[0].replace('-', ''))
 
-export const Club: UseCase = {
-  slug: 'club',
+export const Event: UseCase = {
+  slug: 'attend-event',
   card: {
-    title: 'Go dancing at club Animo',
+    title: 'Attend the RWOT Event',
     image: `${URL}/club-card.svg`,
-    description: `Club Animo is the newest club in town. Let’s prove our age without showing our ID to the bouncer.`,
+    description: `RWOT is breaking the boundaries and going full on digital identity. Lets enter the event by showing a credential.`,
   },
 
   stepper: [

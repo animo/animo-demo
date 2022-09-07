@@ -5,8 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 
 import { buttonHover, fade, fadeDelay, landingTitle } from '../../../FramerAnimations'
-import homeIllustrationDark from '../../../assets/dark/animo-home-illustration-dark.svg'
-import homeIllustrationLight from '../../../assets/light/animo-home-illustration-light.svg'
+import { AnimoHomeLight } from '../../../assets/light/AnimoHomeLight'
 import { useDarkMode } from '../../../hooks/useDarkMode'
 
 export const MainSection: React.FC = () => {
@@ -68,7 +67,7 @@ export const MainSection: React.FC = () => {
         </div>
         <div className="overflow-hidden py-1 leading-tight">
           <motion.p variants={landingTitle}>identity is changing </motion.p>
-          <motion.span variants={fade} className="text-animo-coral dark:text-animo-blue filter drop-shadow">
+          <motion.span variants={fade} className="filter drop-shadow rainbow">
             the future.
           </motion.span>
         </div>
@@ -113,8 +112,8 @@ export const MainSection: React.FC = () => {
       exit="exit"
     >
       {isMobile ? renderMobileTitle : renderDesktopTitle}
-      <div className="flex w-full md:w-1/3 lg:w-2/5 select-none">
-        <img src={darkMode ? homeIllustrationDark : homeIllustrationLight} alt="animo-phone-light" />
+      <div className="flex w-full md:w-1/3 lg:w-2/5 select-none mt-36">
+        <AnimoHomeLight />
       </div>
     </motion.div>
   )

@@ -58,7 +58,6 @@ export const OnboardingContainer: React.FC<Props> = ({
   )
   const isBackDisabled = [Progress.SETUP_START, Progress.ACCEPT_CREDENTIAL].includes(onboardingStep)
   const isForwardDisabled =
-    onboardingStep === Progress.CHOOSE_WALLET ||
     (onboardingStep === Progress.RECEIVE_IDENTITY && !connectionCompleted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && !credentialsAccepted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && credentials.length === 0) ||
@@ -86,13 +85,6 @@ export const OnboardingContainer: React.FC<Props> = ({
   const getComponentToRender = (progress: Progress) => {
     const components = {
       [Progress.SETUP_START]: <SetupStart key={Progress.SETUP_START} content={OnboardingContent[progress]} />,
-      [Progress.CHOOSE_WALLET]: (
-        <ChooseWallet
-          key={Progress.CHOOSE_WALLET}
-          content={OnboardingContent[progress]}
-          addOnboardingProgress={addOnboardingProgress}
-        />
-      ),
       [Progress.PICK_CHARACTER]: (
         <PickCharacter
           key={Progress.PICK_CHARACTER}
@@ -145,17 +137,6 @@ export const OnboardingContainer: React.FC<Props> = ({
           exit="exit"
           className="p-4"
           key={Progress.SETUP_START}
-          src={darkMode ? OnboardingContent[progress].iconDark : OnboardingContent[progress].iconLight}
-        />
-      ),
-      [Progress.CHOOSE_WALLET]: (
-        <motion.img
-          variants={fadeExit}
-          initial="hidden"
-          animate="show"
-          exit="exit"
-          className="p-4"
-          key={Progress.CHOOSE_WALLET}
           src={darkMode ? OnboardingContent[progress].iconDark : OnboardingContent[progress].iconLight}
         />
       ),

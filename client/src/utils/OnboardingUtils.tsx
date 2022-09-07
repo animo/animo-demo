@@ -25,12 +25,11 @@ import onboardingWalletLight from '../assets/light/onboarding-wallet-light.svg'
 
 export enum Progress {
   SETUP_START = 0,
-  CHOOSE_WALLET = 1,
-  PICK_CHARACTER = 2,
-  RECEIVE_IDENTITY = 3,
-  CONNECTION_COMPLETE = 4,
-  ACCEPT_CREDENTIAL = 5,
-  SETUP_COMPLETED = 6,
+  PICK_CHARACTER = 1,
+  RECEIVE_IDENTITY = 2,
+  CONNECTION_COMPLETE = 3,
+  ACCEPT_CREDENTIAL = 4,
+  SETUP_COMPLETED = 5,
 }
 
 export interface Content {
@@ -42,7 +41,6 @@ export interface Content {
 
 export const StepperItems = [
   { name: 'moon', onboardingStep: Progress.SETUP_START, iconLight: moonLight, iconDark: moonDark },
-  { name: 'wallet', onboardingStep: Progress.CHOOSE_WALLET, iconLight: walletLight, iconDark: walletDark },
   { name: 'person', onboardingStep: Progress.PICK_CHARACTER, iconLight: personLight, iconDark: personDark },
   {
     name: 'notification',
@@ -59,12 +57,6 @@ export const OnboardingContent = {
     iconDark: onboardingStartDark,
     title: 'Let’s get you set up!',
     text: `In the next few minutes, you will experience the power of owning your own data. Using your actual phone, you will work with verifiable credentials: digital, authentic certificates that prove stuff. Don’t worry, we’ll explain it later. Let’s get you set up!`,
-  },
-  [Progress.CHOOSE_WALLET]: {
-    iconLight: onboardingWalletLight,
-    iconDark: onboardingWalletDark,
-    title: 'You pick one.',
-    text: 'First, we’ll set you up with a mobile wallet where you can save your credentials. Think of it as a physical wallet, a safe place where you store your data. Below are some of the mobile wallet applications we recommend. Choose as you like!',
   },
   [Progress.PICK_CHARACTER]: {
     iconLight: onboardingChooseLight,

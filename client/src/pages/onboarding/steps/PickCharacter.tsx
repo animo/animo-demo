@@ -40,7 +40,7 @@ export const PickCharacter: React.FC<Props> = ({ content, currentCharacter, char
         key={char.id}
         onClick={() => CharacterClickHandler(char)}
         whileHover={{ scale: 1.01 }}
-        className="flex md:flex-row lg:flex-col"
+        className="flex md:flex-row lg:flex-col w-full"
         data-cy="select-char"
       >
         <motion.img
