@@ -13,11 +13,10 @@
     "server"
   ],
   "scripts": {
-    "check-types": "tsc --noEmit",
+    "check-types": "yarn workspaces run tsc --noEmit -p tsconfig.json",
     "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "yarn prettier --write",
-    "prepare": "husky install",
     "client:start": "yarn workspace client start",
     "client:build": "yarn workspace client build",
     "server:dev": "yarn workspace server dev",
@@ -43,7 +42,6 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
-    "husky": "^7.0.1",
     "prettier": "^2.6.1",
     "typescript": "~4.4.0"
   }

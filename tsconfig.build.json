@@ -11,8 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
   },
-  "include": ["client", "server"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["build"]
 }
