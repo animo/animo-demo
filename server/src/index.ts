@@ -21,7 +21,7 @@ import { AgentCleanup } from './utils/AgentCleanup'
 import { TestLogger } from './utils/logger'
 import { BCOVRIN_TEST_GENESIS } from './utils/utils'
 
-const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.debug : LogLevel.debug)
+const logger = new TestLogger(process.env.NODE_ENV ? LogLevel.error : LogLevel.debug)
 
 process.on('unhandledRejection', (error) => {
   if (error instanceof Error) {
