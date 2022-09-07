@@ -40,6 +40,7 @@ describe('UseCase Page', () => {
 
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(3000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((x) => x.threadId === threadId)
@@ -83,10 +84,8 @@ describe('UseCase Page', () => {
       const threadId = interception.response?.body.threadId
       cy.request('GET', `${TEST_AGENT_URL}/proofs/`).should((response) => {
         const record = response.body.find((x) => x.threadId === threadId && x.state === 'request-received')
-        cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`, {
-          comment: 'lol',
-          filterByPresentationPreview: false,
-        }).then(() => {
+        cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`).then(() => {
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(3000) // wait for the test agent request to be processed
           cy.get('[data-cy=section')
           cy.get('[data-cy="small-button"]').click()
@@ -111,6 +110,7 @@ describe('UseCase Page', () => {
 
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(3000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((x) => x.threadId === threadId)

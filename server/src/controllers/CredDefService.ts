@@ -1,6 +1,7 @@
-import type { CredentialExchangeRecord, Agent } from '@aries-framework/core'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 import type { CredDef } from 'indy-sdk'
 
+import { Agent } from '@aries-framework/core'
 import { Inject, Service } from 'typedi'
 
 @Service()
