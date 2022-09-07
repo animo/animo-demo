@@ -75,7 +75,7 @@ const run = async () => {
     routePrefix: '/demo',
   })
 
-  httpInbound.app.get('/', async (req: any, res: any) => {
+  httpInbound.app.get('/', async (req, res) => {
     if (typeof req.query.c_i === 'string') {
       try {
         const invitation = await ConnectionInvitationMessage.fromUrl(req.url.replace('d_m=', 'c_i='))
