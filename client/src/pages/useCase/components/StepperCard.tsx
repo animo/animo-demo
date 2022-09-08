@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { StepperItem } from '../../../slices/types'
 
 import { motion } from 'framer-motion'

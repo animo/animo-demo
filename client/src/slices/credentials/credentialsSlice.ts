@@ -1,4 +1,4 @@
-import type { CredentialRecord } from '@aries-framework/core'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 import type { SerializedError } from '@reduxjs/toolkit'
 
 import { createSlice } from '@reduxjs/toolkit'
@@ -11,8 +11,8 @@ import {
 } from './credentialsThunks'
 
 interface CredentialState {
-  credentials: CredentialRecord[]
-  issuedCredentials: CredentialRecord[]
+  credentials: CredentialExchangeRecord[]
+  issuedCredentials: CredentialExchangeRecord[]
   isLoading: boolean
   isIssueCredentialLoading: boolean
   error: SerializedError | undefined

@@ -1,6 +1,4 @@
 {
   "extends": "./tsconfig.build.json",
-
-  "include": ["client", "server", "cypress", "./.eslintrc.js"],
-  "exclude": ["node_modules", "build"]
+  "include": ["client", "server", "cypress", "./.eslintrc.js", "cypress.config.ts"]
 }

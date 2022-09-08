@@ -1,5 +1,5 @@
 import type { CredentialData } from '../../../slices/types'
-import type { CredentialRecord } from '@aries-framework/core'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 
 import { motion } from 'framer-motion'
 import React from 'react'
@@ -11,7 +11,7 @@ import { prependApiUrl } from '../../../utils/Url'
 export interface Props {
   title: string
   data: CredentialData
-  credential: CredentialRecord
+  credential: CredentialExchangeRecord
 }
 
 export const Credential: React.FC<Props> = ({ title, credential, data }) => {

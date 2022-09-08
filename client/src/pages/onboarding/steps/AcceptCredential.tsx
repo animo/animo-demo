@@ -2,7 +2,7 @@ import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { CredentialRecord, JsonTransformer } from '@aries-framework/core'
+import { CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -27,7 +27,7 @@ import { StepInformation } from '../components/StepInformation'
 export interface Props {
   content: Content
   connectionId: string
-  credentials: CredentialRecord[]
+  credentials: CredentialExchangeRecord[]
   currentCharacter: Character
 }
 
@@ -103,7 +103,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
         dispatch(deleteCredentialById(cred.id))
 
         const newCredential = currentCharacter.starterCredentials.find((item) => {
-          const credClass = JsonTransformer.fromJSON(cred, CredentialRecord)
+          const credClass = JsonTransformer.fromJSON(cred, CredentialExchangeRecord)
           return (
             item.credentialDefinitionId ===
             credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId

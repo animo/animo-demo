@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { createInvitation, fetchConnectionById } from './connectionThunks'
+import { createInvitation, fetchConnectionById, fetchConnectionByOutOfBandId } from './connectionThunks'
 
 export interface ConnectionState {
   id?: string
   state?: string
   invitationUrl?: string
+  outOfBandId?: string
   isLoading: boolean
 }
 
@@ -13,6 +14,7 @@ const initialState: ConnectionState = {
   id: undefined,
   state: undefined,
   invitationUrl: undefined,
+  outOfBandId: undefined,
   isLoading: false,
 }
 
@@ -34,9 +36,18 @@ const connectionSlice = createSlice({
       })
       .addCase(createInvitation.fulfilled, (state, action) => {
         state.isLoading = false
-        state.id = action.payload.connection.id
-        state.state = action.payload.connection.state
+        state.outOfBandId = action.payload.outOfBandRecord.id
         state.invitationUrl = action.payload.invitationUrl
+      })
+      .addCase(fetchConnectionByOutOfBandId.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(fetchConnectionByOutOfBandId.fulfilled, (state, action) => {
+        state.isLoading = false
+        if (action.payload.length > 0) {
+          state.id = action.payload[0].id
+          state.state = action.payload[0].state
+        }
       })
       .addCase(fetchConnectionById.pending, (state) => {
         state.isLoading = true

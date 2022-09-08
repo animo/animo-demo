@@ -1,34 +1,33 @@
-/* eslint-disable no-console */
 import type { ProofRequestData } from '../slices/types'
 import type { AxiosResponse } from 'axios'
 
 import { apiCall } from './BaseUrl'
 
 export const createProofRequest = (data: ProofRequestData): Promise<AxiosResponse> => {
-  const proofRequest = {
-    requested_attributes: Object.assign({}, data.attributes),
-    requested_predicates: Object.assign({}, data.predicates),
+  const proofRequestOptions = {
+    requestedAttributes: Object.assign({}, data.attributes),
+    requestedPredicates: Object.assign({}, data.predicates),
     version: '1.0.0',
     name: data.requestOptions?.name,
   }
 
   return apiCall.post(`/proofs/request-proof`, {
     connectionId: data.connectionId,
-    proofRequest: proofRequest,
+    proofRequestOptions,
     comment: data.requestOptions?.comment,
   })
 }
 
 export const createOOBProofRequest = (data: ProofRequestData): Promise<AxiosResponse> => {
-  const proofRequest = {
-    requested_attributes: Object.assign({}, data.attributes),
-    requested_predicates: Object.assign({}, data.predicates),
+  const proofRequestOptions = {
+    requestedAttributes: Object.assign({}, data.attributes),
+    requestedPredicates: Object.assign({}, data.predicates),
     version: '1.0.0',
     name: data.requestOptions?.name,
   }
 
   return apiCall.post(`/proofs/request-outofband-proof`, {
-    proofRequest: proofRequest,
+    proofRequestOptions,
     comment: data.requestOptions?.comment,
   })
 }

@@ -1,4 +1,4 @@
-import type { CredentialRecord } from '@aries-framework/core'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 import type { CredDef } from 'indy-sdk'
 
 import { Agent } from '@aries-framework/core'
@@ -34,7 +34,7 @@ export class CredDefService {
 
   public async getAllCredentialsByConnectionId(connectionId: string) {
     const credentials = await this.agent.credentials.getAll()
-    const filtered = credentials.filter((cred: CredentialRecord) => cred.connectionId === connectionId)
+    const filtered = credentials.filter((cred) => cred.connectionId === connectionId)
 
     return filtered.map((c) => c.toJSON())
   }

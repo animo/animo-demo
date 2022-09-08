@@ -26,7 +26,6 @@ export class TestLogger extends BaseLogger {
 
   public constructor(logLevel: LogLevel, name?: string) {
     super(logLevel)
-
     this.logger = new Logger({
       name,
       minLevel: this.logLevel == LogLevel.off ? undefined : this.tsLogLevelMap[this.logLevel],

@@ -10,21 +10,32 @@ import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
-import { createInvitation, fetchConnectionById } from '../../../slices/connection/connectionThunks'
+import {
+  createInvitation,
+  fetchConnectionById,
+  fetchConnectionByOutOfBandId,
+} from '../../../slices/connection/connectionThunks'
 import { setOnboardingConnectionId } from '../../../slices/onboarding/onboardingSlice'
 import { setConnectionDate } from '../../../slices/preferences/preferencesSlice'
 import { StepInformation } from '../components/StepInformation'
 
 export interface Props {
   content: Content
+  outOfBandId?: string
   connectionId?: string
   invitationUrl?: string
   connectionState?: string
 }
 
-export const SetupConnection: React.FC<Props> = ({ content, connectionId, invitationUrl, connectionState }) => {
+export const SetupConnection: React.FC<Props> = ({
+  content,
+  outOfBandId,
+  connectionId,
+  invitationUrl,
+  connectionState,
+}) => {
   const dispatch = useAppDispatch()
-  const isCompleted = connectionState === 'responded' || connectionState === 'complete'
+  const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
 
   useEffect(() => {
     if (!isCompleted) dispatch(createInvitation())
@@ -40,11 +51,20 @@ export const SetupConnection: React.FC<Props> = ({ content, connectionId, invita
 
   useInterval(
     () => {
+      if (outOfBandId && document.visibilityState === 'visible') {
+        dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+      }
+    },
+    !connectionId ? 1000 : null
+  )
+
+  useInterval(
+    () => {
       if (connectionId && document.visibilityState === 'visible') {
         dispatch(fetchConnectionById(connectionId))
       }
     },
-    !isCompleted ? 1000 : null
+    !isCompleted && connectionId ? 1000 : null
   )
 
   const renderQRCode = invitationUrl ? (

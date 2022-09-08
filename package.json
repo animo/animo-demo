@@ -13,16 +13,15 @@
     "server"
   ],
   "scripts": {
-    "check-types": "tsc --noEmit",
+    "check-types": "yarn workspaces run tsc --noEmit -p tsconfig.json",
     "prettier": "prettier '**/*.+(js|json|ts|md|yml|yaml)'",
     "lint": "eslint --ignore-path .gitignore .",
     "format": "yarn prettier --write",
-    "prepare": "husky install",
     "client:start": "yarn workspace client start",
     "client:build": "yarn workspace client build",
     "server:dev": "yarn workspace server dev",
     "server:build": "yarn workspace server build",
-    "dev": "concurrently -n 'client,server ' -c 'green.bold,red.bold' 'yarn client:start' 'yarn server:dev'",
+    "dev": "concurrently -n 'client,server,testAgent' -c 'green.bold,red.bold,blue.bold' 'yarn client:start' 'yarn server:dev' 'yarn workspace server dev:agent' ",
     "test": "yarn run cypress open",
     "build": "yarn workspace client build && yarn workspace server build",
     "cy:open": "cypress open",
@@ -33,8 +32,8 @@
     "@typescript-eslint/parser": "^5.10.2",
     "@typescript-eslint/visitor-keys": "^5.10.2",
     "concurrently": "^7.0.0",
-    "cypress": "^9.7.0",
-    "eslint": "^8.10.0",
+    "cypress": "10.7.0",
+    "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-import-resolver-typescript": "^2.7.0",
@@ -42,8 +41,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
-    "husky": "^7.0.1",
     "prettier": "^2.6.1",
-    "typescript": "^4.5.3"
+    "typescript": "~4.8.0"
   }
 }

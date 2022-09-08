@@ -17,7 +17,7 @@ export const QRCode: React.FC<Props> = ({ invitationUrl, connectionState }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
   const isLarge = useMediaQuery({ query: '(max-width: 1242px)' })
 
-  const isCompleted = connectionState === 'responded' || connectionState === 'complete'
+  const isCompleted = connectionState === 'responded' || connectionState === 'completed'
 
   useEffect(() => {
     if (isCompleted) trackEvent('connection-completed')

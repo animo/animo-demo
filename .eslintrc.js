@@ -11,18 +11,12 @@ module.exports = {
   plugins: ['cypress'],
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.eslint.json'],
+    project: ['./tsconfig.eslint.json', './client/tsconfig.json', './server/tsconfig.json', './cypress/tsconfig.json'],
   },
   settings: {
     'import/extensions': ['.js', '.ts'],
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
-    'import/resolver': {
-      typescript: {
-        project: 'packages/*/tsconfig.json',
-        alwaysTryTypes: true,
-      },
     },
   },
   rules: {
@@ -50,12 +44,6 @@ module.exports = {
         devDependencies: false,
       },
     ],
-    'cypress/no-assigning-return-values': 'error',
-    'cypress/no-unnecessary-waiting': 'error',
-    'cypress/assertion-before-screenshot': 'warn',
-    'cypress/no-force': 'warn',
-    'cypress/no-async-tests': 'error',
-    'cypress/no-pause': 'error',
   },
   overrides: [
     {
@@ -77,6 +65,21 @@ module.exports = {
             devDependencies: true,
           },
         ],
+      },
+    },
+    {
+      files: ['cypress/**/*.cy.ts'],
+      env: {
+        jest: true,
+        node: true,
+      },
+      rules: {
+        'cypress/no-assigning-return-values': 'error',
+        'cypress/no-unnecessary-waiting': 'error',
+        'cypress/assertion-before-screenshot': 'warn',
+        'cypress/no-force': 'warn',
+        'cypress/no-async-tests': 'error',
+        'cypress/no-pause': 'error',
       },
     },
   ],

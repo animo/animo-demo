@@ -23,30 +23,28 @@ export class UseCaseController {
   @Get('/:useCaseSlug')
   public async getUseCaseBySlug(@Param('useCaseSlug') useCaseSlug: string) {
     const useCase = useCases
-      .find((x) => x.useCases.find((y) => y.slug === useCaseSlug))
+      .find((u) => u.useCases.find((y) => y.slug === useCaseSlug))
       ?.useCases.find((z) => z.slug === useCaseSlug)
 
-    if (!useCase) {
-      throw new NotFoundError(`use case with slug "${useCaseSlug}" not found.`)
-    }
+    if (!useCase) throw new NotFoundError(`use case with slug "${useCaseSlug}" not found.`)
 
-    const nwsec: Section[] = []
+    const newSection: Section[] = []
 
     useCase.sections.forEach((section) => {
-      nwsec.push({
+      newSection.push({
         ...section,
-        issueCredentials: section.issueCredentials?.map((x) => ({
-          ...x,
-          credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(x.name),
+        issueCredentials: section.issueCredentials?.map((issueCredential) => ({
+          ...issueCredential,
+          credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(issueCredential.name),
         })),
-        requestedCredentials: section.requestedCredentials?.map((x) => ({
-          ...x,
-          credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(x.name),
+        requestedCredentials: section.requestedCredentials?.map((requestedCredential) => ({
+          ...requestedCredential,
+          credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(requestedCredential.name),
         })),
       })
     })
 
-    useCase.sections = nwsec
+    useCase.sections = newSection
 
     return useCase
   }
@@ -58,31 +56,29 @@ export class UseCaseController {
   public async getUseCasesByCharId(@Param('characterId') characterId: string) {
     const UCs = useCases.find((x) => x.characterId === characterId)
 
-    if (!UCs) {
-      throw new NotFoundError(`Use cases for character with characterId "${characterId}" not found.`)
-    }
-    // eslint-disable-next-line no-console
-    const lol: UseCase[] = []
+    if (!UCs) throw new NotFoundError(`Use cases for character with characterId "${characterId}" not found.`)
 
-    UCs.useCases.forEach((x) => {
-      const nwsec: Section[] = []
+    const reformattedUseCases: UseCase[] = []
 
-      x.sections.forEach((section) => {
-        nwsec.push({
+    UCs.useCases.forEach((u) => {
+      const newSection: Section[] = []
+
+      u.sections.forEach((section) => {
+        newSection.push({
           ...section,
-          issueCredentials: section.issueCredentials?.map((x) => ({
-            ...x,
-            credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(x.name),
+          issueCredentials: section.issueCredentials?.map((issuedCredential) => ({
+            ...issuedCredential,
+            credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(issuedCredential.name),
           })),
-          requestedCredentials: section.requestedCredentials?.map((x) => ({
-            ...x,
-            credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(x.name),
+          requestedCredentials: section.requestedCredentials?.map((requestedCredential) => ({
+            ...requestedCredential,
+            credentialDefinitionId: this.service.getCredentialDefinitionIdByTag(requestedCredential.name),
           })),
         })
       })
 
-      x.sections = nwsec
-      lol.push(x)
+      u.sections = newSection
+      reformattedUseCases.push(u)
     })
 
     return UCs.useCases

@@ -1,22 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "declaration": true,
     "sourceMap": true,
     "strict": true,
     "noEmitOnError": true,
-    "lib": ["es5", "dom"],
-    "types": ["cypress"],
+    "lib": [],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowJs": true,
-    "jsx": "react-jsx",
     "skipLibCheck": true
   },
-  "include": ["client", "server"],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["build"]
 }
