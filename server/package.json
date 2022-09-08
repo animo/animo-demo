@@ -17,7 +17,7 @@
     "@aries-framework/core": "^0.2.3",
     "@aries-framework/node": "^0.2.3",
     "@aries-framework/rest": "^0.9.2",
-    "@types/cron": "^1.7.3",
+    "@types/cron": "^2.0.0",
     "@types/express": "^4.17.13",
     "@types/uuid": "^8.3.3",
     "cors": "^2.8.5",
