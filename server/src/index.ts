@@ -9,12 +9,11 @@ import {
   HttpOutboundTransport,
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
+import { startServer } from '@aries-framework/rest'
 import { static as stx } from 'express'
 import { connect } from 'ngrok'
 import { createExpressServer, useContainer } from 'routing-controllers'
 import { Container } from 'typedi'
-
-import { startServer } from '../../node_modules/@aries-framework/rest/build/index'
 
 import { CredDefService } from './controllers/CredDefService'
 import { AgentCleanup } from './utils/AgentCleanup'
