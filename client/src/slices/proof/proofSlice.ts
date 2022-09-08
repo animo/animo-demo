@@ -22,6 +22,7 @@ const proofSlice = createSlice({
   reducers: {
     clearProof: (state) => {
       state.proof = undefined
+      state.proofUrl = undefined
       state.isLoading = false
     },
   },
@@ -39,8 +40,7 @@ const proofSlice = createSlice({
       })
       .addCase(createProofOOB.fulfilled, (state, action) => {
         state.isLoading = false
-        // const url = action.payload.message.split('?')[0] + '?id=' + action.payload.proofRecord.id
-        state.proofUrl = action.payload.message
+        state.proofUrl = action.payload.proofUrl
         state.proof = action.payload.proofRecord
       })
       .addCase(fetchProofById.pending, (state) => {
