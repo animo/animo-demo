@@ -102,6 +102,7 @@ const run = async () => {
   await startServer(agent, {
     port: 5000,
     app: app,
+    cors: true,
   })
 }
 
