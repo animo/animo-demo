@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   server:
-    image: ghcr.io/animo/animo-demo/server:main
+    image: ghcr.io/animo/animo-x-cheqd-demo/server:main
     deploy:
       placement:
         constraints:
@@ -12,22 +12,22 @@ services:
         traefik.enable: 'true'
 
         # AFJ Rest agent inbound transport
-        traefik.http.routers.didcomm-demo.rule: Host(`didcomm.demo.animo.id`)
-        traefik.http.routers.didcomm-demo.entrypoints: web-secure
-        traefik.http.routers.didcomm-demo.tls.certresolver: zerossl
-        traefik.http.routers.didcomm-demo.service: didcomm-demo-service
-        traefik.http.services.didcomm-demo-service.loadbalancer.server.port: 5001
+        traefik.http.routers.didcomm-cheqd-demo.rule: Host(`didcomm.cheqd-demo.animo.id`)
+        traefik.http.routers.didcomm-cheqd-demo.entrypoints: web-secure
+        traefik.http.routers.didcomm-cheqd-demo.tls.certresolver: zerossl
+        traefik.http.routers.didcomm-cheqd-demo.service: didcomm-demo-service
+        traefik.http.services.didcomm-cheqd-demo-service.loadbalancer.server.port: 5001
 
         # AFJ Rest API
-        traefik.http.routers.server-demo.rule: Host(`server.demo.animo.id`) && (PathPrefix(`/connections`) || PathPrefix(`/demo`) || PathPrefix(`/server/last-reset`) || PathPrefix(`/credentials`) || PathPrefix(`/proofs`) || PathPrefix(`/public`))
-        traefik.http.routers.server-demo.entrypoints: web-secure
-        traefik.http.routers.server-demo.tls.certresolver: zerossl
-        traefik.http.routers.server-demo.service: server-demo-service
-        traefik.http.services.server-demo-service.loadbalancer.server.port: 5000
+        traefik.http.routers.server-cheqd-demo.rule: Host(`server.cheqd-demo.animo.id`) && (PathPrefix(`/connections`) || PathPrefix(`/demo`) || PathPrefix(`/server/last-reset`) || PathPrefix(`/credentials`) || PathPrefix(`/proofs`) || PathPrefix(`/public`))
+        traefik.http.routers.server-cheqd-demo.entrypoints: web-secure
+        traefik.http.routers.server-cheqd-demo.tls.certresolver: zerossl
+        traefik.http.routers.server-cheqd-demo.service: server-demo-service
+        traefik.http.services.server-cheqd-demo-service.loadbalancer.server.port: 5000
 
     environment:
       AGENT_WALLET_KEY: ${AGENT_WALLET_KEY}
-      AGENT_ENDPOINT: https://didcomm.demo.animo.id
+      AGENT_ENDPOINT: https://didcomm.cheqd-demo.animo.id
       AGENT_PUBLIC_DID_SEED: ${AGENT_PUBLIC_DID_SEED}
 
     networks:
@@ -38,7 +38,7 @@ services:
       - '5001'
 
   client:
-    image: ghcr.io/animo/animo-demo/client:main
+    image: ghcr.io/animo/animo-x-cheqd-demo/client:main
     deploy:
       placement:
         constraints:
@@ -46,11 +46,11 @@ services:
           - node.labels.type == community
       labels:
         traefik.enable: 'true'
-        traefik.http.routers.client-demo.rule: Host(`demo.animo.id`)
-        traefik.http.routers.client-demo.entrypoints: web-secure
-        traefik.http.routers.client-demo.tls.certresolver: zerossl
-        traefik.http.routers.client-demo.service: client-demo-service
-        traefik.http.services.client-demo-service.loadbalancer.server.port: 80
+        traefik.http.routers.client-cheqd-demo.rule: Host(`cheqd-demo.animo.id`)
+        traefik.http.routers.client-cheqd-demo.entrypoints: web-secure
+        traefik.http.routers.client-cheqd-demo.tls.certresolver: zerossl
+        traefik.http.routers.client-cheqd-demo.service: client-demo-service
+        traefik.http.services.client-cheqd-demo-service.loadbalancer.server.port: 80
       update_config:
         monitor: 30s
         delay: 10s

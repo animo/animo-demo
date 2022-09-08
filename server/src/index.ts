@@ -36,7 +36,7 @@ process.on('unhandledRejection', (error) => {
 const run = async () => {
   const endpoint = process.env.AGENT_ENDPOINT ?? (await connect(5001))
   const agentConfig: InitConfig = {
-    label: 'cheqd',
+    label: 'Animo x Cheqd',
     walletConfig: {
       id: 'Cheqd Solutions',
       key: process.env.AGENT_WALLET_KEY ?? 'cheqd',

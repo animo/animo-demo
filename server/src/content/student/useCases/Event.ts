@@ -4,40 +4,36 @@ import { v4 as uuid } from 'uuid'
 
 import { StepType } from '../../types'
 
-const URL = '/public/student/useCases/club'
-
-const date = new Date()
-date.setFullYear(date.getFullYear() - 18)
-const ageDate = Number(date.toISOString().replace('-', '').split('T')[0].replace('-', ''))
+const URL = '/public/student/useCases/rwot'
 
 export const Event: UseCase = {
   slug: 'attend-event',
   card: {
-    title: 'Attend the RWOT Event',
-    image: `${URL}/club-card.svg`,
-    description: `RWOT is breaking the boundaries and going full on digital identity. Lets enter the event by showing a credential.`,
+    title: 'Attend Rebooting the Web of Trust (RWOT)',
+    image: `${URL}/rwot-main.svg`,
+    description: `Wooooot! RWOT is coming to The Hague this year. Lets enter the event using a verifiable credential.`,
   },
 
   stepper: [
     {
       id: uuid(),
-      name: 'Entering the club',
-      description: 'Wait in line to enter the club.',
-      steps: 1,
-      section: 1,
-    },
-    {
-      id: uuid(),
-      name: 'Prove your age',
-      description: 'Accept the request in your wallet to prove your age.',
-      steps: 3,
-      section: 1,
-    },
-    {
-      id: uuid(),
-      name: 'Enjoy the party',
-      description: 'Enter the club and enjoy a night out with your friends!',
+      name: 'Get your digital RWOT Pass',
+      description: 'First up you need to signup for RWOT online.',
       steps: 4,
+      section: 1,
+    },
+    {
+      id: uuid(),
+      name: 'Receive your credential',
+      description: 'Obtain your RWOT Pass as a credential',
+      steps: 4,
+      section: 1,
+    },
+    {
+      id: uuid(),
+      name: 'Enter the event with your RWOT Pass',
+      description: 'After receiving your ticket, you are ready to enter the conference.',
+      steps: 7,
       section: 1,
     },
   ],
@@ -46,77 +42,117 @@ export const Event: UseCase = {
     {
       id: uuid(),
       entity: {
-        name: 'Club Animo',
-        icon: `${URL}/club-logo-club.png`,
-        imageUrl: 'https://i.imgur.com/GXOxwMt.png',
+        name: 'RWOT',
+        icon: `${URL}/rwot-logo.png`,
+        imageUrl: 'https://i.imgur.com/2ni3W0C.png',
       },
       colors: {
-        primary: '#5C45BF',
-        secondary: '#B7AEE2',
+        primary: '#0186FF',
+        secondary: '#bbdcf9',
       },
       requestedCredentials: [
         {
           id: uuid(),
           name: 'Animo ID Card',
           icon: '/public/student/icon-student.svg',
-          predicates: { name: 'Date of birth', value: ageDate, type: '<=' },
+          properties: ['Name', 'Nationality'],
+        },
+      ],
+      issueCredentials: [
+        {
+          id: uuid(),
+          name: 'RWOT Pass',
+          properties: [{ name: 'Name' }, { name: 'Nationality' }],
+          icon: `${URL}/icon-conference-pass.svg`,
         },
       ],
       steps: [
         {
           id: uuid(),
           type: StepType.START,
-          image: `${URL}/club-card.svg`,
-          title: 'Going to an exclusive club',
-          description: `You are going dancing! Normally, the bouncer asks for your ID card, but not in this club. Club Animo supports verifiable credentials, and proving you're old enough to enter is now faster, safer and more secure. Let's try it out!`,
+          image: `${URL}/rwot-main.svg`,
+          title: 'Attend Rebooting the Web of Trust (RWOT)',
+          description: `It's time for the 11th edition of RWOT! This is one of the biggest digital identity events in the world happening every year. Time to get a ticket, enter the conference and get to work!`,
+        },
+        {
+          id: uuid(),
+          type: StepType.CONNECTION,
+          image: `${URL}/rwot-main.svg`,
+          title: 'Scan the QR-code to sign up for the conference.',
+          description:
+            'You got a reminder in your inbox to signup for the new edition of RWOT. To sign up, connect by scanning the QR code.',
         },
         {
           id: uuid(),
           type: StepType.INFO,
-          title: `The bouncer asks you to scan the QR-code`,
-          description: `After waiting in line the bounder shows you a QR-code to scan to prove that you're old enough to enter the club.`,
-          image: `${URL}/club-data.svg`,
+          title: `RWOT needs some information`,
+          image: `${URL}/rwot-info-secure.svg`,
+          description: `You now have a secure connection. Using this connection, you can share some personal information that is needed to complete the registration.`,
         },
         {
           id: uuid(),
-          type: StepType.PROOF_OOB,
-          title: 'Scan the QR-Code to prove your age.',
-          description: `Grab your wallet, and scan the QR-code. A pop up will appear where you can share your age, without showing the rest of your personal information.`,
+          type: StepType.PROOF,
+          title: 'Accept the request from RWOT',
+          description: `Grab your wallet, you've received a request for some information! To finish the registration process, share the information by accepting the request. `,
           requestOptions: {
-            name: `Age Request`,
-            comment: `Club Animo wants to know if you're over 18`,
+            name: 'Information for your RWOT Pass',
+            comment: 'We would like some personal information for your RWOT Pass.',
+          },
+        },
+        {
+          id: uuid(),
+          type: StepType.CREDENTIAL,
+          title: 'Accept your RWOT Pass',
+          description: `Open your wallet, and accept your new RWOT pass. You can use it to prove that you have access.`,
+          useProof: true,
+        },
+        {
+          id: uuid(),
+          type: StepType.INFO,
+          title: `Hi! Welcome to RWOT!`,
+          description: `The time has come and RWOT is here! It's all sold out and you will need to show your ticket to get in.`,
+          image: `${URL}/rwot-line-waiting.svg`,
+        },
+        {
+          id: uuid(),
+          type: StepType.PROOF,
+          title: 'We would like to see your RWOT pass',
+          requestOptions: {
+            name: 'Valid RWOT Pass',
+            comment: 'We would like to see your RWOT Pass.',
           },
         },
         {
           id: uuid(),
           type: StepType.INFO,
-          title: `Party time!`,
-          description: `The bouncer gives you the OK-sign, and seconds later you’re flexing your moves on the dance floor!`,
-          image: `${URL}/club-dancing.svg`,
+          title: `You've arrived inside at RWOT!`,
+          description: `Checking your RWOT pass was a breeze! What are you waiting for? Get creative and start collaborating!`,
+          image: `${URL}/rwot-collab2.svg`,
         },
         {
           id: uuid(),
           type: StepType.END,
-          title: `Congratulations, you did it!`,
+          title: 'Congratulations, you did it!',
           description: 'Great job on finishing this use case. These are the steps you took.',
           endStepper: [
             {
               id: uuid(),
-              title: `No need for a connection`,
-              description: `This QR-code contained only the question about your age. No need to setup a connection for everyone you interact with.`,
-              image: `${URL}/club-scan-qr.svg`,
+              title: 'You connected with RWOT',
+              description: 'This secure connection is used for all of your communication with RWOT.',
+              image: `${URL}/rwot-info-secure.svg`,
             },
             {
               id: uuid(),
-              title: 'Proved your age',
-              description: 'Without showing your date of birth, you proved that you are old enough to enter the club.',
-              image: `${URL}/club-data.svg`,
+              title: 'You entered the venue',
+              description: 'By proving you have a ticket you got access to the venue.',
+              image: `${URL}/rwot-line-waiting.svg`,
             },
             {
               id: uuid(),
-              title: 'Ready to party!',
-              description: `You partied all night long!`,
-              image: `${URL}/club-dancing.svg`,
+              title: 'You have changed the future',
+              description:
+                'You collaborated with people all over the world to build the future of decentralized identity.',
+              image: `${URL}/rwot-collab2.svg`,
             },
           ],
         },

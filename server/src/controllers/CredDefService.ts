@@ -45,11 +45,20 @@ export class CredDefService {
       supportRevocation: false,
       tag: 'Animo ID Card',
     })
+
+    const cd2 = await this.createCredentialDefinition({
+      schemaId: 'q7ATwTYbQDgiigVijUAej:2:RWOT Pass:1.0.1',
+      supportRevocation: false,
+      tag: 'RWOT Pass',
+    })
+    // "attrNames": [
+    //   "Name", "Nationality"
+    // ],
     // "attributes": [
     //   "Name", "Street", "City", "Date of birth", "Nationality"
     // ]
 
-    this.credentialDefinitions = [cd1]
+    this.credentialDefinitions = [cd1, cd2]
   }
 
   private async createCredentialDefinition(credentialDefinitionRequest: {

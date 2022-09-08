@@ -12,6 +12,7 @@ import { BackButton } from '../../components/BackButton'
 import { Modal } from '../../components/Modal'
 import { SmallButton } from '../../components/SmallButton'
 import { useAppDispatch } from '../../hooks/hooks'
+import { clearProof } from '../../slices/proof/proofSlice'
 import { StepType } from '../../slices/types'
 import { nextStep, prevStep } from '../../slices/useCases/useCasesSlice'
 
@@ -76,6 +77,10 @@ export const Section: React.FC<Props> = ({
   const credentialsReceived = Object.values(credentials).every(
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )
+
+  useEffect(() => {
+    if (stepCount === 5) dispatch(clearProof())
+  }, [stepCount])
 
   useEffect(() => {
     if (step?.type === StepType.CONNECTION) {

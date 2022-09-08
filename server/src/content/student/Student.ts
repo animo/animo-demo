@@ -7,7 +7,8 @@ export const Student: Character = {
   image: '/public/student/student.svg',
   name: 'Not Ankur',
   type: 'Developer',
-  backstory: 'Lets take over the world',
+  backstory:
+    'Not Ankur loves to code. He has spent the last year as a digital nomad, traveling and working around the globe, guide him through his next adventure!',
   starterCredentials: [
     {
       id: uuid(),
