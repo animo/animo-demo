@@ -20,7 +20,7 @@
 
 ## ✨ Hi there!
 
-Welcome to the repository of Animo's Self-Sovereign identity demo. This interactive app demonstrates the use of verifiable credentials. This demo is build using [Aries Framework Javascript (AFJ)](https://github.com/hyperledger/aries-framework-javascript). AFJ is a framework written in TypeScript for building SSI Agents and DIDComm services. This demo uses the REST API, which is part of the [Aries Framework JavaScript Extensions](https://github.com/hyperledger/aries-framework-javascript-ext) repository.
+Welcome to the repository of Animo's Self-Sovereign identity demo. This interactive app demonstrates the use of verifiable credentials. This demo is built using [Aries Framework Javascript (AFJ)](https://github.com/hyperledger/aries-framework-javascript). AFJ is a framework written in TypeScript for building SSI Agents and DIDComm services. This demo uses the REST API, which is part of the [Aries Framework JavaScript Extensions](https://github.com/hyperledger/aries-framework-javascript-ext) repository.
 
 ## 🛠️ Usage
 
