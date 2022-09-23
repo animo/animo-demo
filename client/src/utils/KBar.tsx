@@ -64,6 +64,120 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
     },
     {
+      id: 'configuration',
+      name: 'Choose your configuration options...',
+      keywords: 'interface color dark light',
+      section: 'Configuration',
+    },
+    {
+      id: 'ledger',
+      name: 'Select your preferred ledger',
+      keywords: 'ledger',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'BCovrin',
+      name: 'BCovrin',
+      keywords: 'BCovrin',
+      section: '',
+      perform: () => {
+        alert('BCovrin selected!')
+      },
+      parent: 'ledger',
+    },
+    {
+      id: 'issue-credential-protocol-version',
+      name: 'Select your preferred credential protocol version',
+      keywords: 'issue-credential-protocol-version',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'issue-credential-protocol-version-1',
+      name: 'v1',
+      keywords: 'issue-credential-protocol-version-1',
+      section: '',
+      perform: () => {
+        alert('Credential Protocol Version 1 selected')
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'issue-credential-protocol-version-2',
+      name: 'v2',
+      keywords: 'issue-credential-protocol-version-2',
+      section: '',
+      perform: () => {
+        alert('Credential Protocol Version 2 selected')
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'present-proof-protocol-version',
+      name: 'Select your preferred proof protocol version',
+      keywords: 'present-proof-protocol-version',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'present-proof-protocol-version-1',
+      name: 'v1',
+      keywords: 'present-proof-protocol-version-1',
+      section: '',
+      perform: () => {
+        alert('Proof Protocol Version 1 selected')
+      },
+      parent: 'present-proof-protocol-version',
+    },
+    {
+      id: 'present-proof-protocol-version-2',
+      name: 'v2',
+      keywords: 'present-proof-protocol-version-2',
+      section: '',
+      perform: () => {
+        alert('Proof Protocol Version 2 selected')
+      },
+      parent: 'present-proof-protocol-version',
+    },
+    {
+      id: 'invitation-method',
+      name: 'Select your preferred invitation method',
+      keywords: 'invitation-method',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'invitation-method-oob',
+      name: 'Out-of-band invitation',
+      keywords: 'invitation-method-oob',
+      section: '',
+      perform: () => {
+        alert('Out-of-band invitation method selected')
+      },
+      parent: 'invitation-method',
+    },
+    {
+      id: 'invitation-method-legacy',
+      name: 'Out-of-band legacy invitation',
+      keywords: 'invitation-method-legacy',
+      section: '',
+      perform: () => {
+        alert('Out-of-band legacy invitation method selected')
+      },
+      parent: 'invitation-method',
+    },
+    {
+      id: 'invitation-method-legacy-connectionless',
+      name: 'Out-of-band legacy connectionless invitation',
+      keywords: 'invitation-method-legacy-connectionless',
+      section: '',
+      perform: () => {
+        alert('Out-of-band legacy connectionless invitation method selected')
+      },
+      parent: 'invitation-method',
+    },
+    {
       id: 'theme',
       name: 'Change theme…',
       keywords: 'interface color dark light',
