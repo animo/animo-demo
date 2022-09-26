@@ -6,6 +6,7 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
+import { setinvitationMethod } from '../slices/configuration/configurationSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
@@ -65,13 +66,14 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'configuration',
-      name: 'Choose your configuration options...',
-      keywords: 'interface color dark light',
+      name: 'Choose demo configuration options...',
+      shortcut: ['o'],
+      keywords: 'configuration',
       section: 'Configuration',
     },
     {
       id: 'ledger',
-      name: 'Select your preferred ledger',
+      name: 'Select ledger',
       keywords: 'ledger',
       section: '',
       parent: 'configuration',
@@ -82,13 +84,13 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       keywords: 'BCovrin',
       section: '',
       perform: () => {
-        alert('BCovrin selected!')
+        alert('BCovrin ledger selected!')
       },
       parent: 'ledger',
     },
     {
       id: 'issue-credential-protocol-version',
-      name: 'Select your preferred credential protocol version',
+      name: 'Select credential protocol version',
       keywords: 'issue-credential-protocol-version',
       section: '',
       parent: 'configuration',
@@ -115,7 +117,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'present-proof-protocol-version',
-      name: 'Select your preferred proof protocol version',
+      name: 'Select proof protocol version',
       keywords: 'present-proof-protocol-version',
       section: '',
       parent: 'configuration',
@@ -142,7 +144,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'invitation-method',
-      name: 'Select your preferred invitation method',
+      name: 'Select invitation method',
       keywords: 'invitation-method',
       section: '',
       parent: 'configuration',
@@ -153,33 +155,24 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       keywords: 'invitation-method-oob',
       section: '',
       perform: () => {
-        alert('Out-of-band invitation method selected')
+        dispatch(setinvitationMethod('oob'))
       },
       parent: 'invitation-method',
     },
     {
       id: 'invitation-method-legacy',
-      name: 'Out-of-band legacy invitation',
+      name: 'Legacy invitation',
       keywords: 'invitation-method-legacy',
       section: '',
       perform: () => {
-        alert('Out-of-band legacy invitation method selected')
-      },
-      parent: 'invitation-method',
-    },
-    {
-      id: 'invitation-method-legacy-connectionless',
-      name: 'Out-of-band legacy connectionless invitation',
-      keywords: 'invitation-method-legacy-connectionless',
-      section: '',
-      perform: () => {
-        alert('Out-of-band legacy connectionless invitation method selected')
+        dispatch(setinvitationMethod('legacy'))
       },
       parent: 'invitation-method',
     },
     {
       id: 'theme',
       name: 'Change theme…',
+      shortcut: ['t'],
       keywords: 'interface color dark light',
       section: 'Preferences',
     },
