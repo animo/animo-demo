@@ -19,7 +19,7 @@ services:
         traefik.http.services.didcomm-demo-service.loadbalancer.server.port: 5001
 
         # AFJ Rest API
-        traefik.http.routers.server-demo.rule: Host(`server.demo.animo.id`) && (PathPrefix(`/oob`) || PathPrefix(`/connections`) || PathPrefix(`/demo`) || PathPrefix(`/server/last-reset`) || PathPrefix(`/credentials`) || PathPrefix(`/proofs`) || PathPrefix(`/public`))
+        traefik.http.routers.server-demo.rule: Host(`server.demo.animo.id`) && (PathPrefix(`/agent`) || PathPrefix(`/oob`) || PathPrefix(`/connections`) || PathPrefix(`/demo`) || PathPrefix(`/server/last-reset`) || PathPrefix(`/credentials`) || PathPrefix(`/proofs`) || PathPrefix(`/public`))
         traefik.http.routers.server-demo.entrypoints: web-secure
         traefik.http.routers.server-demo.tls.certresolver: zerossl
         traefik.http.routers.server-demo.service: server-demo-service
