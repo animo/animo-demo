@@ -14,11 +14,6 @@ const configurationSlice = createSlice({
   reducers: {
     setinvitationMethod: (state, action) => {
       state.invitationMethod = action.payload === 'oob' ? 'oob' : 'legacy'
-      if (action.payload) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
     },
   },
 })
