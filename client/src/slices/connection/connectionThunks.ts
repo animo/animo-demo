@@ -1,4 +1,4 @@
-import type { Entity } from '../../slices/types'
+import type { CreateInvitationProps } from '../../slices/types'
 
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -14,9 +14,15 @@ export const fetchConnectionByOutOfBandId = createAsyncThunk('connection/fetchBy
   return response.data
 })
 
-export const createInvitation = createAsyncThunk('connection/createInvitation', async (entity?: Entity) => {
-  const response = entity?.invitationMethod
-    ? await Api.createOobInvitation(entity?.name, entity?.imageUrl)
-    : await Api.createLegacyInvitation(entity?.name, entity?.imageUrl)
-  return response.data
-})
+export const createInvitation = createAsyncThunk(
+  'connection/createInvitation',
+  async (createInvitationOptions?: CreateInvitationProps) => {
+    const entity = createInvitationOptions?.entity
+
+    const response = createInvitationOptions?.useLegacyInvitation
+      ? await Api.createLegacyInvitation(entity?.name, entity?.imageUrl)
+      : await Api.createOobInvitation(entity?.name, entity?.imageUrl)
+
+    return response.data
+  }
+)

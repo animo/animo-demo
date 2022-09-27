@@ -58,7 +58,7 @@ describe('UseCase Page', () => {
 
     cy.get('[data-cy=select-use-case]').first().click()
 
-    cy.intercept('POST', `${API_URL}/oob/create-invitation`).as('createInvitation')
+    // cy.intercept('POST', `${API_URL}/oob/create-invitation`).as('createInvitation')
     cy.get('[data-cy=start-container]')
     cy.get('[data-cy=small-button]').click()
 

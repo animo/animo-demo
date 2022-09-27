@@ -1,4 +1,3 @@
-import type { Entity } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 
 import { motion } from 'framer-motion'
@@ -38,17 +37,10 @@ export const SetupConnection: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
-  const { invitationMethod } = useConfiguration()
+  const { useLegacyInvitation } = useConfiguration()
 
   useEffect(() => {
-    const entity: Entity = {
-      name: '',
-      icon: '',
-      invitationMethod: false,
-    }
-
-    entity.invitationMethod = invitationMethod ? true : false
-    if (!isCompleted) dispatch(createInvitation(entity))
+    if (!isCompleted) dispatch(createInvitation({ useLegacyInvitation }))
   }, [])
 
   useEffect(() => {

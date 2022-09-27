@@ -98,7 +98,11 @@ export interface Entity {
   name: string
   icon: string
   imageUrl?: string
-  invitationMethod?: boolean
+}
+
+export interface CreateInvitationProps {
+  entity?: Entity
+  useLegacyInvitation?: boolean
 }
 
 export interface Colors {

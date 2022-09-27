@@ -28,13 +28,11 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   const dispatch = useAppDispatch()
   const { id, state, invitationUrl, outOfBandId } = connection
   const isCompleted = state === 'response-sent' || state === 'completed'
-  const { invitationMethod } = useConfiguration()
+  const { useLegacyInvitation } = useConfiguration()
 
   useEffect(() => {
-    entity.invitationMethod = invitationMethod ? true : false
-
     if (!isCompleted) {
-      dispatch(createInvitation(entity))
+      dispatch(createInvitation({ entity, useLegacyInvitation }))
     }
   }, [])
 

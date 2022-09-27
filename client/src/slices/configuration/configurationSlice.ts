@@ -1,23 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface ConfigurationState {
-  invitationMethod: boolean
+  useLegacyInvitation: boolean
 }
 
 const initialState: ConfigurationState = {
-  invitationMethod: false,
+  useLegacyInvitation: true,
 }
 
 const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setinvitationMethod: (state, action) => {
-      state.invitationMethod = action.payload === 'oob' ? true : false
+    setLegacyInvitation: (state, action) => {
+      state.useLegacyInvitation = action.payload
     },
   },
 })
 
-export const { setinvitationMethod } = configurationSlice.actions
+export const { setLegacyInvitation } = configurationSlice.actions
 
 export default configurationSlice.reducer
