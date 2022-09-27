@@ -1,3 +1,4 @@
+import type { Entity } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 
 import { motion } from 'framer-motion'
@@ -10,6 +11,7 @@ import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
+import { useConfiguration } from '../../../slices/configuration/configurationSelectors'
 import {
   createInvitation,
   fetchConnectionById,
@@ -36,9 +38,17 @@ export const SetupConnection: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
+  const { invitationMethod } = useConfiguration()
 
   useEffect(() => {
-    if (!isCompleted) dispatch(createInvitation())
+    const entity: Entity = {
+      name: '',
+      icon: '',
+      invitationMethod: false,
+    }
+
+    entity.invitationMethod = invitationMethod ? true : false
+    if (!isCompleted) dispatch(createInvitation(entity))
   }, [])
 
   useEffect(() => {

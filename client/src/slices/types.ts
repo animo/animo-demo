@@ -98,6 +98,7 @@ export interface Entity {
   name: string
   icon: string
   imageUrl?: string
+  invitationMethod?: boolean
 }
 
 export interface Colors {

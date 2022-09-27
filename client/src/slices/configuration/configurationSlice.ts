@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface ConfigurationState {
-  invitationMethod: string
+  invitationMethod: boolean
 }
 
 const initialState: ConfigurationState = {
-  invitationMethod: 'legacy',
+  invitationMethod: false,
 }
 
 const configurationSlice = createSlice({
@@ -13,7 +13,7 @@ const configurationSlice = createSlice({
   initialState,
   reducers: {
     setinvitationMethod: (state, action) => {
-      state.invitationMethod = action.payload === 'oob' ? 'oob' : 'legacy'
+      state.invitationMethod = action.payload === 'oob' ? true : false
     },
   },
 })
