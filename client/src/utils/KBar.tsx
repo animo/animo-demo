@@ -6,7 +6,7 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
-import { setUseLegacyInvitation } from '../slices/configuration/configurationSlice'
+import { setUseLegacyInvitations } from '../slices/configuration/configurationSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
@@ -91,14 +91,14 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'issue-credential-protocol-version',
       name: 'Select credential protocol version',
-      keywords: 'issue-credential-protocol-version',
+      keywords: 'issue credential protocol version',
       section: '',
       parent: 'configuration',
     },
     {
       id: 'issue-credential-protocol-version-1',
       name: 'v1',
-      keywords: 'issue-credential-protocol-version-1',
+      keywords: 'issue credential protocol version 1',
       section: '',
       perform: () => {
         alert('Credential Protocol Version 1 selected')
@@ -108,7 +108,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'issue-credential-protocol-version-2',
       name: 'v2',
-      keywords: 'issue-credential-protocol-version-2',
+      keywords: 'issue credential protocol version 2',
       section: '',
       perform: () => {
         alert('Credential Protocol Version 2 selected')
@@ -118,14 +118,14 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'present-proof-protocol-version',
       name: 'Select proof protocol version',
-      keywords: 'present-proof-protocol-version',
+      keywords: 'present proof protocol version',
       section: '',
       parent: 'configuration',
     },
     {
       id: 'present-proof-protocol-version-1',
       name: 'v1',
-      keywords: 'present-proof-protocol-version-1',
+      keywords: 'present proof protocol version 1',
       section: '',
       perform: () => {
         alert('Proof Protocol Version 1 selected')
@@ -135,7 +135,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'present-proof-protocol-version-2',
       name: 'v2',
-      keywords: 'present-proof-protocol-version-2',
+      keywords: 'present proof protocol version 2',
       section: '',
       perform: () => {
         alert('Proof Protocol Version 2 selected')
@@ -143,31 +143,31 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       parent: 'present-proof-protocol-version',
     },
     {
-      id: 'invitation-method',
-      name: 'Select invitation method',
-      keywords: 'invitation-method',
+      id: 'invitation-type',
+      name: 'Change connection invitation type',
+      keywords: 'invitation type',
       section: '',
       parent: 'configuration',
     },
     {
-      id: 'invitation-method-oob',
-      name: 'Out-of-band invitation',
-      keywords: 'invitation-method-oob',
+      id: 'invitation-type-oob',
+      name: 'Out Of Band',
+      keywords: 'invitation type oob',
       section: '',
       perform: () => {
-        dispatch(setUseLegacyInvitation(false))
+        dispatch(setUseLegacyInvitations(false))
       },
-      parent: 'invitation-method',
+      parent: 'invitation-type',
     },
     {
-      id: 'invitation-method-legacy',
-      name: 'Legacy invitation',
-      keywords: 'invitation-method-legacy',
+      id: 'invitation-type-legacy',
+      name: 'Legacy (RFC 0160)',
+      keywords: 'invitation type legacy',
       section: '',
       perform: () => {
-        dispatch(setUseLegacyInvitation(true))
+        dispatch(setUseLegacyInvitations(true))
       },
-      parent: 'invitation-method',
+      parent: 'invitation-type',
     },
     {
       id: 'theme',

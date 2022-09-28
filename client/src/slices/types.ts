@@ -102,7 +102,7 @@ export interface Entity {
 
 export interface CreateInvitationProps {
   entity?: Entity
-  useLegacyInvitation?: boolean
+  useLegacyInvitations?: boolean
 }
 
 export interface Colors {

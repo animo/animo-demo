@@ -1,23 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface ConfigurationState {
-  useLegacyInvitation: boolean
+  useLegacyInvitations: boolean
 }
 
 const initialState: ConfigurationState = {
-  useLegacyInvitation: true,
+  useLegacyInvitations: true,
 }
 
 const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setUseLegacyInvitation: (state, action) => {
-      state.useLegacyInvitation = action.payload
+    setUseLegacyInvitations: (state, action) => {
+      state.useLegacyInvitations = action.payload
     },
   },
 })
 
-export const { setUseLegacyInvitation } = configurationSlice.actions
+export const { setUseLegacyInvitations } = configurationSlice.actions
 
 export default configurationSlice.reducer

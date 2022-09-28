@@ -37,10 +37,10 @@ export const SetupConnection: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
-  const { useLegacyInvitation } = useConfiguration()
+  const { useLegacyInvitations } = useConfiguration()
 
   useEffect(() => {
-    if (!isCompleted) dispatch(createInvitation({ useLegacyInvitation }))
+    if (!isCompleted) dispatch(createInvitation({ useLegacyInvitations }))
   }, [])
 
   useEffect(() => {

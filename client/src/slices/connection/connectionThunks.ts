@@ -19,7 +19,7 @@ export const createInvitation = createAsyncThunk(
   async (createInvitationOptions?: CreateInvitationProps) => {
     const entity = createInvitationOptions?.entity
 
-    const response = createInvitationOptions?.useLegacyInvitation
+    const response = createInvitationOptions?.useLegacyInvitations
       ? await Api.createLegacyInvitation(entity?.name, entity?.imageUrl)
       : await Api.createOobInvitation(entity?.name, entity?.imageUrl)
 
