@@ -12,7 +12,7 @@ const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setLegacyInvitation: (state, action) => {
+    setUseLegacyInvitation: (state, action) => {
       state.useLegacyInvitation = action.payload
     },
   },
