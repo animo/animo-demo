@@ -79,7 +79,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       parent: 'configuration',
     },
     {
-      id: 'BCovrin',
+      id: 'bcovrin',
       name: 'BCovrin',
       keywords: 'BCovrin',
       section: '',
