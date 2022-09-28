@@ -3,9 +3,13 @@ import type { AxiosResponse } from 'axios'
 
 import { apiCall } from './BaseUrl'
 
-export const issueCredential = async (connectionId: string, data: CredentialData): Promise<AxiosResponse> => {
+export const issueCredential = async (
+  connectionId: string,
+  data: CredentialData,
+  protocolVersion: 'v1' | 'v2'
+): Promise<AxiosResponse> => {
   return apiCall.post(`/credentials/offer-credential`, {
-    protocolVersion: 'v1',
+    protocolVersion: protocolVersion,
     connectionId: connectionId,
     credentialFormats: {
       indy: {

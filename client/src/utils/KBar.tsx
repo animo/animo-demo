@@ -1,3 +1,5 @@
+import type { ActionImpl } from 'kbar'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch } from 'kbar'
 import { useEffect, useState } from 'react'
@@ -7,6 +9,7 @@ import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
 import { setUseLegacyInvitations } from '../slices/configuration/configurationSlice'
+import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
@@ -97,21 +100,21 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'issue-credential-protocol-version-1',
-      name: 'v1',
+      name: 'V1',
       keywords: 'issue credential protocol version 1',
       section: '',
       perform: () => {
-        alert('Credential Protocol Version 1 selected')
+        dispatch(setProtocolVersion('v1'))
       },
       parent: 'issue-credential-protocol-version',
     },
     {
       id: 'issue-credential-protocol-version-2',
-      name: 'v2',
+      name: 'V2',
       keywords: 'issue credential protocol version 2',
       section: '',
       perform: () => {
-        alert('Credential Protocol Version 2 selected')
+        dispatch(setProtocolVersion('v2'))
       },
       parent: 'issue-credential-protocol-version',
     },
@@ -164,9 +167,10 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       name: 'Legacy (RFC 0160)',
       keywords: 'invitation type legacy',
       section: '',
-      perform: () => {
+      perform: (action: ActionImpl) => {
         dispatch(setUseLegacyInvitations(true))
       },
+      isActive: true,
       parent: 'invitation-type',
     },
     {
