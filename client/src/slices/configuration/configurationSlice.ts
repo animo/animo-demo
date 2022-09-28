@@ -18,6 +18,6 @@ const configurationSlice = createSlice({
   },
 })
 
-export const { setLegacyInvitation } = configurationSlice.actions
+export const { setUseLegacyInvitation } = configurationSlice.actions
 
 export default configurationSlice.reducer

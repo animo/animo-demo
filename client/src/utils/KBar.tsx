@@ -6,7 +6,7 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
-import { setLegacyInvitation } from '../slices/configuration/configurationSlice'
+import { setUseLegacyInvitation } from '../slices/configuration/configurationSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
@@ -80,11 +80,11 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'bcovrin',
-      name: 'BCovrin',
-      keywords: 'BCovrin',
+      name: 'BCovrin Test',
+      keywords: 'bcovrin',
       section: '',
       perform: () => {
-        alert('BCovrin ledger selected!')
+        alert('BCovrin Test ledger selected!')
       },
       parent: 'ledger',
     },
@@ -155,7 +155,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       keywords: 'invitation-method-oob',
       section: '',
       perform: () => {
-        dispatch(setLegacyInvitation(false))
+        dispatch(setUseLegacyInvitation(false))
       },
       parent: 'invitation-method',
     },
@@ -165,7 +165,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       keywords: 'invitation-method-legacy',
       section: '',
       perform: () => {
-        dispatch(setLegacyInvitation(true))
+        dispatch(setUseLegacyInvitation(true))
       },
       parent: 'invitation-method',
     },
