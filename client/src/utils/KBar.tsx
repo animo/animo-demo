@@ -1,5 +1,3 @@
-import type { ActionImpl } from 'kbar'
-
 import { AnimatePresence, motion } from 'framer-motion'
 import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch } from 'kbar'
 import { useEffect, useState } from 'react'
@@ -8,7 +6,7 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
-import { setUseLegacyInvitations } from '../slices/configuration/configurationSlice'
+import { setUseLegacyInvitations } from '../slices/connection/connectionSlice'
 import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
@@ -88,6 +86,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('BCovrin Test ledger selected!')
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'ledger',
     },
@@ -105,6 +104,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setProtocolVersion('v1'))
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'issue-credential-protocol-version',
     },
@@ -115,6 +115,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setProtocolVersion('v2'))
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'issue-credential-protocol-version',
     },
@@ -132,6 +133,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('Proof Protocol Version 1 selected')
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'present-proof-protocol-version',
     },
@@ -142,6 +144,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('Proof Protocol Version 2 selected')
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'present-proof-protocol-version',
     },
@@ -159,6 +162,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setUseLegacyInvitations(false))
+        dispatch({ type: 'demo/RESET' })
       },
       parent: 'invitation-type',
     },
@@ -167,8 +171,9 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       name: 'Legacy (RFC 0160)',
       keywords: 'invitation type legacy',
       section: '',
-      perform: (action: ActionImpl) => {
+      perform: () => {
         dispatch(setUseLegacyInvitations(true))
+        dispatch({ type: 'demo/RESET' })
       },
       isActive: true,
       parent: 'invitation-type',

@@ -10,7 +10,7 @@ import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
-import { useConfiguration } from '../../../slices/configuration/configurationSelectors'
+import { useConnection } from '../../../slices/connection/connectionSelectors'
 import {
   createInvitation,
   fetchConnectionById,
@@ -37,7 +37,7 @@ export const SetupConnection: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
-  const { useLegacyInvitations } = useConfiguration()
+  const { useLegacyInvitations } = useConnection()
 
   useEffect(() => {
     if (!isCompleted) dispatch(createInvitation({ useLegacyInvitations }))

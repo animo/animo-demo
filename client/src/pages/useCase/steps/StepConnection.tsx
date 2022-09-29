@@ -10,7 +10,7 @@ import { fade, fadeX } from '../../../FramerAnimations'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
-import { useConfiguration } from '../../../slices/configuration/configurationSelectors'
+import { useConnection } from '../../../slices/connection/connectionSelectors'
 import {
   createInvitation,
   fetchConnectionById,
@@ -28,7 +28,7 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   const dispatch = useAppDispatch()
   const { id, state, invitationUrl, outOfBandId } = connection
   const isCompleted = state === 'response-sent' || state === 'completed'
-  const { useLegacyInvitations } = useConfiguration()
+  const { useLegacyInvitations } = useConnection()
 
   useEffect(() => {
     if (!isCompleted) {
