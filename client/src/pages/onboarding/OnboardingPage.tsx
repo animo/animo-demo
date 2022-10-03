@@ -41,7 +41,6 @@ export const OnboardingPage: React.FC = () => {
       dispatch(fetchAllUseCasesByCharId(currentCharacter.id))
       navigate('/dashboard')
     } else {
-      dispatch({ type: 'demo/RESET' })
       dispatch(fetchWallets())
       dispatch(fetchAllCharacters())
       setMounted(true)

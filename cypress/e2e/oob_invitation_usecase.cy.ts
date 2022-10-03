@@ -3,13 +3,24 @@ const TEST_AGENT_URL = 'http://localhost:9000'
 
 describe('UseCase Page', () => {
   it('successfully completes school use case', () => {
-    cy.visit('/demo')
+    cy.visit('/')
+    cy.get('[data-cy=try-demo-button]').click()
+
+    const shortcut = Cypress.platform === 'darwin' ? 'command+k' : 'ctrl+k'
+    cy.get('body').type(`{${shortcut}}`)
+    cy.get('[data-cy=configuration]')
+      .click()
+      .get('[data-cy=invitation-type]')
+      .click()
+      .get('[data-cy=invitation-type-oob]')
+      .click()
+
     cy.get('[data-cy=next-onboarding-step]').click()
     cy.get('[data-cy=use-wallet]').first().click()
     cy.get('[data-cy=small-button]').click()
 
     cy.get('[data-cy=select-char]').first().click()
-    cy.intercept('POST', `${API_URL}/oob/create-legacy-invitation`).as('createInvitation')
+    cy.intercept('POST', `${API_URL}/oob/create-invitation`).as('createInvitation')
     cy.get('[data-cy=next-onboarding-step]').click()
 
     cy.wait('@createInvitation').then((interception) => {
@@ -88,7 +99,7 @@ describe('UseCase Page', () => {
         const record = response.body.find((x) => x.threadId === threadId && x.state === 'request-received')
         cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`).then(() => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(3000) // wait for the test agent request to be processed
+          cy.wait(5000) // wait for the test agent request to be processed
           cy.get('[data-cy=section')
           cy.get('[data-cy="small-button"]').click()
         })
@@ -113,7 +124,7 @@ describe('UseCase Page', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(3000) // wait for the test agent request to be processed
+        cy.wait(5000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((x) => x.threadId === threadId)
           cy.wrap(cred).its('state').should('equal', 'done')

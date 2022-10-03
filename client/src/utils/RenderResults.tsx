@@ -28,6 +28,7 @@ const ResultItem = forwardRef(
 
     return (
       <div
+        data-cy={action.id}
         ref={ref}
         style={{
           padding: '12px 16px',

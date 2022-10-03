@@ -68,7 +68,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'configuration',
       name: 'Choose demo configuration options...',
-      shortcut: ['o'],
       keywords: 'configuration',
       section: 'Configuration',
     },
@@ -86,7 +85,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('BCovrin Test ledger selected!')
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'ledger',
     },
@@ -104,7 +102,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setProtocolVersion('v1'))
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'issue-credential-protocol-version',
     },
@@ -115,7 +112,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setProtocolVersion('v2'))
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'issue-credential-protocol-version',
     },
@@ -133,7 +129,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('Proof Protocol Version 1 selected')
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'present-proof-protocol-version',
     },
@@ -144,7 +139,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         alert('Proof Protocol Version 2 selected')
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'present-proof-protocol-version',
     },
@@ -162,7 +156,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setUseLegacyInvitations(false))
-        dispatch({ type: 'demo/RESET' })
       },
       parent: 'invitation-type',
     },
@@ -173,9 +166,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       section: '',
       perform: () => {
         dispatch(setUseLegacyInvitations(true))
-        dispatch({ type: 'demo/RESET' })
       },
-      isActive: true,
       parent: 'invitation-type',
     },
     {

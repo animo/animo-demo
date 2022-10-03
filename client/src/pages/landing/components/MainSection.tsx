@@ -83,6 +83,7 @@ export const MainSection: React.FC = () => {
       </div>
       <div className="flex flex-row justify-start text-base sxl:text-lg  font-normal mt-6">
         <motion.button
+          data-cy="try-demo-button"
           variants={fadeDelay}
           whileHover={buttonHover}
           className="bg-animo-black dark:bg-animo-white text-animo-white dark:text-animo-black py-3 px-5 rounded-lg font-semibold shadow-sm dark:shadow-none select-none "
