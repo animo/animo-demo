@@ -1,7 +1,7 @@
 const API_URL = Cypress.env('apiUrl')
 const TEST_AGENT_URL = 'http://localhost:9000'
 
-describe('UseCase Page', () => {
+describe('Onboarding demo test using legacy invitation', () => {
   it('successfully completes school use case', () => {
     cy.visit('/demo')
     cy.get('[data-cy=next-onboarding-step]').click()
@@ -88,7 +88,7 @@ describe('UseCase Page', () => {
         const record = response.body.find((x) => x.threadId === threadId && x.state === 'request-received')
         cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`).then(() => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(10000) // wait for the test agent request to be processed
+          cy.wait(5000) // wait for the test agent request to be processed
           cy.get('[data-cy=section')
           cy.get('[data-cy="small-button"]').click()
         })
@@ -113,7 +113,7 @@ describe('UseCase Page', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(10000) // wait for the test agent request to be processed
+        cy.wait(5000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((x) => x.threadId === threadId)
           cy.wrap(cred).its('state').should('equal', 'done')

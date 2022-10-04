@@ -62,12 +62,12 @@ export const DashboardPage: React.FC = () => {
   const ERROR_DESCRIPTION = `That's not gone well. Please restart the demo.`
   const routeError = () => {
     navigate('/demo')
-    dispatch({ type: 'demo/RESET' })
+    dispatch({ type: 'demo/resetState' })
   }
 
   const completeDemo = () => {
     navigate('/')
-    dispatch({ type: 'demo/RESET' })
+    dispatch({ type: 'demo/resetState' })
 
     if (currentCharacter)
       trackEvent('demo-character-completed', {

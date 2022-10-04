@@ -67,6 +67,12 @@ const connectionSlice = createSlice({
         state.invitationUrl = undefined
         state.isLoading = false
       })
+      .addCase('demo/resetState', (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const useLegacyInvitations = state.useLegacyInvitations
+        state = initialState
+        state.useLegacyInvitations = useLegacyInvitations
+      })
   },
 })
 

@@ -62,6 +62,10 @@ const useCaseSlice = createSlice({
         state.sectionCount = 0
         state.stepCount = 0
       })
+      .addCase('demo/resetState', (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        state = initialState
+      })
   },
 })
 

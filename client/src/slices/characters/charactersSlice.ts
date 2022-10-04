@@ -44,6 +44,10 @@ const characterSlice = createSlice({
         state.isLoading = false
         state.currentCharacter = action.payload
       })
+      .addCase('demo/resetState', (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        state = initialState
+      })
   },
 })
 

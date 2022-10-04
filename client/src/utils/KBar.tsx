@@ -71,23 +71,23 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       keywords: 'configuration',
       section: 'Configuration',
     },
-    {
-      id: 'ledger',
-      name: 'Select ledger',
-      keywords: 'ledger',
-      section: '',
-      parent: 'configuration',
-    },
-    {
-      id: 'bcovrin',
-      name: 'BCovrin Test',
-      keywords: 'bcovrin',
-      section: '',
-      perform: () => {
-        alert('BCovrin Test ledger selected!')
-      },
-      parent: 'ledger',
-    },
+    // {
+    //   id: 'ledger',
+    //   name: 'Select ledger',
+    //   keywords: 'ledger',
+    //   section: '',
+    //   parent: 'configuration',
+    // },
+    // {
+    //   id: 'bcovrin',
+    //   name: 'BCovrin Test',
+    //   keywords: 'bcovrin',
+    //   section: '',
+    //   perform: () => {
+    //     alert('BCovrin Test ledger selected!')
+    //   },
+    //   parent: 'ledger',
+    // },
     {
       id: 'issue-credential-protocol-version',
       name: 'Select credential protocol version',
@@ -115,33 +115,33 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
       parent: 'issue-credential-protocol-version',
     },
-    {
-      id: 'present-proof-protocol-version',
-      name: 'Select proof protocol version',
-      keywords: 'present proof protocol version',
-      section: '',
-      parent: 'configuration',
-    },
-    {
-      id: 'present-proof-protocol-version-1',
-      name: 'v1',
-      keywords: 'present proof protocol version 1',
-      section: '',
-      perform: () => {
-        alert('Proof Protocol Version 1 selected')
-      },
-      parent: 'present-proof-protocol-version',
-    },
-    {
-      id: 'present-proof-protocol-version-2',
-      name: 'v2',
-      keywords: 'present proof protocol version 2',
-      section: '',
-      perform: () => {
-        alert('Proof Protocol Version 2 selected')
-      },
-      parent: 'present-proof-protocol-version',
-    },
+    // {
+    //   id: 'present-proof-protocol-version',
+    //   name: 'Select proof protocol version',
+    //   keywords: 'present proof protocol version',
+    //   section: '',
+    //   parent: 'configuration',
+    // },
+    // {
+    //   id: 'present-proof-protocol-version-1',
+    //   name: 'v1',
+    //   keywords: 'present proof protocol version 1',
+    //   section: '',
+    //   perform: () => {
+    //     alert('Proof Protocol Version 1 selected')
+    //   },
+    //   parent: 'present-proof-protocol-version',
+    // },
+    // {
+    //   id: 'present-proof-protocol-version-2',
+    //   name: 'v2',
+    //   keywords: 'present proof protocol version 2',
+    //   section: '',
+    //   perform: () => {
+    //     alert('Proof Protocol Version 2 selected')
+    //   },
+    //   parent: 'present-proof-protocol-version',
+    // },
     {
       id: 'invitation-type',
       name: 'Change connection invitation type',

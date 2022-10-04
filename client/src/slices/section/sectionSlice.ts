@@ -23,9 +23,14 @@ const sectionSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase('clearUseCase', (state) => {
-      state.section = undefined
-    })
+    builder
+      .addCase('clearUseCase', (state) => {
+        state.section = undefined
+      })
+      .addCase('demo/resetState', (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        state = initialState
+      })
   },
 })
 

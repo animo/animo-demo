@@ -1,7 +1,7 @@
 const API_URL = Cypress.env('apiUrl')
 const TEST_AGENT_URL = 'http://localhost:9000'
 
-describe('UseCase Page', () => {
+describe('Onboarding demo test using out of band invitation', () => {
   it('successfully completes school use case', () => {
     cy.visit('/')
     cy.get('[data-cy=try-demo-button]').click()
@@ -69,7 +69,6 @@ describe('UseCase Page', () => {
 
     cy.get('[data-cy=select-use-case]').first().click()
 
-    // cy.intercept('POST', `${API_URL}/oob/create-invitation`).as('createInvitation')
     cy.get('[data-cy=start-container]')
     cy.get('[data-cy=small-button]').click()
 
