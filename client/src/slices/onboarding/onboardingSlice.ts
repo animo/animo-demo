@@ -36,8 +36,7 @@ const onboardingSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase('demo/resetState', (state) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      state = initialState
+      return initialState
     })
   },
 })
