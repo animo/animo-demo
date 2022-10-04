@@ -93,10 +93,10 @@ const credentialSlice = createSlice({
         state.isLoading = false
       })
       .addCase('demo/resetState', (state) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const protocolVersion = state.protocolVersion
-        state = initialState
-        state.protocolVersion = protocolVersion
+        return {
+            ...initialState,
+            protocolVersion: state.protocolVersion
+       }
       })
   },
 })
