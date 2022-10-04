@@ -94,9 +94,9 @@ const credentialSlice = createSlice({
       })
       .addCase('demo/resetState', (state) => {
         return {
-            ...initialState,
-            protocolVersion: state.protocolVersion
-       }
+          ...initialState,
+          protocolVersion: state.protocolVersion,
+        }
       })
   },
 })

@@ -54,9 +54,8 @@ const proofSlice = createSlice({
         state.proof = undefined
         state.isLoading = false
       })
-      .addCase('demo/resetState', (state) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        state = initialState
+      .addCase('demo/resetState', () => {
+        return initialState
       })
   },
 })

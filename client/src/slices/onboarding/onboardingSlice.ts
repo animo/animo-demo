@@ -35,7 +35,7 @@ const onboardingSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase('demo/resetState', (state) => {
+    builder.addCase('demo/resetState', () => {
       return initialState
     })
   },
