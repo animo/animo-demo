@@ -20,7 +20,7 @@ describe('Onboarding demo test using out of band invitation', () => {
     cy.get('[data-cy=small-button]').click()
 
     cy.get('[data-cy=select-char]').first().click()
-    cy.intercept('POST', `${API_URL}/oob/create-invitation`).as('createInvitation')
+    cy.intercept('POST', `${API_URL}/oob/create-legacy-invitation`).as('createInvitation')
     cy.get('[data-cy=next-onboarding-step]').click()
 
     cy.wait('@createInvitation').then((interception) => {
