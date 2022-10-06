@@ -67,7 +67,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'resetState',
-      name: 'Reset state (not including configuration options chosen from this menu',
+      name: 'Reset demo',
       shortcut: ['s'],
       keywords: 'Reset state',
       perform: () => {
