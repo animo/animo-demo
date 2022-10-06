@@ -62,6 +62,9 @@ const useCaseSlice = createSlice({
         state.sectionCount = 0
         state.stepCount = 0
       })
+      .addCase('demo/resetState', () => {
+        return initialState
+      })
   },
 })
 

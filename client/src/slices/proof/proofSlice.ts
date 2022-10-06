@@ -54,6 +54,9 @@ const proofSlice = createSlice({
         state.proof = undefined
         state.isLoading = false
       })
+      .addCase('demo/resetState', () => {
+        return initialState
+      })
   },
 })
 

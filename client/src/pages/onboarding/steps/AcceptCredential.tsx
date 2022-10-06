@@ -49,10 +49,11 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )
 
+  let { protocolVersion } = useCredentials()
   useEffect(() => {
     if (credentials.length === 0) {
       currentCharacter.starterCredentials.forEach((item) => {
-        dispatch(issueCredential({ connectionId: connectionId, cred: item }))
+        dispatch(issueCredential({ connectionId: connectionId, cred: item, protocolVersion }))
         trackEvent('credential-issued')
       })
       setCredentialsIssued(true)
@@ -94,8 +95,10 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
 
   const routeError = () => {
     navigate('/demo')
-    dispatch({ type: 'demo/RESET' })
+    dispatch({ type: 'demo/resetState' })
   }
+
+  protocolVersion = useCredentials().protocolVersion
 
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
@@ -110,7 +113,8 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           )
         })
 
-        if (newCredential) dispatch(issueCredential({ connectionId: connectionId, cred: newCredential }))
+        if (newCredential)
+          dispatch(issueCredential({ connectionId: connectionId, cred: newCredential, protocolVersion }))
       }
     })
     closeFailedRequestModal()

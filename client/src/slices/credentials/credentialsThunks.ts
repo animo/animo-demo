@@ -11,8 +11,8 @@ export const fetchCredentialsByConId = createAsyncThunk('credentials/fetchAllByC
 
 export const issueCredential = createAsyncThunk(
   'credentials/issueCredential',
-  async (data: { connectionId: string; cred: CredentialData }) => {
-    const response = await Api.issueCredential(data.connectionId, data.cred)
+  async (data: { connectionId: string; cred: CredentialData; protocolVersion: 'v1' | 'v2' }) => {
+    const response = await Api.issueCredential(data.connectionId, data.cred, data.protocolVersion)
     return response.data
   }
 )

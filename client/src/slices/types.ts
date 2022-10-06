@@ -100,6 +100,11 @@ export interface Entity {
   imageUrl?: string
 }
 
+export interface CreateInvitationProps {
+  entity?: Entity
+  useLegacyInvitations?: boolean
+}
+
 export interface Colors {
   primary: string
   secondary: string

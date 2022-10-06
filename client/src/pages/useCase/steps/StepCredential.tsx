@@ -11,6 +11,7 @@ import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
+import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
 import {
   deleteCredentialById,
   fetchCredentialsByConId,
@@ -42,6 +43,8 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   )
   const [issuedCredData, setIssuedCredData] = useState<CredentialData[]>([])
 
+  let { protocolVersion } = useCredentials()
+
   const issueCreds = () => {
     // get attributes from proof
     let attributes: Attribute[] = []
@@ -60,7 +63,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
 
     // issue credentials
     credentialData.forEach((item) => {
-      dispatch(issueCredential({ connectionId: connectionId, cred: item }))
+      dispatch(issueCredential({ connectionId: connectionId, cred: item, protocolVersion }))
       trackEvent('credential-issued')
     })
   }
@@ -76,6 +79,8 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     !credentialsAccepted ? 1000 : null
   )
 
+  protocolVersion = useCredentials().protocolVersion
+
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
       if (cred.state !== 'credential-issued' && cred.state !== 'done') {
@@ -88,7 +93,8 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
           )
         })
-        if (newCredential) dispatch(issueCredential({ connectionId: connectionId, cred: newCredential }))
+        if (newCredential)
+          dispatch(issueCredential({ connectionId: connectionId, cred: newCredential, protocolVersion }))
       }
     })
     closeFailedRequestModal()
