@@ -95,7 +95,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
 
   const routeError = () => {
     navigate('/demo')
-    dispatch({ type: 'demo/resetState' })
+    dispatch({ type: 'demo/resetDemo' })
   }
 
   protocolVersion = useCredentials().protocolVersion

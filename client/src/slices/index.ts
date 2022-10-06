@@ -36,10 +36,6 @@ const pReducer = (state: any, action: any) => {
     return rootReducer(action.payload, action)
   }
 
-  if (action.type === 'demo/RESET') {
-    return rootReducer(undefined, action)
-  }
-
   return rootReducer(state, action)
 }
 

@@ -219,7 +219,7 @@ export const OnboardingContainer: React.FC<Props> = ({
       dispatch(fetchAllUseCasesByCharId(currentCharacter.id))
     } else {
       // something went wrong so reset
-      dispatch({ type: 'demo/resetState' })
+      dispatch({ type: 'demo/resetDemo' })
     }
   }
 
@@ -235,7 +235,7 @@ export const OnboardingContainer: React.FC<Props> = ({
 
   const leave = () => {
     navigate('/')
-    dispatch({ type: 'demo/resetState' })
+    dispatch({ type: 'demo/resetDemo' })
   }
 
   return (

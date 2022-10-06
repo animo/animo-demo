@@ -92,11 +92,14 @@ const credentialSlice = createSlice({
         state.credentials = []
         state.isLoading = false
       })
-      .addCase('demo/resetState', (state) => {
+      .addCase('demo/resetDemo', (state) => {
         return {
           ...initialState,
           protocolVersion: state.protocolVersion,
         }
+      })
+      .addCase('demo/resetConfiguration', (state) => {
+        state.protocolVersion = initialState.protocolVersion
       })
   },
 })

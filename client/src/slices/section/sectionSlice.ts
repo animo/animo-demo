@@ -27,7 +27,7 @@ const sectionSlice = createSlice({
       .addCase('clearUseCase', (state) => {
         state.section = undefined
       })
-      .addCase('demo/resetState', () => {
+      .addCase('demo/resetDemo', () => {
         return initialState
       })
   },

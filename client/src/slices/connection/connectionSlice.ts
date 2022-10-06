@@ -67,11 +67,14 @@ const connectionSlice = createSlice({
         state.invitationUrl = undefined
         state.isLoading = false
       })
-      .addCase('demo/resetState', (state) => {
+      .addCase('demo/resetDemo', (state) => {
         return {
           ...initialState,
           useLegacyInvitations: state.useLegacyInvitations,
         }
+      })
+      .addCase('demo/resetConfiguration', (state) => {
+        state.useLegacyInvitations = initialState.useLegacyInvitations
       })
   },
 })
