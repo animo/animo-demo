@@ -56,11 +56,22 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'resetDemo',
-      name: 'Reset demo',
+      name: 'Reset demo (including configuration options chosen from this menu)',
       shortcut: ['r'],
       keywords: 'Reset demo',
       perform: () => {
         dispatch({ type: 'demo/RESET' })
+        dispatch(fetchWallets())
+        dispatch(fetchAllCharacters())
+      },
+    },
+    {
+      id: 'resetState',
+      name: 'Reset state (not including configuration options chosen from this menu',
+      shortcut: ['s'],
+      keywords: 'Reset state',
+      perform: () => {
+        dispatch({ type: 'demo/resetState' })
         dispatch(fetchWallets())
         dispatch(fetchAllCharacters())
       },

@@ -1,19 +1,10 @@
 const API_URL = Cypress.env('apiUrl')
 const TEST_AGENT_URL = 'http://localhost:9000'
 
-describe('Onboarding demo test using out of band invitation', () => {
+describe('Onboarding demo test using issue credential protocol version 1', () => {
   it('successfully completes school use case', () => {
     cy.visit('/')
     cy.get('[data-cy=try-demo-button]').click()
-
-    const shortcut = Cypress.platform === 'darwin' ? 'command+k' : 'ctrl+k'
-    cy.get('body').type(`{${shortcut}}`)
-    cy.get('[data-cy=configuration]')
-      .click()
-      .get('[data-cy=issue-credential-protocol-version]')
-      .click()
-      .get('[data-cy=issue-credential-protocol-version-1]')
-      .click()
 
     cy.get('[data-cy=next-onboarding-step]').click()
     cy.get('[data-cy=use-wallet]').first().click()
@@ -54,7 +45,7 @@ describe('Onboarding demo test using out of band invitation', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(3000) // wait for the test agent request to be processed
+        cy.wait(5000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((credentialRecord) => credentialRecord.threadId === threadId)
           cy.wrap(cred).its('state').should('equal', 'done')

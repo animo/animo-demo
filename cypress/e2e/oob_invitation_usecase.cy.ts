@@ -54,7 +54,7 @@ describe('Onboarding demo test using out of band invitation', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(3000) // wait for the test agent request to be processed
+        cy.wait(5000) // wait for the test agent request to be processed
         cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
           const cred = resp.body.find((credentialRecord) => credentialRecord.threadId === threadId)
           cy.wrap(cred).its('state').should('equal', 'done')
