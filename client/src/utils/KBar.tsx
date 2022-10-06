@@ -78,7 +78,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'configuration',
-      name: 'Choose demo configuration options...',
+      name: 'Change demo configuration...',
       keywords: 'configuration',
       section: 'Configuration',
     },
