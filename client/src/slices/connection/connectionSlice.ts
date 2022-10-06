@@ -8,6 +8,7 @@ export interface ConnectionState {
   invitationUrl?: string
   outOfBandId?: string
   isLoading: boolean
+  useLegacyInvitations: boolean
 }
 
 const initialState: ConnectionState = {
@@ -16,6 +17,7 @@ const initialState: ConnectionState = {
   invitationUrl: undefined,
   outOfBandId: undefined,
   isLoading: false,
+  useLegacyInvitations: true,
 }
 
 const connectionSlice = createSlice({
@@ -27,6 +29,9 @@ const connectionSlice = createSlice({
       state.state = undefined
       state.invitationUrl = undefined
       state.isLoading = false
+    },
+    setUseLegacyInvitations: (state, action) => {
+      state.useLegacyInvitations = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -62,9 +67,15 @@ const connectionSlice = createSlice({
         state.invitationUrl = undefined
         state.isLoading = false
       })
+      .addCase('demo/resetState', (state) => {
+        return {
+          ...initialState,
+          useLegacyInvitations: state.useLegacyInvitations,
+        }
+      })
   },
 })
 
-export const { clearConnection } = connectionSlice.actions
+export const { clearConnection, setUseLegacyInvitations } = connectionSlice.actions
 
 export default connectionSlice.reducer

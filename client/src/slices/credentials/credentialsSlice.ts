@@ -15,6 +15,7 @@ interface CredentialState {
   issuedCredentials: CredentialExchangeRecord[]
   isLoading: boolean
   isIssueCredentialLoading: boolean
+  protocolVersion: 'v1' | 'v2'
   error: SerializedError | undefined
 }
 
@@ -23,6 +24,7 @@ const initialState: CredentialState = {
   issuedCredentials: [],
   isLoading: true,
   isIssueCredentialLoading: true,
+  protocolVersion: 'v1',
   error: undefined,
 }
 
@@ -35,6 +37,9 @@ const credentialSlice = createSlice({
         (x) => (x.state === 'credential-issued' || x.state === 'done') && state.issuedCredentials.push(x)
       )
       state.credentials = []
+    },
+    setProtocolVersion: (state, action) => {
+      state.protocolVersion = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -87,9 +92,15 @@ const credentialSlice = createSlice({
         state.credentials = []
         state.isLoading = false
       })
+      .addCase('demo/resetState', (state) => {
+        return {
+          ...initialState,
+          protocolVersion: state.protocolVersion,
+        }
+      })
   },
 })
 
-export const { clearCredentials } = credentialSlice.actions
+export const { clearCredentials, setProtocolVersion } = credentialSlice.actions
 
 export default credentialSlice.reducer

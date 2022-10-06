@@ -27,6 +27,9 @@ const characterSlice = createSlice({
         state.isLoading = false
         state.wallets = action.payload
       })
+      .addCase('demo/resetState', () => {
+        return initialState
+      })
   },
 })
 

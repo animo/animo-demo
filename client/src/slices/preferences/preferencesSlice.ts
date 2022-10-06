@@ -50,7 +50,7 @@ const preferencesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase('demo/RESET', (state) => {
+      .addCase('demo/resetState', (state) => {
         state.darkMode = localStorage.getItem('theme') === 'dark'
         state.connectionDate = undefined
       })

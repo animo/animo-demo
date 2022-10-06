@@ -6,6 +6,8 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
+import { setUseLegacyInvitations } from '../slices/connection/connectionSlice'
+import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
@@ -54,7 +56,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
     {
       id: 'resetDemo',
-      name: 'Reset demo',
+      name: 'Reset demo (including configuration options)',
       shortcut: ['r'],
       keywords: 'Reset demo',
       perform: () => {
@@ -64,8 +66,80 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
     },
     {
+      id: 'resetState',
+      name: 'Reset demo',
+      shortcut: ['s'],
+      keywords: 'Reset state',
+      perform: () => {
+        dispatch({ type: 'demo/resetState' })
+        dispatch(fetchWallets())
+        dispatch(fetchAllCharacters())
+      },
+    },
+    {
+      id: 'configuration',
+      name: 'Change demo configuration...',
+      keywords: 'configuration',
+      section: 'Configuration',
+    },
+    {
+      id: 'issue-credential-protocol-version',
+      name: 'Select credential protocol version',
+      keywords: 'issue credential protocol version',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'issue-credential-protocol-version-1',
+      name: 'V1',
+      keywords: 'issue credential protocol version 1',
+      section: '',
+      perform: () => {
+        dispatch(setProtocolVersion('v1'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'issue-credential-protocol-version-2',
+      name: 'V2',
+      keywords: 'issue credential protocol version 2',
+      section: '',
+      perform: () => {
+        dispatch(setProtocolVersion('v2'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'invitation-type',
+      name: 'Change connection invitation type',
+      keywords: 'invitation type',
+      section: '',
+      parent: 'configuration',
+    },
+    {
+      id: 'invitation-type-oob',
+      name: 'Out Of Band',
+      keywords: 'invitation type oob',
+      section: '',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(false))
+      },
+      parent: 'invitation-type',
+    },
+    {
+      id: 'invitation-type-legacy',
+      name: 'Legacy (RFC 0160)',
+      keywords: 'invitation type legacy',
+      section: '',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(true))
+      },
+      parent: 'invitation-type',
+    },
+    {
       id: 'theme',
       name: 'Change theme…',
+      shortcut: ['t'],
       keywords: 'interface color dark light',
       section: 'Preferences',
     },
