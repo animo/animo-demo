@@ -42,7 +42,7 @@ function App() {
     if (connectionDate && lastServerReset) {
       if (connectionDate < lastServerReset) {
         navigate('/')
-        dispatch({ type: 'demo/resetState' })
+        dispatch({ type: 'demo/resetDemo' })
       }
     }
   }, [connectionDate, lastServerReset])

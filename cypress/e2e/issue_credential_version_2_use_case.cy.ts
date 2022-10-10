@@ -8,9 +8,7 @@ describe('Onboarding demo test using issue credential protocol version 2', () =>
 
     const shortcut = Cypress.platform === 'darwin' ? 'command+k' : 'ctrl+k'
     cy.get('body').type(`{${shortcut}}`)
-    cy.get('[data-cy=configuration]')
-      .click()
-      .get('[data-cy=issue-credential-protocol-version]')
+    cy.get('[data-cy=issue-credential-protocol-version]')
       .click()
       .get('[data-cy=issue-credential-protocol-version-2]')
       .click()

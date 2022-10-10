@@ -44,7 +44,7 @@ const characterSlice = createSlice({
         state.isLoading = false
         state.currentCharacter = action.payload
       })
-      .addCase('demo/resetState', () => {
+      .addCase('demo/resetDemo', () => {
         return initialState
       })
   },

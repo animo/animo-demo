@@ -8,12 +8,7 @@ describe('Onboarding demo test using out of band invitation', () => {
 
     const shortcut = Cypress.platform === 'darwin' ? 'command+k' : 'ctrl+k'
     cy.get('body').type(`{${shortcut}}`)
-    cy.get('[data-cy=configuration]')
-      .click()
-      .get('[data-cy=invitation-type]')
-      .click()
-      .get('[data-cy=invitation-type-oob]')
-      .click()
+    cy.get('[data-cy=invitation-type]').click().get('[data-cy=invitation-type-oob]').click()
 
     cy.get('[data-cy=next-onboarding-step]').click()
     cy.get('[data-cy=use-wallet]').first().click()

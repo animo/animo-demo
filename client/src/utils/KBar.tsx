@@ -46,6 +46,17 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
     },
     {
+      id: 'resetDemo',
+      name: 'Reset demo',
+      shortcut: ['r'],
+      keywords: 'Reset demo',
+      perform: () => {
+        dispatch({ type: 'demo/resetDemo' })
+        dispatch(fetchWallets())
+        dispatch(fetchAllCharacters())
+      },
+    },
+    {
       id: 'resetDashboard',
       name: 'Reset dashboard',
       shortcut: ['d'],
@@ -55,45 +66,24 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
     },
     {
-      id: 'resetDemo',
-      name: 'Reset demo (including configuration options)',
-      shortcut: ['r'],
-      keywords: 'Reset demo',
+      id: 'resetConfiguration',
+      name: 'Reset configuration',
+      shortcut: ['c'],
+      keywords: 'Reset configuration',
       perform: () => {
-        dispatch({ type: 'demo/RESET' })
-        dispatch(fetchWallets())
-        dispatch(fetchAllCharacters())
+        dispatch({ type: 'demo/resetConfiguration' })
       },
-    },
-    {
-      id: 'resetState',
-      name: 'Reset demo',
-      shortcut: ['s'],
-      keywords: 'Reset state',
-      perform: () => {
-        dispatch({ type: 'demo/resetState' })
-        dispatch(fetchWallets())
-        dispatch(fetchAllCharacters())
-      },
-    },
-    {
-      id: 'configuration',
-      name: 'Change demo configuration...',
-      keywords: 'configuration',
-      section: 'Configuration',
     },
     {
       id: 'issue-credential-protocol-version',
       name: 'Select credential protocol version',
       keywords: 'issue credential protocol version',
-      section: '',
-      parent: 'configuration',
+      section: 'configuration',
     },
     {
       id: 'issue-credential-protocol-version-1',
       name: 'V1',
       keywords: 'issue credential protocol version 1',
-      section: '',
       perform: () => {
         dispatch(setProtocolVersion('v1'))
       },
@@ -103,7 +93,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       id: 'issue-credential-protocol-version-2',
       name: 'V2',
       keywords: 'issue credential protocol version 2',
-      section: '',
       perform: () => {
         dispatch(setProtocolVersion('v2'))
       },
@@ -112,15 +101,13 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'invitation-type',
       name: 'Change connection invitation type',
+      section: 'configuration',
       keywords: 'invitation type',
-      section: '',
-      parent: 'configuration',
     },
     {
       id: 'invitation-type-oob',
       name: 'Out Of Band',
       keywords: 'invitation type oob',
-      section: '',
       perform: () => {
         dispatch(setUseLegacyInvitations(false))
       },
@@ -130,7 +117,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       id: 'invitation-type-legacy',
       name: 'Legacy (RFC 0160)',
       keywords: 'invitation type legacy',
-      section: '',
       perform: () => {
         dispatch(setUseLegacyInvitations(true))
       },
@@ -139,7 +125,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     {
       id: 'theme',
       name: 'Change theme…',
-      shortcut: ['t'],
       keywords: 'interface color dark light',
       section: 'Preferences',
     },
@@ -147,7 +132,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       id: 'darkTheme',
       name: 'Dark',
       keywords: 'dark theme',
-      section: '',
       perform: () => {
         document.documentElement.classList.add('dark')
         dispatch(setDarkMode(true))
@@ -158,7 +142,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       id: 'lightTheme',
       name: 'Light',
       keywords: 'light theme',
-      section: '',
       perform: () => {
         document.documentElement.classList.remove('dark')
         dispatch(setDarkMode(false))
