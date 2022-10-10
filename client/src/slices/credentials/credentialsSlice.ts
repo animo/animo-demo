@@ -16,6 +16,7 @@ interface CredentialState {
   isLoading: boolean
   isIssueCredentialLoading: boolean
   protocolVersion: 'v1' | 'v2'
+  eventReceived: boolean
   error: SerializedError | undefined
 }
 
@@ -25,6 +26,7 @@ const initialState: CredentialState = {
   isLoading: true,
   isIssueCredentialLoading: true,
   protocolVersion: 'v1',
+  eventReceived: false,
   error: undefined,
 }
 
@@ -100,6 +102,10 @@ const credentialSlice = createSlice({
       })
       .addCase('demo/resetConfiguration', (state) => {
         state.protocolVersion = initialState.protocolVersion
+      })
+      .addCase('demo/event', (state) => {
+        state.eventReceived = true // !state.eventReceived
+        alert('Event received!')
       })
   },
 })

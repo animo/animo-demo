@@ -9,6 +9,7 @@ export interface ConnectionState {
   outOfBandId?: string
   isLoading: boolean
   useLegacyInvitations: boolean
+  eventReceived: boolean
 }
 
 const initialState: ConnectionState = {
@@ -18,6 +19,7 @@ const initialState: ConnectionState = {
   outOfBandId: undefined,
   isLoading: false,
   useLegacyInvitations: true,
+  eventReceived: false,
 }
 
 const connectionSlice = createSlice({
@@ -75,6 +77,10 @@ const connectionSlice = createSlice({
       })
       .addCase('demo/resetConfiguration', (state) => {
         state.useLegacyInvitations = initialState.useLegacyInvitations
+      })
+      .addCase('demo/event', (state) => {
+        state.eventReceived = true // !state.eventReceived
+        alert('Event received!')
       })
   },
 })

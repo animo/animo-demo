@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 
+import { listenForEvents } from './api/EventsApi'
 import { useAppDispatch } from './hooks/hooks'
 import { useAnalytics } from './hooks/useAnalytics'
 import { PageNotFound } from './pages/PageNotFound'
@@ -46,6 +47,10 @@ function App() {
       }
     }
   }, [connectionDate, lastServerReset])
+
+  useEffect(() => {
+    listenForEvents()
+  }, [])
 
   return (
     <ThemeProvider>
