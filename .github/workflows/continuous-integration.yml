@@ -34,7 +34,7 @@ jobs:
       - name: Start App
         run: |
           yarn
-          NODE_ENV=test AGENT_WALLET_KEY=ba8e2462-f9ac-4da0-a9c6-99592a7dbc12 REACT_APP_HOST_BACKEND=http://localhost:5000 AGENT_PUBLIC_DID_SEED=testtesttesttesttesttesttesttest yarn dev &
+          NODE_ENV=test AGENT_WALLET_KEY=ba8e2462-f9ac-4da0-a9c6-99592a7dbc12 REACT_APP_HOST_BACKEND=http://localhost:5000 REACT_APP_HOST_WEBSOCKET=ws://localhost:5000 AGENT_PUBLIC_DID_SEED=testtesttesttesttesttesttesttest yarn dev &
 
       - name: Wait for credential defs to be created
         run: sleep 120s
