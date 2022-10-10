@@ -1,5 +1,3 @@
-import WebSocket from 'ws'
-
 import { useAppDispatch } from '../hooks/hooks'
 
 import { wsUrl } from './BaseUrl'
@@ -10,8 +8,9 @@ export const listenForEvents = async (): Promise<void> => {
   const dispatch = useAppDispatch()
 
   const waitForEventPromise = new Promise(() => {
-    client.on('message', (data) => {
-      const event = JSON.parse(data as string)
+    // Listen for events
+    client.addEventListener('message', (data) => {
+      const event = JSON.parse(data as unknown as string)
       dispatch({ type: 'demo/event', action: event })
     })
   })

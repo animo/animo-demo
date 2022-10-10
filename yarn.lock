@@ -3847,7 +3847,6 @@
     "redux" "^4.2.0"
     "redux-persist" "^6.0.0"
     "redux-thunk" "^2.4.1"
-    "ws" "^7.5.3"
 
 "cliui@^6.0.0":
   "integrity" "sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ=="
