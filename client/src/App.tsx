@@ -2,9 +2,10 @@ import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 
-import { listenForEvents } from './api/EventsApi'
+import { wsUrl } from './api/BaseUrl'
 import { useAppDispatch } from './hooks/hooks'
 import { useAnalytics } from './hooks/useAnalytics'
+import { useInterval } from './hooks/useInterval'
 import { PageNotFound } from './pages/PageNotFound'
 import { DashboardPage } from './pages/dashboard/DashboardPage'
 import { LandingPage } from './pages/landing/LandingPage'
@@ -48,9 +49,17 @@ function App() {
     }
   }, [connectionDate, lastServerReset])
 
-  useEffect(() => {
-    listenForEvents()
-  }, [])
+  useInterval(async () => {
+    const client = new WebSocket(wsUrl)
+
+    await new Promise(() => {
+      client.addEventListener('message', (event) => {
+        // eslint-disable-next-line no-console
+        console.log(event.data)
+        dispatch({ type: 'demo/event', action: event })
+      })
+    })
+  }, 1)
 
   return (
     <ThemeProvider>

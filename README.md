@@ -39,9 +39,10 @@ cd client
 cp .env.example .env
 ```
 
-| Variable                 | Description                                                                                                      |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `REACT_APP_HOST_BACKEND` | Used in the frontend application to connect with the backend. Should be `http://localhost:5000` for development. |
+| Variable                   | Description                                                                                                      |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `REACT_APP_HOST_BACKEND`   | Used in the frontend application to connect with the backend. Should be `http://localhost:5000` for development. |
+| `REACT_APP_HOST_WEBSOCKET` | Used in the frontend application to connect with the WebSocket server and listen for events. Should be `ws://localhost:5000` for development. |
 
 ### 🎛️ Server
 

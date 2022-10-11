@@ -105,7 +105,6 @@ const credentialSlice = createSlice({
       })
       .addCase('demo/event', (state) => {
         state.eventReceived = true // !state.eventReceived
-        alert('Event received!')
       })
   },
 })
