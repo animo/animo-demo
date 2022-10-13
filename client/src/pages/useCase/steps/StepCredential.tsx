@@ -2,19 +2,16 @@ import type { Attribute, CredentialData, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { CredentialEventTypes, JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
+import { JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
-import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import { updateCredentialForConnection } from '../../../slices/credentials/credentialsSlice'
 import {
   deleteCredentialById,
   fetchCredentialsByConId,
@@ -81,23 +78,6 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   useEffect(() => {
     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
   }, [connectionEvent, credentialExchangeEvent])
-
-  // useWebhookEvent(
-  //   CredentialEventTypes.CredentialStateChanged,
-  //   (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-  //     if (event.payload.credentialRecord.connectionId === connectionId) {
-  //       dispatch(updateCredentialForConnection(event.payload.credentialRecord))
-  //     }
-  //   },
-  //   !credentialsAccepted
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  //   },
-  //   !credentialsAccepted ? 1000 : null
-  // )
 
   protocolVersion = useCredentials().protocolVersion
 

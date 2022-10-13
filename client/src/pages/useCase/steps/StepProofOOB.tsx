@@ -1,18 +1,14 @@
 import type { Entity, RequestedCredential, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 
-import { ProofEventTypes } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeExit, fadeX } from '../../../FramerAnimations'
-import { useWebhookEvent } from '../../../api/Webhook'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useProof } from '../../../slices/proof/proofSelectors'
-import { updateProofById } from '../../../slices/proof/proofSlice'
 import { createProofOOB, fetchProofById } from '../../../slices/proof/proofThunks'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
 import { StepInfo } from '../components/StepInfo'
@@ -84,25 +80,6 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
       dispatch(fetchProofById(proof.id))
     }
   }, [proofEvent])
-
-  // useWebhookEvent(
-  //   ProofEventTypes.ProofStateChanged,
-  //   (event: { payload: { proofRecord: ProofRecord } }) => {
-  //     if (event.payload.proofRecord.id === proof?.id) {
-  //       dispatch(updateProofById(event.payload.proofRecord))
-  //     }
-  //   },
-  //   !proofReceived
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (!proofReceived && proof && document.visibilityState === 'visible') {
-  //       dispatch(fetchProofById(proof.id))
-  //     }
-  //   },
-  //   !proofReceived ? 1000 : null
-  // )
 
   const deepLink = `didcomm://aries_connection_invitation?${proofUrl?.split('?')[1]}`
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })

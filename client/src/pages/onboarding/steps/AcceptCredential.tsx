@@ -2,21 +2,18 @@ import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { CredentialEventTypes, CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
+import { CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { fade, fadeX } from '../../../FramerAnimations'
-import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { Modal } from '../../../components/Modal'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import { updateCredentialForConnectionId } from '../../../slices/credentials/credentialsSlice'
 import {
   deleteCredentialById,
   fetchCredentialsByConId,
@@ -95,23 +92,6 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
   useEffect(() => {
     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
   }, [connectionEvent, credentialExchangeEvent])
-
-  // useWebhookEvent(
-  //   CredentialEventTypes.CredentialStateChanged,
-  //   (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-  //     if (event.payload.credentialRecord.connectionId === connectionId) {
-  //       dispatch(updateCredentialForConnectionId(event.payload.credentialRecord))
-  //     }
-  //   },
-  //   !credentialsAccepted
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  //   },
-  //   !credentialsAccepted ? 1000 : null
-  // )
 
   const routeError = () => {
     navigate('/demo')

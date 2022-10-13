@@ -31,10 +31,6 @@ const proofSlice = createSlice({
     setProofEvent: (state, action) => {
       state.proofEvent = action.payload
     },
-    updateProofById: (state, action) => {
-      state.isLoading = false
-      state.proof = action.payload
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,6 +66,6 @@ const proofSlice = createSlice({
   },
 })
 
-export const { clearProof, setProofEvent, updateProofById } = proofSlice.actions
+export const { clearProof, setProofEvent } = proofSlice.actions
 
 export default proofSlice.reducer

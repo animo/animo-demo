@@ -39,15 +39,6 @@ const connectionSlice = createSlice({
     setConnectionEvent: (state, action) => {
       state.connectionEvent = action.payload
     },
-    updateConnectionByOutOfBandId: (state, action) => {
-      state.isLoading = false
-      state.id = action.payload.id
-      state.state = action.payload.state
-    },
-    updateConnectionById: (state, action) => {
-      state.isLoading = false
-      state.state = action.payload.state
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -94,12 +85,6 @@ const connectionSlice = createSlice({
   },
 })
 
-export const {
-  clearConnection,
-  setUseLegacyInvitations,
-  setConnectionEvent,
-  updateConnectionByOutOfBandId,
-  updateConnectionById,
-} = connectionSlice.actions
+export const { clearConnection, setUseLegacyInvitations, setConnectionEvent } = connectionSlice.actions
 
 export default connectionSlice.reducer

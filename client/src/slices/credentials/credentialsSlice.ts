@@ -47,28 +47,6 @@ const credentialSlice = createSlice({
     setCredentialExchangeEvent: (state, action) => {
       state.credentialExchangeEvent = action.payload
     },
-    updateCredentialForConnection: (state, action) => {
-      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
-
-      if (existingCredentialIndex) {
-        state.credentials[existingCredentialIndex] = action.payload
-        // return state
-      } else {
-        state.credentials.push(action.payload)
-        // return state
-      }
-    },
-    updateCredentialForConnectionId: (state, action) => {
-      state.isLoading = false
-
-      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
-
-      if (existingCredentialIndex) {
-        state.credentials[existingCredentialIndex] = action.payload
-      } else {
-        state.credentials.push(action.payload)
-      }
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -132,12 +110,6 @@ const credentialSlice = createSlice({
   },
 })
 
-export const {
-  clearCredentials,
-  setProtocolVersion,
-  setCredentialExchangeEvent,
-  updateCredentialForConnection,
-  updateCredentialForConnectionId,
-} = credentialSlice.actions
+export const { clearCredentials, setProtocolVersion, setCredentialExchangeEvent } = credentialSlice.actions
 
 export default credentialSlice.reducer
