@@ -9,8 +9,6 @@ export interface ConnectionState {
   outOfBandId?: string
   isLoading: boolean
   useLegacyInvitations: boolean
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  connectionEvent: any | undefined
 }
 
 const initialState: ConnectionState = {
@@ -20,7 +18,6 @@ const initialState: ConnectionState = {
   outOfBandId: undefined,
   isLoading: false,
   useLegacyInvitations: true,
-  connectionEvent: undefined,
 }
 
 const connectionSlice = createSlice({
@@ -35,9 +32,6 @@ const connectionSlice = createSlice({
     },
     setUseLegacyInvitations: (state, action) => {
       state.useLegacyInvitations = action.payload
-    },
-    setConnectionEvent: (state, action) => {
-      state.connectionEvent = action.payload
     },
     updateConnectionByOutOfBandId: (state, action) => {
       state.isLoading = false
@@ -94,12 +88,7 @@ const connectionSlice = createSlice({
   },
 })
 
-export const {
-  clearConnection,
-  setUseLegacyInvitations,
-  setConnectionEvent,
-  updateConnectionByOutOfBandId,
-  updateConnectionById,
-} = connectionSlice.actions
+export const { clearConnection, setUseLegacyInvitations, updateConnectionByOutOfBandId, updateConnectionById } =
+  connectionSlice.actions
 
 export default connectionSlice.reducer

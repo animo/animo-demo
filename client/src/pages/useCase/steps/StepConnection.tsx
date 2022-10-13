@@ -12,14 +12,9 @@ import { fade, fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
 import { updateConnectionById, updateConnectionByOutOfBandId } from '../../../slices/connection/connectionSlice'
-import {
-  createInvitation,
-  fetchConnectionById,
-  fetchConnectionByOutOfBandId,
-} from '../../../slices/connection/connectionThunks'
+import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { StepInfo } from '../components/StepInfo'
 
 export interface Props {
@@ -40,53 +35,25 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
     }
   }, [])
 
-  const { connectionEvent } = useConnection()
+  useWebhookEvent(
+    ConnectionEventTypes.ConnectionStateChanged,
+    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
+        dispatch(updateConnectionByOutOfBandId(event.payload.connectionRecord))
+      }
+    },
+    !id
+  )
 
-  useEffect(() => {
-    if (outOfBandId && document.visibilityState === 'visible') {
-      dispatch(fetchConnectionByOutOfBandId(outOfBandId))
-    }
-  }, [connectionEvent])
-
-  // useWebhookEvent(
-  //   ConnectionEventTypes.ConnectionStateChanged,
-  //   (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-  //     if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
-  //       dispatch(updateConnectionByOutOfBandId(event.payload.connectionRecord))
-  //     }
-  //   },
-  //   !id
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (outOfBandId && document.visibilityState === 'visible') {
-  //       dispatch(fetchConnectionByOutOfBandId(outOfBandId))
-  //     }
-  //   },
-  //   !id ? 1000 : null
-  // )
-
-  useEffect(() => {
-    if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
-  }, [connectionEvent])
-
-  // useWebhookEvent(
-  //   ConnectionEventTypes.ConnectionStateChanged,
-  //   (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-  //     if (event.payload.connectionRecord.id === id) {
-  //       dispatch(updateConnectionById(event.payload.connectionRecord))
-  //     }
-  //   },
-  //   !isCompleted && id ? true : false
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
-  //   },
-  //   !isCompleted && id ? 1000 : null
-  // )
+  useWebhookEvent(
+    ConnectionEventTypes.ConnectionStateChanged,
+    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      if (event.payload.connectionRecord.id === id) {
+        dispatch(updateConnectionById(event.payload.connectionRecord))
+      }
+    },
+    !isCompleted && id ? true : false
+  )
 
   const renderQRCode = invitationUrl && <QRCode invitationUrl={invitationUrl} connectionState={state} />
 

@@ -13,15 +13,9 @@ import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { Modal } from '../../../components/Modal'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
-import { useConnection } from '../../../slices/connection/connectionSelectors'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
 import { updateCredentialForConnectionId } from '../../../slices/credentials/credentialsSlice'
-import {
-  deleteCredentialById,
-  fetchCredentialsByConId,
-  issueCredential,
-} from '../../../slices/credentials/credentialsThunks'
+import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { FailedRequestModal } from '../components/FailedRequestModal'
 import { StarterCredentials } from '../components/StarterCredentials'
@@ -89,29 +83,15 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
     }
   }, [error])
 
-  const { connectionEvent } = useConnection()
-  const { credentialExchangeEvent } = useCredentials()
-
-  useEffect(() => {
-    if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  }, [connectionEvent, credentialExchangeEvent])
-
-  // useWebhookEvent(
-  //   CredentialEventTypes.CredentialStateChanged,
-  //   (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-  //     if (event.payload.credentialRecord.connectionId === connectionId) {
-  //       dispatch(updateCredentialForConnectionId(event.payload.credentialRecord))
-  //     }
-  //   },
-  //   !credentialsAccepted
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  //   },
-  //   !credentialsAccepted ? 1000 : null
-  // )
+  useWebhookEvent(
+    CredentialEventTypes.CredentialStateChanged,
+    (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      if (event.payload.credentialRecord.connectionId === connectionId) {
+        dispatch(updateCredentialForConnectionId(event.payload.credentialRecord))
+      }
+    },
+    !credentialsAccepted
+  )
 
   const routeError = () => {
     navigate('/demo')

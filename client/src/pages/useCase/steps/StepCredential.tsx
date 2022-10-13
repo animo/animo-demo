@@ -11,15 +11,9 @@ import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
-import { useConnection } from '../../../slices/connection/connectionSelectors'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
 import { updateCredentialForConnection } from '../../../slices/credentials/credentialsSlice'
-import {
-  deleteCredentialById,
-  fetchCredentialsByConId,
-  issueCredential,
-} from '../../../slices/credentials/credentialsThunks'
+import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
@@ -75,29 +69,15 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     if (credentials.length === 0) issueCreds()
   }, [])
 
-  const { connectionEvent } = useConnection()
-  const { credentialExchangeEvent } = useCredentials()
-
-  useEffect(() => {
-    if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  }, [connectionEvent, credentialExchangeEvent])
-
-  // useWebhookEvent(
-  //   CredentialEventTypes.CredentialStateChanged,
-  //   (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-  //     if (event.payload.credentialRecord.connectionId === connectionId) {
-  //       dispatch(updateCredentialForConnection(event.payload.credentialRecord))
-  //     }
-  //   },
-  //   !credentialsAccepted
-  // )
-
-  // useInterval(
-  //   () => {
-  //     if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
-  //   },
-  //   !credentialsAccepted ? 1000 : null
-  // )
+  useWebhookEvent(
+    CredentialEventTypes.CredentialStateChanged,
+    (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      if (event.payload.credentialRecord.connectionId === connectionId) {
+        dispatch(updateCredentialForConnection(event.payload.credentialRecord))
+      }
+    },
+    !credentialsAccepted
+  )
 
   protocolVersion = useCredentials().protocolVersion
 
