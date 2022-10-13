@@ -16,7 +16,8 @@ interface CredentialState {
   isLoading: boolean
   isIssueCredentialLoading: boolean
   protocolVersion: 'v1' | 'v2'
-  eventReceived: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  credentialExchangeEvent: any | undefined
   error: SerializedError | undefined
 }
 
@@ -26,7 +27,7 @@ const initialState: CredentialState = {
   isLoading: true,
   isIssueCredentialLoading: true,
   protocolVersion: 'v1',
-  eventReceived: false,
+  credentialExchangeEvent: undefined,
   error: undefined,
 }
 
@@ -42,6 +43,31 @@ const credentialSlice = createSlice({
     },
     setProtocolVersion: (state, action) => {
       state.protocolVersion = action.payload
+    },
+    setCredentialExchangeEvent: (state, action) => {
+      state.credentialExchangeEvent = action.payload
+    },
+    updateCredentialForConnection: (state, action) => {
+      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
+
+      if (existingCredentialIndex) {
+        state.credentials[existingCredentialIndex] = action.payload
+        // return state
+      } else {
+        state.credentials.push(action.payload)
+        // return state
+      }
+    },
+    updateCredentialForConnectionId: (state, action) => {
+      state.isLoading = false
+
+      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
+
+      if (existingCredentialIndex) {
+        state.credentials[existingCredentialIndex] = action.payload
+      } else {
+        state.credentials.push(action.payload)
+      }
     },
   },
   extraReducers: (builder) => {
@@ -103,12 +129,15 @@ const credentialSlice = createSlice({
       .addCase('demo/resetConfiguration', (state) => {
         state.protocolVersion = initialState.protocolVersion
       })
-      .addCase('demo/event', (state) => {
-        state.eventReceived = true // !state.eventReceived
-      })
   },
 })
 
-export const { clearCredentials, setProtocolVersion } = credentialSlice.actions
+export const {
+  clearCredentials,
+  setProtocolVersion,
+  setCredentialExchangeEvent,
+  updateCredentialForConnection,
+  updateCredentialForConnectionId,
+} = credentialSlice.actions
 
 export default credentialSlice.reducer

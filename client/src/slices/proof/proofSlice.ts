@@ -8,12 +8,15 @@ interface ProofState {
   proof?: ProofRecord
   proofUrl?: string
   isLoading: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  proofEvent: any | undefined
 }
 
 const initialState: ProofState = {
   proof: undefined,
   proofUrl: undefined,
   isLoading: false,
+  proofEvent: undefined,
 }
 
 const proofSlice = createSlice({
@@ -24,6 +27,13 @@ const proofSlice = createSlice({
       state.proof = undefined
       state.proofUrl = undefined
       state.isLoading = false
+    },
+    setProofEvent: (state, action) => {
+      state.proofEvent = action.payload
+    },
+    updateProofById: (state, action) => {
+      state.isLoading = false
+      state.proof = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -60,6 +70,6 @@ const proofSlice = createSlice({
   },
 })
 
-export const { clearProof } = proofSlice.actions
+export const { clearProof, setProofEvent, updateProofById } = proofSlice.actions
 
 export default proofSlice.reducer

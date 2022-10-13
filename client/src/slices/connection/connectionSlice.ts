@@ -9,7 +9,8 @@ export interface ConnectionState {
   outOfBandId?: string
   isLoading: boolean
   useLegacyInvitations: boolean
-  eventReceived: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  connectionEvent: any | undefined
 }
 
 const initialState: ConnectionState = {
@@ -19,7 +20,7 @@ const initialState: ConnectionState = {
   outOfBandId: undefined,
   isLoading: false,
   useLegacyInvitations: true,
-  eventReceived: false,
+  connectionEvent: undefined,
 }
 
 const connectionSlice = createSlice({
@@ -34,6 +35,18 @@ const connectionSlice = createSlice({
     },
     setUseLegacyInvitations: (state, action) => {
       state.useLegacyInvitations = action.payload
+    },
+    setConnectionEvent: (state, action) => {
+      state.connectionEvent = action.payload
+    },
+    updateConnectionByOutOfBandId: (state, action) => {
+      state.isLoading = false
+      state.id = action.payload.id
+      state.state = action.payload.state
+    },
+    updateConnectionById: (state, action) => {
+      state.isLoading = false
+      state.state = action.payload.state
     },
   },
   extraReducers: (builder) => {
@@ -78,12 +91,15 @@ const connectionSlice = createSlice({
       .addCase('demo/resetConfiguration', (state) => {
         state.useLegacyInvitations = initialState.useLegacyInvitations
       })
-      .addCase('demo/event', (state) => {
-        state.eventReceived = true // !state.eventReceived
-      })
   },
 })
 
-export const { clearConnection, setUseLegacyInvitations } = connectionSlice.actions
+export const {
+  clearConnection,
+  setUseLegacyInvitations,
+  setConnectionEvent,
+  updateConnectionByOutOfBandId,
+  updateConnectionById,
+} = connectionSlice.actions
 
 export default connectionSlice.reducer

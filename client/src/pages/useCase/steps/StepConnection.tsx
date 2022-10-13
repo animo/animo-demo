@@ -1,16 +1,20 @@
 import type { ConnectionState } from '../../../slices/connection/connectionSlice'
 import type { Entity, Step } from '../../../slices/types'
+import type { ConnectionRecord } from '@aries-framework/core'
 
+import { ConnectionEventTypes } from '@aries-framework/core'
 import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
+import { updateConnectionById, updateConnectionByOutOfBandId } from '../../../slices/connection/connectionSlice'
 import {
   createInvitation,
   fetchConnectionById,
@@ -36,21 +40,53 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
     }
   }, [])
 
-  useInterval(
-    () => {
-      if (outOfBandId && document.visibilityState === 'visible') {
-        dispatch(fetchConnectionByOutOfBandId(outOfBandId))
-      }
-    },
-    !id ? 1000 : null
-  )
+  const { connectionEvent } = useConnection()
 
-  useInterval(
-    () => {
-      if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
-    },
-    !isCompleted && id ? 1000 : null
-  )
+  useEffect(() => {
+    if (outOfBandId && document.visibilityState === 'visible') {
+      dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+    }
+  }, [connectionEvent])
+
+  // useWebhookEvent(
+  //   ConnectionEventTypes.ConnectionStateChanged,
+  //   (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+  //     if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
+  //       dispatch(updateConnectionByOutOfBandId(event.payload.connectionRecord))
+  //     }
+  //   },
+  //   !id
+  // )
+
+  // useInterval(
+  //   () => {
+  //     if (outOfBandId && document.visibilityState === 'visible') {
+  //       dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+  //     }
+  //   },
+  //   !id ? 1000 : null
+  // )
+
+  useEffect(() => {
+    if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
+  }, [connectionEvent])
+
+  // useWebhookEvent(
+  //   ConnectionEventTypes.ConnectionStateChanged,
+  //   (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+  //     if (event.payload.connectionRecord.id === id) {
+  //       dispatch(updateConnectionById(event.payload.connectionRecord))
+  //     }
+  //   },
+  //   !isCompleted && id ? true : false
+  // )
+
+  // useInterval(
+  //   () => {
+  //     if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
+  //   },
+  //   !isCompleted && id ? 1000 : null
+  // )
 
   const renderQRCode = invitationUrl && <QRCode invitationUrl={invitationUrl} connectionState={state} />
 
