@@ -33,12 +33,18 @@ const connectionSlice = createSlice({
     setUseLegacyInvitations: (state, action) => {
       state.useLegacyInvitations = action.payload
     },
-    updateConnectionByOutOfBandId: (state, action) => {
+    fetchConnectionEventByOutOfBandId: (state, action) => {
+      // eslint-disable-next-line no-console
+      console.log(`Connection out of band reducer triggered`, state, action)
+
       state.isLoading = false
       state.id = action.payload.id
       state.state = action.payload.state
     },
-    updateConnectionById: (state, action) => {
+    fetchConnectionEventById: (state, action) => {
+      // eslint-disable-next-line no-console
+      console.log(`Connection id reducer triggered`, state, action)
+
       state.isLoading = false
       state.state = action.payload.state
     },
@@ -88,7 +94,7 @@ const connectionSlice = createSlice({
   },
 })
 
-export const { clearConnection, setUseLegacyInvitations, updateConnectionByOutOfBandId, updateConnectionById } =
+export const { clearConnection, setUseLegacyInvitations, fetchConnectionEventByOutOfBandId, fetchConnectionEventById } =
   connectionSlice.actions
 
 export default connectionSlice.reducer

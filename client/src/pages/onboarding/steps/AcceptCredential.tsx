@@ -14,7 +14,7 @@ import { Loader } from '../../../components/Loader'
 import { Modal } from '../../../components/Modal'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import { updateCredentialForConnectionId } from '../../../slices/credentials/credentialsSlice'
+import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { FailedRequestModal } from '../components/FailedRequestModal'
@@ -86,8 +86,12 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
   useWebhookEvent(
     CredentialEventTypes.CredentialStateChanged,
     (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional AC`)
       if (event.payload.credentialRecord.connectionId === connectionId) {
-        dispatch(updateCredentialForConnectionId(event.payload.credentialRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Inside the conditional AC`)
+        dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
       }
     },
     !credentialsAccepted

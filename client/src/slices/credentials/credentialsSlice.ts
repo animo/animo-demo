@@ -41,19 +41,9 @@ const credentialSlice = createSlice({
     setProtocolVersion: (state, action) => {
       state.protocolVersion = action.payload
     },
-    updateCredentialForConnection: (state, action) => {
-      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
-
-      if (existingCredentialIndex) {
-        state.credentials[existingCredentialIndex] = action.payload
-        // return state
-      } else {
-        state.credentials.push(action.payload)
-        // return state
-      }
-    },
-    updateCredentialForConnectionId: (state, action) => {
-      state.isLoading = false
+    fetchCredentialEventByConnectionId: (state, action) => {
+      // eslint-disable-next-line no-console
+      console.log(`Credential reducer triggered`, state, action)
 
       const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
 
@@ -126,7 +116,6 @@ const credentialSlice = createSlice({
   },
 })
 
-export const { clearCredentials, setProtocolVersion, updateCredentialForConnection, updateCredentialForConnectionId } =
-  credentialSlice.actions
+export const { clearCredentials, setProtocolVersion, fetchCredentialEventByConnectionId } = credentialSlice.actions
 
 export default credentialSlice.reducer

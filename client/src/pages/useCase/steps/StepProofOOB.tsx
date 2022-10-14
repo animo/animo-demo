@@ -10,7 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { fade, fadeExit, fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { updateProofById } from '../../../slices/proof/proofSlice'
+import { fetchProofEventById } from '../../../slices/proof/proofSlice'
 import { createProofOOB } from '../../../slices/proof/proofThunks'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
 import { StepInfo } from '../components/StepInfo'
@@ -78,8 +78,12 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
   useWebhookEvent(
     ProofEventTypes.ProofStateChanged,
     (event: { payload: { proofRecord: ProofRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional STPRO 1`)
       if (event.payload.proofRecord.id === proof?.id) {
-        dispatch(updateProofById(event.payload.proofRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Outside the conditional STPRO 1`)
+        dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },
     !proofReceived

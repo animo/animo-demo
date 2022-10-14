@@ -9,7 +9,7 @@ import { fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { updateProofById } from '../../../slices/proof/proofSlice'
+import { fetchProofEventById } from '../../../slices/proof/proofSlice'
 import { createProof, deleteProofById } from '../../../slices/proof/proofThunks'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
@@ -79,8 +79,12 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
   useWebhookEvent(
     ProofEventTypes.ProofStateChanged,
     (event: { payload: { proofRecord: ProofRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional STPR 1`)
       if (event.payload.proofRecord.id === proof?.id) {
-        dispatch(updateProofById(event.payload.proofRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Inside the conditional STPR 1`)
+        dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },
     !proofReceived

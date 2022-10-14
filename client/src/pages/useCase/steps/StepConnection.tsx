@@ -13,7 +13,7 @@ import { useWebhookEvent } from '../../../api/Webhook'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
-import { updateConnectionById, updateConnectionByOutOfBandId } from '../../../slices/connection/connectionSlice'
+import { fetchConnectionEventById, fetchConnectionEventByOutOfBandId } from '../../../slices/connection/connectionSlice'
 import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { StepInfo } from '../components/StepInfo'
 
@@ -38,8 +38,12 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   useWebhookEvent(
     ConnectionEventTypes.ConnectionStateChanged,
     (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional STCO 1`)
       if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
-        dispatch(updateConnectionByOutOfBandId(event.payload.connectionRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Inside the conditional STCO 1`)
+        dispatch(fetchConnectionEventByOutOfBandId(event.payload.connectionRecord))
       }
     },
     !id
@@ -48,8 +52,12 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   useWebhookEvent(
     ConnectionEventTypes.ConnectionStateChanged,
     (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional STCO 2`)
       if (event.payload.connectionRecord.id === id) {
-        dispatch(updateConnectionById(event.payload.connectionRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Inside the conditional STCO 2`)
+        dispatch(fetchConnectionEventById(event.payload.connectionRecord))
       }
     },
     !isCompleted && id ? true : false

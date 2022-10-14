@@ -25,7 +25,10 @@ const proofSlice = createSlice({
       state.proofUrl = undefined
       state.isLoading = false
     },
-    updateProofById: (state, action) => {
+    fetchProofEventById: (state, action) => {
+      // eslint-disable-next-line no-console
+      console.log(`Proof reducer triggered`, state, action)
+
       state.isLoading = false
       state.proof = action.payload
     },
@@ -64,6 +67,6 @@ const proofSlice = createSlice({
   },
 })
 
-export const { clearProof, updateProofById } = proofSlice.actions
+export const { clearProof, fetchProofEventById } = proofSlice.actions
 
 export default proofSlice.reducer

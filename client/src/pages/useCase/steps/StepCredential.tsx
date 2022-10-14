@@ -12,7 +12,7 @@ import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import { updateCredentialForConnection } from '../../../slices/credentials/credentialsSlice'
+import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
@@ -72,8 +72,12 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   useWebhookEvent(
     CredentialEventTypes.CredentialStateChanged,
     (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      // eslint-disable-next-line no-console
+      console.log(`Outside the conditional STCR 1`)
       if (event.payload.credentialRecord.connectionId === connectionId) {
-        dispatch(updateCredentialForConnection(event.payload.credentialRecord))
+        // eslint-disable-next-line no-console
+        console.log(`Inside the conditional STCR 1`)
+        dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
       }
     },
     !credentialsAccepted
