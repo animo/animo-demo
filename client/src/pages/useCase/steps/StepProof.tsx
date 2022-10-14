@@ -87,7 +87,8 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
         dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },
-    !proofReceived
+    !proofReceived,
+    [proof]
   )
 
   const sendNewRequest = () => {

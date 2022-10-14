@@ -77,7 +77,8 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
         dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
       }
     },
-    !credentialsAccepted
+    !credentialsAccepted,
+    [connectionId]
   )
 
   const sendNewCredentials = () => {

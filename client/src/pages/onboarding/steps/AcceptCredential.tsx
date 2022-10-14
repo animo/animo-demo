@@ -85,15 +85,12 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
   useWebhookEvent(
     CredentialEventTypes.CredentialStateChanged,
     (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional AC`)
       if (event.payload.credentialRecord.connectionId === connectionId) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional AC`)
         dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
       }
     },
-    !credentialsAccepted
+    !credentialsAccepted,
+    [connectionId]
   )
 
   const routeError = () => {

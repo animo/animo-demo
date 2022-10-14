@@ -10,6 +10,7 @@ export const fetchCredentialsByConId = createAsyncThunk('credentials/fetchAllByC
   return response.data
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const issueCredential = createAsyncThunk<any, { connectionId: string; cred: CredentialData }, AsyncThunkOptions>(
   'credentials/issueCredential',
   async (data, { getState }) => {

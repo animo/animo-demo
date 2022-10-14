@@ -86,7 +86,8 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
         dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },
-    !proofReceived
+    !proofReceived,
+    [proof]
   )
 
   const deepLink = `didcomm://aries_connection_invitation?${proofUrl?.split('?')[1]}`
