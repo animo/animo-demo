@@ -11,7 +11,6 @@ import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
 import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
@@ -40,8 +39,6 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   )
   const [issuedCredData, setIssuedCredData] = useState<CredentialData[]>([])
 
-  let { protocolVersion } = useCredentials()
-
   const issueCreds = () => {
     // get attributes from proof
     let attributes: Attribute[] = []
@@ -60,7 +57,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
 
     // issue credentials
     credentialData.forEach((item) => {
-      dispatch(issueCredential({ connectionId: connectionId, cred: item, protocolVersion }))
+      dispatch(issueCredential({ connectionId: connectionId, cred: item }))
       trackEvent('credential-issued')
     })
   }
@@ -83,8 +80,6 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     !credentialsAccepted
   )
 
-  protocolVersion = useCredentials().protocolVersion
-
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
       if (cred.state !== 'credential-issued' && cred.state !== 'done') {
@@ -97,8 +92,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
           )
         })
-        if (newCredential)
-          dispatch(issueCredential({ connectionId: connectionId, cred: newCredential, protocolVersion }))
+        if (newCredential) dispatch(issueCredential({ connectionId: connectionId, cred: newCredential }))
       }
     })
     closeFailedRequestModal()

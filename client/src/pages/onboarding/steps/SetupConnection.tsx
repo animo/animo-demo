@@ -14,7 +14,7 @@ import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
-import { fetchConnectionEventById, fetchConnectionEventByOutOfBandId } from '../../../slices/connection/connectionSlice'
+import { setConnection } from '../../../slices/connection/connectionSlice'
 import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { setOnboardingConnectionId } from '../../../slices/onboarding/onboardingSlice'
 import { setConnectionDate } from '../../../slices/preferences/preferencesSlice'
@@ -54,29 +54,15 @@ export const SetupConnection: React.FC<Props> = ({
   useWebhookEvent(
     ConnectionEventTypes.ConnectionStateChanged,
     (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-      console.log(`Outside the conditional SECO 1`)
-      console.log(outOfBandId)
-      console.log(event)
-      if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
-        console.log(`Inside the conditional SECO 1`)
-        dispatch(fetchConnectionEventByOutOfBandId(event.payload.connectionRecord))
+      if (
+        event.payload.connectionRecord.outOfBandId === outOfBandId ||
+        event.payload.connectionRecord.id === connectionId
+      ) {
+        dispatch(setConnection(event.payload.connectionRecord))
       }
     },
-    !connectionId
-  )
-
-  useWebhookEvent(
-    ConnectionEventTypes.ConnectionStateChanged,
-    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional SECO 2`)
-      if (event.payload.connectionRecord.id === connectionId) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional SECO 2`)
-        dispatch(fetchConnectionEventById(event.payload.connectionRecord))
-      }
-    },
-    !isCompleted && connectionId ? true : false
+    !connectionId || (!isCompleted && connectionId ? true : false),
+    [outOfBandId, connectionId]
   )
 
   const renderQRCode = invitationUrl ? (

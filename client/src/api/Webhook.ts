@@ -7,7 +7,12 @@ const webSocket = new WebSocket(wsUrl)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Event = { type: string; payload: any }
 
-export function useWebhookEvent(eventType: string, callback: (event: Event) => void, isEnabled = true) {
+export function useWebhookEvent(
+  eventType: string,
+  callback: (event: Event) => void,
+  isEnabled = true,
+  dependencies: unknown[] = []
+): void {
   useEffect(() => {
     const onEvent = (event: { data: string }) => {
       const parsedData: Event = JSON.parse(event.data)
@@ -25,5 +30,5 @@ export function useWebhookEvent(eventType: string, callback: (event: Event) => v
     return () => {
       webSocket.removeEventListener('message', onEvent)
     }
-  }, [isEnabled, eventType])
+  }, [isEnabled, eventType, ...dependencies])
 }

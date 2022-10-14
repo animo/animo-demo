@@ -1,3 +1,4 @@
+import type { AsyncThunkOptions } from '../../store/configureStore'
 import type { CredentialData } from '../types'
 
 import { createAsyncThunk } from '@reduxjs/toolkit'
@@ -9,10 +10,12 @@ export const fetchCredentialsByConId = createAsyncThunk('credentials/fetchAllByC
   return response.data
 })
 
-export const issueCredential = createAsyncThunk(
+export const issueCredential = createAsyncThunk<any, { connectionId: string; cred: CredentialData }, AsyncThunkOptions>(
   'credentials/issueCredential',
-  async (data: { connectionId: string; cred: CredentialData; protocolVersion: 'v1' | 'v2' }) => {
-    const response = await Api.issueCredential(data.connectionId, data.cred, data.protocolVersion)
+  async (data, { getState }) => {
+    const state = getState()
+
+    const response = await Api.issueCredential(data.connectionId, data.cred, state.credentials.protocolVersion)
     return response.data
   }
 )

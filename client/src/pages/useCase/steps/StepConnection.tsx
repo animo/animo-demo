@@ -13,7 +13,7 @@ import { useWebhookEvent } from '../../../api/Webhook'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
-import { fetchConnectionEventById, fetchConnectionEventByOutOfBandId } from '../../../slices/connection/connectionSlice'
+import { setConnection } from '../../../slices/connection/connectionSlice'
 import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { StepInfo } from '../components/StepInfo'
 
@@ -38,29 +38,12 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   useWebhookEvent(
     ConnectionEventTypes.ConnectionStateChanged,
     (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional STCO 1`)
-      if (event.payload.connectionRecord.outOfBandId === outOfBandId) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional STCO 1`)
-        dispatch(fetchConnectionEventByOutOfBandId(event.payload.connectionRecord))
+      if (event.payload.connectionRecord.outOfBandId === outOfBandId || event.payload.connectionRecord.id === id) {
+        dispatch(setConnection(event.payload.connectionRecord))
       }
     },
-    !id
-  )
-
-  useWebhookEvent(
-    ConnectionEventTypes.ConnectionStateChanged,
-    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional STCO 2`)
-      if (event.payload.connectionRecord.id === id) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional STCO 2`)
-        dispatch(fetchConnectionEventById(event.payload.connectionRecord))
-      }
-    },
-    !isCompleted && id ? true : false
+    !id || (!isCompleted && id ? true : false),
+    [outOfBandId, id]
   )
 
   const renderQRCode = invitationUrl && <QRCode invitationUrl={invitationUrl} connectionState={state} />

@@ -1,3 +1,6 @@
+import type { ConnectionRecord } from '@aries-framework/core'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
 import { createSlice } from '@reduxjs/toolkit'
 
 import { createInvitation, fetchConnectionById, fetchConnectionByOutOfBandId } from './connectionThunks'
@@ -33,19 +36,12 @@ const connectionSlice = createSlice({
     setUseLegacyInvitations: (state, action) => {
       state.useLegacyInvitations = action.payload
     },
-    fetchConnectionEventByOutOfBandId: (state, action) => {
+    setConnection: (state, action: PayloadAction<ConnectionRecord>) => {
       // eslint-disable-next-line no-console
       console.log(`Connection out of band reducer triggered`, state, action)
 
       state.isLoading = false
       state.id = action.payload.id
-      state.state = action.payload.state
-    },
-    fetchConnectionEventById: (state, action) => {
-      // eslint-disable-next-line no-console
-      console.log(`Connection id reducer triggered`, state, action)
-
-      state.isLoading = false
       state.state = action.payload.state
     },
   },
@@ -94,7 +90,6 @@ const connectionSlice = createSlice({
   },
 })
 
-export const { clearConnection, setUseLegacyInvitations, fetchConnectionEventByOutOfBandId, fetchConnectionEventById } =
-  connectionSlice.actions
+export const { clearConnection, setUseLegacyInvitations, setConnection } = connectionSlice.actions
 
 export default connectionSlice.reducer
