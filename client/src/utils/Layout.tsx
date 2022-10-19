@@ -1,8 +1,6 @@
-import type { Action } from 'kbar'
-
 import { AnimatePresence, motion } from 'framer-motion'
-import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch } from 'kbar'
-import { useEffect, useState } from 'react'
+import { Action, useKBar, useRegisterActions } from 'kbar'
+import { useEffect, useMemo, useState } from 'react'
 import Confetti from 'react-confetti'
 
 import { confettiFade } from '../FramerAnimations'
@@ -15,18 +13,22 @@ import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
 
-import { RenderResults } from './RenderResults'
-
-type PropsWithChildren = {
-  children: JSX.Element
-}
-
-export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) => {
+export const Layout: React.FC = () => {
   const dispatch = useAppDispatch()
+  const { demoCompleted } = usePreferences()
   const [confettiPieces, setConfettiPieces] = useState(0)
   const { useLegacyInvitations } = useConnection()
 
-  const [actions, setActions] = useState<Action[]>([
+  useEffect(() => {
+    if (demoCompleted && location.pathname.includes('dashboard')) {
+      setConfettiPieces(200)
+      setTimeout(() => {
+        setConfettiPieces(0)
+      }, 10000)
+    }
+  }, [demoCompleted])
+
+  const actions = [
     {
       id: 'confetti',
       name: 'Make it rain…',
@@ -68,12 +70,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
         dispatch({ type: 'demo/resetConfiguration' })
       },
     },
-    {
-      id: 'issue-credential-protocol-version',
-      name: 'Select credential protocol version',
-      keywords: 'issue credential protocol version',
-      section: 'configuration',
-    },
+
     {
       id: 'issue-credential-protocol-version-1',
       name: 'V1',
@@ -91,36 +88,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
         dispatch(setProtocolVersion('v2'))
       },
       parent: 'issue-credential-protocol-version',
-    },
-    {
-      id: 'invitation-type',
-      name: 'Change connection invitation type',
-      section: 'configuration',
-      keywords: 'invitation type',
-    },
-    {
-      id: 'invitation-type-oob',
-      name: 'Out Of Band',
-      keywords: 'invitation type oob',
-      perform: () => {
-        dispatch(setUseLegacyInvitations(false))
-      },
-      parent: 'invitation-type',
-    },
-    {
-      id: 'invitation-type-legacy',
-      name: 'Legacy (RFC 0160)',
-      keywords: 'invitation type legacy',
-      perform: () => {
-        dispatch(setUseLegacyInvitations(true))
-      },
-      parent: 'invitation-type',
-    },
-    {
-      id: 'theme',
-      name: 'Change theme…',
-      keywords: 'interface color dark light',
-      section: 'Preferences',
     },
     {
       id: 'darkTheme',
@@ -142,54 +109,35 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
       parent: 'theme',
     },
-  ])
+  ]
 
-  const { demoCompleted } = usePreferences()
+  useRegisterActions(actions)
 
-  useEffect(() => {
-    if (demoCompleted && location.pathname.includes('dashboard')) {
-      setConfettiPieces(200)
-      setTimeout(() => {
-        setConfettiPieces(0)
-      }, 10000)
-    }
-  }, [demoCompleted])
+  const connectionActions = useMemo(
+    () => [
+      {
+        id: 'invitation-type-legacy',
+        name: `Legacy (RFC 0160)${useLegacyInvitations && ' (active)'}`,
+        keywords: 'invitation type legacy',
+        perform: () => {
+          dispatch(setUseLegacyInvitations(true))
+        },
+        parent: 'invitation-type',
+      },
+      {
+        id: 'invitation-type-oob',
+        name: `Out Of Band ${!useLegacyInvitations && ' (active)'}`,
+        keywords: 'invitation type oob',
+        perform: () => {
+          dispatch(setUseLegacyInvitations(false))
+        },
+        parent: 'invitation-type',
+      },
+    ],
+    [useLegacyInvitations]
+  )
 
-  useEffect(() => {
-    setActions((a) =>
-      a.map((x) => {
-        if (useLegacyInvitations) {
-          if (x.id === 'invitation-type-legacy') x.name = 'Legacy (RFC 0160) (active)'
-          if (x.id === 'invitation-type-oob') x.name = 'Out Of Band'
-        } else {
-          if (x.id === 'invitation-type-oob') x.name = 'Out Of Band (active)'
-          if (x.id === 'invitation-type-legacy') x.name = 'Legacy (RFC 0160)'
-        }
-        return x
-      })
-    )
-  }, [useLegacyInvitations])
-
-  const searchStyle = {
-    padding: '12px 16px',
-    fontSize: '16px',
-    width: '100%',
-    boxSizing: 'border-box' as React.CSSProperties['boxSizing'],
-    outline: 'none',
-    border: 'none',
-    background: '#FFFFF',
-    color: 'var(--foreground)',
-  }
-
-  const animatorStyle = {
-    maxWidth: '500px',
-    width: '100%',
-    background: '#FFFFF',
-    color: 'var(--foreground)',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-  }
+  useRegisterActions(connectionActions, [useLegacyInvitations])
 
   return (
     <div>
@@ -205,17 +153,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
           </motion.div>
         )}
       </AnimatePresence>
-      <KBarProvider actions={actions} options={{ enableHistory: true, disableScrollbarManagement: true }}>
-        <KBarPortal>
-          <KBarPositioner>
-            <KBarAnimator style={animatorStyle}>
-              <KBarSearch style={searchStyle} placeholder="I see you found the secret menu…" />
-              <RenderResults />
-            </KBarAnimator>
-          </KBarPositioner>
-        </KBarPortal>
-      </KBarProvider>
-      {children}
     </div>
   )
 }

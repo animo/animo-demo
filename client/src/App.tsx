@@ -13,6 +13,7 @@ import { usePreferences } from './slices/preferences/preferencesSelectors'
 import { setDarkMode } from './slices/preferences/preferencesSlice'
 import { fetchLastServerReset } from './slices/preferences/preferencesThunks'
 import { AuthProvider } from './utils/AuthContext'
+import { Layout } from './utils/Layout'
 import { PrivateRoute } from './utils/PrivateRoute'
 import { ThemeProvider } from './utils/ThemeContext'
 
@@ -51,6 +52,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <AnimatePresence mode="wait">
+          <Layout />
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/demo" element={<OnboardingPage />} />
