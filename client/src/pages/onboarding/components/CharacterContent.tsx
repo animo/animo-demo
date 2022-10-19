@@ -14,7 +14,7 @@ export const CharacterContent: React.FC<Props> = ({ character }) => {
   return (
     <motion.div variants={fadeExit} initial="hidden" animate="show" exit="exit" className="h-full">
       {character ? (
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           <motion.div
             key={character.id}
             variants={characterFade}

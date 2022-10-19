@@ -249,7 +249,7 @@ export const OnboardingContainer: React.FC<Props> = ({
             <FiLogOut onClick={showLeaveModal} className="inline h-12 cursor-pointer dark:text-white" />
           </motion.p>
         </div>
-        <AnimatePresence exitBeforeEnter>{getComponentToRender(onboardingStep)}</AnimatePresence>
+        <AnimatePresence mode="wait">{getComponentToRender(onboardingStep)}</AnimatePresence>
         <OnboardingBottomNav
           onboardingStep={onboardingStep}
           addOnboardingStep={addOnboardingProgress}
@@ -260,7 +260,7 @@ export const OnboardingContainer: React.FC<Props> = ({
         />
       </div>
       <div className="bg-animo-white dark:bg-animo-black hidden lg:flex lg:w-1/3 rounded-r-lg flex-col justify-center h-full select-none">
-        <AnimatePresence exitBeforeEnter>{getImageToRender(onboardingStep)}</AnimatePresence>
+        <AnimatePresence mode="wait">{getImageToRender(onboardingStep)}</AnimatePresence>
       </div>
       {leaveModal && (
         <Modal title={LEAVE_MODAL_TITLE} description={LEAVE_MODAL_DESCRIPTION} onOk={leave} onCancel={closeLeave} />

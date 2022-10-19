@@ -83,7 +83,7 @@ export const UseCasePage: React.FC = () => {
           <Loader />
         </div>
       ) : (
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           {currentCharacter && section && currentUseCase ? (
             <motion.div
               key={'sectionDiv' + section.id}
