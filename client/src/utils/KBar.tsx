@@ -1,3 +1,5 @@
+import type { Action } from 'kbar'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch } from 'kbar'
 import { useEffect, useState } from 'react'
@@ -6,6 +8,7 @@ import Confetti from 'react-confetti'
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
+import { useConnection } from '../slices/connection/connectionSelectors'
 import { setUseLegacyInvitations } from '../slices/connection/connectionSlice'
 import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
@@ -20,19 +23,10 @@ type PropsWithChildren = {
 
 export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
-  const { demoCompleted } = usePreferences()
   const [confettiPieces, setConfettiPieces] = useState(0)
+  const { useLegacyInvitations } = useConnection()
 
-  useEffect(() => {
-    if (demoCompleted && location.pathname.includes('dashboard')) {
-      setConfettiPieces(200)
-      setTimeout(() => {
-        setConfettiPieces(0)
-      }, 10000)
-    }
-  }, [demoCompleted])
-
-  const actions = [
+  const [actions, setActions] = useState<Action[]>([
     {
       id: 'confetti',
       name: 'Make it rain…',
@@ -148,7 +142,33 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
       parent: 'theme',
     },
-  ]
+  ])
+
+  const { demoCompleted } = usePreferences()
+
+  useEffect(() => {
+    if (demoCompleted && location.pathname.includes('dashboard')) {
+      setConfettiPieces(200)
+      setTimeout(() => {
+        setConfettiPieces(0)
+      }, 10000)
+    }
+  }, [demoCompleted])
+
+  useEffect(() => {
+    setActions((a) =>
+      a.map((x) => {
+        if (useLegacyInvitations) {
+          if (x.id === 'invitation-type-legacy') x.name = 'Legacy (RFC 0160) (active)'
+          if (x.id === 'invitation-type-oob') x.name = 'Out Of Band'
+        } else {
+          if (x.id === 'invitation-type-oob') x.name = 'Out Of Band (active)'
+          if (x.id === 'invitation-type-legacy') x.name = 'Legacy (RFC 0160)'
+        }
+        return x
+      })
+    )
+  }, [useLegacyInvitations])
 
   const searchStyle = {
     padding: '12px 16px',
