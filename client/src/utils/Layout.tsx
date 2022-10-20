@@ -40,7 +40,7 @@ export const Layout: React.FC = () => {
         setConfettiPieces(200)
         setTimeout(() => {
           setConfettiPieces(0)
-        }, 1300)
+        }, 3000)
       },
     },
     {
