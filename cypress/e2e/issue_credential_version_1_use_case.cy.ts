@@ -19,11 +19,12 @@ describe('Onboarding demo test using issue credential protocol version 1', () =>
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5000)
+
+      cy.request('GET', `${API_URL}/connections?outOfBandId=${oobId}`).then((inter) => {
         const record = inter.response?.body[0]
         cy.wrap(record).its('state').should('not.equal', 'invited')
       })
@@ -68,11 +69,12 @@ describe('Onboarding demo test using issue credential protocol version 1', () =>
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(5000)
+
+      cy.request('GET', `${API_URL}/connections?outOfBandId=${oobId}`).then((inter) => {
         const record = inter.response?.body[0]
         cy.wrap(record).its('state').should('not.equal', 'invited')
       })

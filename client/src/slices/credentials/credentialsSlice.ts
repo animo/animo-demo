@@ -45,13 +45,7 @@ const credentialSlice = createSlice({
       // eslint-disable-next-line no-console
       console.log(`Credential reducer triggered`, state, action)
 
-      const existingCredentialIndex = state.credentials.findIndex((credential) => credential.id === action.payload.id)
-
-      if (existingCredentialIndex) {
-        state.credentials[existingCredentialIndex] = action.payload
-      } else {
-        state.credentials.push(action.payload)
-      }
+      state.credentials = [...state.credentials.filter((x) => x.id !== action.payload.id), action.payload]
     },
   },
   extraReducers: (builder) => {
