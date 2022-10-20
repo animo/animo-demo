@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Action, useKBar, useRegisterActions } from 'kbar'
-import { useEffect, useMemo, useState } from 'react'
+import { useRegisterActions } from 'kbar'
+import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 
 import { confettiFade } from '../FramerAnimations'
@@ -8,6 +8,7 @@ import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
 import { useConnection } from '../slices/connection/connectionSelectors'
 import { setUseLegacyInvitations } from '../slices/connection/connectionSlice'
+import { useCredentials } from '../slices/credentials/credentialsSelectors'
 import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
@@ -18,6 +19,7 @@ export const Layout: React.FC = () => {
   const { demoCompleted } = usePreferences()
   const [confettiPieces, setConfettiPieces] = useState(0)
   const { useLegacyInvitations } = useConnection()
+  const { protocolVersion } = useCredentials()
 
   useEffect(() => {
     if (demoCompleted && location.pathname.includes('dashboard')) {
@@ -70,25 +72,6 @@ export const Layout: React.FC = () => {
         dispatch({ type: 'demo/resetConfiguration' })
       },
     },
-
-    {
-      id: 'issue-credential-protocol-version-1',
-      name: 'V1',
-      keywords: 'issue credential protocol version 1',
-      perform: () => {
-        dispatch(setProtocolVersion('v1'))
-      },
-      parent: 'issue-credential-protocol-version',
-    },
-    {
-      id: 'issue-credential-protocol-version-2',
-      name: 'V2',
-      keywords: 'issue credential protocol version 2',
-      perform: () => {
-        dispatch(setProtocolVersion('v2'))
-      },
-      parent: 'issue-credential-protocol-version',
-    },
     {
       id: 'darkTheme',
       name: 'Dark',
@@ -113,31 +96,51 @@ export const Layout: React.FC = () => {
 
   useRegisterActions(actions)
 
-  const connectionActions = useMemo(
-    () => [
-      {
-        id: 'invitation-type-legacy',
-        name: `Legacy (RFC 0160)${useLegacyInvitations && ' (active)'}`,
-        keywords: 'invitation type legacy',
-        perform: () => {
-          dispatch(setUseLegacyInvitations(true))
-        },
-        parent: 'invitation-type',
+  const connectionActions = [
+    {
+      id: 'invitation-type-legacy',
+      name: `Legacy (RFC 0160)${useLegacyInvitations ? ' (active)' : ''}`,
+      keywords: 'invitation type legacy',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(true))
       },
-      {
-        id: 'invitation-type-oob',
-        name: `Out Of Band ${!useLegacyInvitations && ' (active)'}`,
-        keywords: 'invitation type oob',
-        perform: () => {
-          dispatch(setUseLegacyInvitations(false))
-        },
-        parent: 'invitation-type',
+      parent: 'invitation-type',
+    },
+    {
+      id: 'invitation-type-oob',
+      name: `Out Of Band ${!useLegacyInvitations ? ' (active)' : ''}`,
+      keywords: 'invitation type oob',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(false))
       },
-    ],
-    [useLegacyInvitations]
-  )
+      parent: 'invitation-type',
+    },
+  ]
 
   useRegisterActions(connectionActions, [useLegacyInvitations])
+
+  const credentialActions = [
+    {
+      id: 'issue-credential-protocol-version-1',
+      name: `V1 ${protocolVersion === 'v1' ? ' (active)' : ''}`,
+      keywords: 'issue credential protocol version 1',
+      perform: () => {
+        dispatch(setProtocolVersion('v1'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'issue-credential-protocol-version-2',
+      name: `V2 ${protocolVersion === 'v2' ? ' (active)' : ''}`,
+      keywords: 'issue credential protocol version 2',
+      perform: () => {
+        dispatch(setProtocolVersion('v2'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+  ]
+
+  useRegisterActions(credentialActions, [protocolVersion])
 
   return (
     <div>
