@@ -2,13 +2,14 @@ import type { ConnectionState } from '../../../slices/connection/connectionSlice
 import type { Entity, Step } from '../../../slices/types'
 
 import { motion } from 'framer-motion'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeX } from '../../../FramerAnimations'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
+import { useEffectOnce } from '../../../hooks/useEffectOnce'
 import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
 import {
@@ -30,11 +31,11 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
   const isCompleted = state === 'response-sent' || state === 'completed'
   const { useLegacyInvitations } = useConnection()
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (!isCompleted) {
       dispatch(createInvitation({ entity, useLegacyInvitations }))
     }
-  }, [])
+  })
 
   useInterval(
     () => {

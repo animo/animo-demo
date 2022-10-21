@@ -6,6 +6,7 @@ import { page } from '../../FramerAnimations'
 import { Loader } from '../../components/Loader'
 import { Modal } from '../../components/Modal'
 import { useAppDispatch } from '../../hooks/hooks'
+import { useEffectOnce } from '../../hooks/useEffectOnce'
 import { useTitle } from '../../hooks/useTitle'
 import { useCurrentCharacter } from '../../slices/characters/charactersSelectors'
 import { useConnection } from '../../slices/connection/connectionSelectors'
@@ -36,12 +37,12 @@ export const UseCasePage: React.FC = () => {
   const navigate = useNavigate()
   useTitle(`${currentUseCase?.card.title ?? 'Use case'} | Animo Self-Sovereign Identity Demo`)
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (currentCharacter && slug) {
       dispatch({ type: 'clearUseCase' })
       dispatch(fetchUseCaseBySlug(slug))
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (currentUseCase) {
@@ -83,7 +84,7 @@ export const UseCasePage: React.FC = () => {
           <Loader />
         </div>
       ) : (
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           {currentCharacter && section && currentUseCase ? (
             <motion.div
               key={'sectionDiv' + section.id}

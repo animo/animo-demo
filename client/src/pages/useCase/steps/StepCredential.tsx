@@ -4,12 +4,13 @@ import type { CredReqMetadata } from 'indy-sdk'
 
 import { JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
+import { useEffectOnce } from '../../../hooks/useEffectOnce'
 import { useInterval } from '../../../hooks/useInterval'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
 import {
@@ -68,9 +69,9 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     })
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (credentials.length === 0) issueCreds()
-  }, [])
+  })
 
   useInterval(
     () => {
@@ -120,7 +121,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
       <div className="flex flex-1-1 m-auto">
         <motion.div className={`flex flex-1-1 flex-col m-auto`} variants={fade} animate="show" exit="exit">
           {credentials.length <= (issueCredentials?.length ?? 0) ? (
-            <AnimatePresence exitBeforeEnter>{renderCredentials}</AnimatePresence>
+            <AnimatePresence mode="wait">{renderCredentials}</AnimatePresence>
           ) : (
             <motion.div className="flex flex-col h-full m-auto">
               <Loader />

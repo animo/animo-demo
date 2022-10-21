@@ -169,7 +169,7 @@ export const Section: React.FC<Props> = ({
               style={style}
               data-cy="section"
             >
-              <AnimatePresence initial={false} exitBeforeEnter onExitComplete={() => null}>
+              <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
                 {step.type === StepType.INFO && <StepInformation key={step.id} step={step} />}
                 {step.type === StepType.CONNECTION && (
                   <StepConnection key={step.id} step={step} connection={connection} entity={section.entity} />
@@ -219,5 +219,5 @@ export const Section: React.FC<Props> = ({
     }
   }
 
-  return <AnimatePresence exitBeforeEnter>{step && renderStepItem()}</AnimatePresence>
+  return <AnimatePresence mode="wait">{step && renderStepItem()}</AnimatePresence>
 }

@@ -46,7 +46,7 @@ export const OnboardingBottomNav: React.FC<Props> = ({
       <div className="flex self-center">
         <BackButton onClick={removeOnboardingStep} disabled={backDisabled} data-cy="prev-onboarding-step" />
       </div>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode="wait">
         {!hidden && (
           <motion.div variants={fadeExit} initial="hidden" animate="show" exit="exit" data-cy="next-onboarding-step">
             <Button

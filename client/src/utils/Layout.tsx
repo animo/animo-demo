@@ -1,27 +1,25 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch } from 'kbar'
+import { useRegisterActions } from 'kbar'
 import { useEffect, useState } from 'react'
 import Confetti from 'react-confetti'
 
 import { confettiFade } from '../FramerAnimations'
 import { useAppDispatch } from '../hooks/hooks'
 import { fetchAllCharacters } from '../slices/characters/charactersThunks'
+import { useConnection } from '../slices/connection/connectionSelectors'
 import { setUseLegacyInvitations } from '../slices/connection/connectionSlice'
+import { useCredentials } from '../slices/credentials/credentialsSelectors'
 import { setProtocolVersion } from '../slices/credentials/credentialsSlice'
 import { usePreferences } from '../slices/preferences/preferencesSelectors'
 import { resetDashboard, setDarkMode } from '../slices/preferences/preferencesSlice'
 import { fetchWallets } from '../slices/wallets/walletsThunks'
 
-import { RenderResults } from './RenderResults'
-
-type PropsWithChildren = {
-  children: JSX.Element
-}
-
-export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) => {
+export const Layout: React.FC = () => {
   const dispatch = useAppDispatch()
   const { demoCompleted } = usePreferences()
   const [confettiPieces, setConfettiPieces] = useState(0)
+  const { useLegacyInvitations } = useConnection()
+  const { protocolVersion } = useCredentials()
 
   useEffect(() => {
     if (demoCompleted && location.pathname.includes('dashboard')) {
@@ -42,7 +40,7 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
         setConfettiPieces(200)
         setTimeout(() => {
           setConfettiPieces(0)
-        }, 1300)
+        }, 3000)
       },
     },
     {
@@ -75,60 +73,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
       },
     },
     {
-      id: 'issue-credential-protocol-version',
-      name: 'Select credential protocol version',
-      keywords: 'issue credential protocol version',
-      section: 'configuration',
-    },
-    {
-      id: 'issue-credential-protocol-version-1',
-      name: 'V1',
-      keywords: 'issue credential protocol version 1',
-      perform: () => {
-        dispatch(setProtocolVersion('v1'))
-      },
-      parent: 'issue-credential-protocol-version',
-    },
-    {
-      id: 'issue-credential-protocol-version-2',
-      name: 'V2',
-      keywords: 'issue credential protocol version 2',
-      perform: () => {
-        dispatch(setProtocolVersion('v2'))
-      },
-      parent: 'issue-credential-protocol-version',
-    },
-    {
-      id: 'invitation-type',
-      name: 'Change connection invitation type',
-      section: 'configuration',
-      keywords: 'invitation type',
-    },
-    {
-      id: 'invitation-type-oob',
-      name: 'Out Of Band',
-      keywords: 'invitation type oob',
-      perform: () => {
-        dispatch(setUseLegacyInvitations(false))
-      },
-      parent: 'invitation-type',
-    },
-    {
-      id: 'invitation-type-legacy',
-      name: 'Legacy (RFC 0160)',
-      keywords: 'invitation type legacy',
-      perform: () => {
-        dispatch(setUseLegacyInvitations(true))
-      },
-      parent: 'invitation-type',
-    },
-    {
-      id: 'theme',
-      name: 'Change theme…',
-      keywords: 'interface color dark light',
-      section: 'Preferences',
-    },
-    {
       id: 'darkTheme',
       name: 'Dark',
       keywords: 'dark theme',
@@ -150,26 +94,53 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
     },
   ]
 
-  const searchStyle = {
-    padding: '12px 16px',
-    fontSize: '16px',
-    width: '100%',
-    boxSizing: 'border-box' as React.CSSProperties['boxSizing'],
-    outline: 'none',
-    border: 'none',
-    background: '#FFFFF',
-    color: 'var(--foreground)',
-  }
+  useRegisterActions(actions)
 
-  const animatorStyle = {
-    maxWidth: '500px',
-    width: '100%',
-    background: '#FFFFF',
-    color: 'var(--foreground)',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-  }
+  const connectionActions = [
+    {
+      id: 'invitation-type-legacy',
+      name: `Legacy (RFC 0160)${useLegacyInvitations ? ' (active)' : ''}`,
+      keywords: 'invitation type legacy',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(true))
+      },
+      parent: 'invitation-type',
+    },
+    {
+      id: 'invitation-type-oob',
+      name: `Out Of Band ${!useLegacyInvitations ? ' (active)' : ''}`,
+      keywords: 'invitation type oob',
+      perform: () => {
+        dispatch(setUseLegacyInvitations(false))
+      },
+      parent: 'invitation-type',
+    },
+  ]
+
+  useRegisterActions(connectionActions, [useLegacyInvitations])
+
+  const credentialActions = [
+    {
+      id: 'issue-credential-protocol-version-1',
+      name: `V1 ${protocolVersion === 'v1' ? ' (active)' : ''}`,
+      keywords: 'issue credential protocol version 1',
+      perform: () => {
+        dispatch(setProtocolVersion('v1'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+    {
+      id: 'issue-credential-protocol-version-2',
+      name: `V2 ${protocolVersion === 'v2' ? ' (active)' : ''}`,
+      keywords: 'issue credential protocol version 2',
+      perform: () => {
+        dispatch(setProtocolVersion('v2'))
+      },
+      parent: 'issue-credential-protocol-version',
+    },
+  ]
+
+  useRegisterActions(credentialActions, [protocolVersion])
 
   return (
     <div>
@@ -185,17 +156,6 @@ export const KBar: React.FunctionComponent<PropsWithChildren> = ({ children }) =
           </motion.div>
         )}
       </AnimatePresence>
-      <KBarProvider actions={actions} options={{ enableHistory: true, disableScrollbarManagement: true }}>
-        <KBarPortal>
-          <KBarPositioner>
-            <KBarAnimator style={animatorStyle}>
-              <KBarSearch style={searchStyle} placeholder="I see you found the secret menu…" />
-              <RenderResults />
-            </KBarAnimator>
-          </KBarPositioner>
-        </KBarPortal>
-      </KBarProvider>
-      {children}
     </div>
   )
 }
