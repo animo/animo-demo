@@ -7,6 +7,7 @@ import { page } from '../../FramerAnimations'
 import { Modal } from '../../components/Modal'
 import { SmallButtonText } from '../../components/SmallButtonText'
 import { useAppDispatch } from '../../hooks/hooks'
+import { useEffectOnce } from '../../hooks/useEffectOnce'
 import { useTitle } from '../../hooks/useTitle'
 import { useCurrentCharacter } from '../../slices/characters/charactersSelectors'
 import { useCredentials } from '../../slices/credentials/credentialsSelectors'
@@ -33,12 +34,12 @@ export const DashboardPage: React.FC = () => {
   const currentCharacter = useCurrentCharacter()
   const useCases = useAllUseCases()
 
-  useEffect(() => {
+  useEffectOnce(() => {
     // if user doesn't come from onboarding flow
     if (useCases.length === 0 && currentCharacter) {
       dispatch(fetchAllUseCasesByCharId(currentCharacter.id))
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (completedUseCaseSlugs.length !== 0 && completedUseCaseSlugs.length === useCases.length) {

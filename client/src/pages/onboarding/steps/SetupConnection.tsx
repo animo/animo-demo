@@ -9,6 +9,7 @@ import { fade, fadeX } from '../../../FramerAnimations'
 import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
+import { useEffectOnce } from '../../../hooks/useEffectOnce'
 import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
 import {
@@ -39,9 +40,9 @@ export const SetupConnection: React.FC<Props> = ({
   const isCompleted = connectionState === 'response-sent' || connectionState === 'completed'
   const { useLegacyInvitations } = useConnection()
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (!isCompleted) dispatch(createInvitation({ useLegacyInvitations }))
-  }, [])
+  })
 
   useEffect(() => {
     if (connectionId) {

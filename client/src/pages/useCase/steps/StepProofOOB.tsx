@@ -2,12 +2,13 @@ import type { Entity, RequestedCredential, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeExit, fadeX } from '../../../FramerAnimations'
 import { useAppDispatch } from '../../../hooks/hooks'
+import { useEffectOnce } from '../../../hooks/useEffectOnce'
 import { useInterval } from '../../../hooks/useInterval'
 import { createProofOOB, fetchProofById } from '../../../slices/proof/proofThunks'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
@@ -69,9 +70,9 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
     )
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (!proof) createProofRequest()
-  }, [])
+  })
 
   useInterval(
     () => {
