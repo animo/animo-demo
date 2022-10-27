@@ -1,4 +1,14 @@
+import type { Event } from '../types/event'
+
+import { ConnectionEventTypes, DidExchangeState } from '@aries-framework/core'
+
+import { isConnectionEvent } from '../config/event'
+import { webSocketConfig } from '../config/websocket'
+
+// Demo Agent
 const API_URL = Cypress.env('apiUrl')
+
+// Extra test agent
 const TEST_AGENT_URL = 'http://localhost:9000'
 
 describe('Onboarding demo test using legacy invitation', () => {
@@ -19,12 +29,22 @@ describe('Onboarding demo test using legacy invitation', () => {
 
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(5000)
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
 
-      cy.request('GET', `${API_URL}/connections?outOfBandId=${oobId}`).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
@@ -69,12 +89,22 @@ describe('Onboarding demo test using legacy invitation', () => {
 
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(5000)
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
 
-      cy.request('GET', `${API_URL}/connections?outOfBandId=${oobId}`).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
