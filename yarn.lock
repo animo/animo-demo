@@ -1638,6 +1638,11 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@lensesio/cypress-websocket-testing@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@lensesio/cypress-websocket-testing/-/cypress-websocket-testing-1.0.1.tgz#0a17ec8431b6f07110875c400ad75b2ce9a78e80"
+  integrity sha512-smZlFhxFC7ucZP302xpz94sV581MTFkWwOIvt/ica7Q0iR314ioX2RSA2V7uz9kbvspQYlrKP+4khdBst7iBNA==
+
 "@motionone/animation@^10.13.1":
   version "10.14.0"
   resolved "https://registry.npmjs.org/@motionone/animation/-/animation-10.14.0.tgz"
@@ -9893,6 +9898,13 @@ rxjs@^7.0.0, rxjs@^7.2.0, rxjs@^7.5.1:
   version "7.5.6"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.5.6.tgz"
   integrity sha512-dnyv2/YsXhnm461G+R/Pe5bWP41Nm6LBXEYWI6eiFP4fiwx6WRI/CD0zbdVAudd9xwLEF2IDcKXLHit0FYjUzw==
+  dependencies:
+    tslib "^2.1.0"
+
+rxjs@^7.5.7:
+  version "7.5.7"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.5.7.tgz#2ec0d57fdc89ece220d2e702730ae8f1e49def39"
+  integrity sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==
   dependencies:
     tslib "^2.1.0"
 
