@@ -26,9 +26,6 @@ const proofSlice = createSlice({
       state.isLoading = false
     },
     fetchProofEventById: (state, action) => {
-      // eslint-disable-next-line no-console
-      console.log(`Proof reducer triggered`, state, action)
-
       state.isLoading = false
       state.proof = action.payload
     },
