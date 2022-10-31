@@ -37,9 +37,6 @@ const connectionSlice = createSlice({
       state.useLegacyInvitations = action.payload
     },
     setConnection: (state, action: PayloadAction<ConnectionRecord>) => {
-      // eslint-disable-next-line no-console
-      console.log(`Connection out of band reducer triggered`, state, action)
-
       state.isLoading = false
       state.id = action.payload.id
       state.state = action.payload.state

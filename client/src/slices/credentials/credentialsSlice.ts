@@ -42,9 +42,6 @@ const credentialSlice = createSlice({
       state.protocolVersion = action.payload
     },
     fetchCredentialEventByConnectionId: (state, action) => {
-      // eslint-disable-next-line no-console
-      console.log(`Credential reducer triggered`, state, action)
-
       state.credentials = [...state.credentials.filter((x) => x.id !== action.payload.id), action.payload]
     },
   },
