@@ -7,7 +7,6 @@ import { webSocketConfig } from '../config/websocket'
 
 const API_URL = Cypress.env('apiUrl')
 
-// Extra test agent
 const TEST_AGENT_URL = 'http://localhost:9000'
 
 describe('Onboarding demo test using issue credential protocol version 1', () => {
