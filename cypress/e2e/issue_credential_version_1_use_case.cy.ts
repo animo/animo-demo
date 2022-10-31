@@ -5,7 +5,6 @@ import { ConnectionEventTypes, DidExchangeState } from '@aries-framework/core'
 import { isConnectionEvent } from '../config/event'
 import { webSocketConfig } from '../config/websocket'
 
-// Demo Agent
 const API_URL = Cypress.env('apiUrl')
 
 // Extra test agent
