@@ -6,7 +6,6 @@ import { wsUrl } from './BaseUrl'
 
 const webSocket = new WebSocket(wsUrl)
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Event = {
   type: string
   payload: { proofRecord: ProofRecord; credentialRecord: CredentialExchangeRecord; connectionRecord: ConnectionRecord }
