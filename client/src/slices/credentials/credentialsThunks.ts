@@ -1,5 +1,6 @@
 import type { AsyncThunkOptions } from '../../store/configureStore'
 import type { CredentialData } from '../types'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -11,15 +12,16 @@ export const fetchCredentialsByConId = createAsyncThunk('credentials/fetchAllByC
 })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const issueCredential = createAsyncThunk<any, { connectionId: string; cred: CredentialData }, AsyncThunkOptions>(
-  'credentials/issueCredential',
-  async (data, { getState }) => {
-    const state = getState()
+export const issueCredential = createAsyncThunk<
+  CredentialExchangeRecord,
+  { connectionId: string; cred: CredentialData },
+  AsyncThunkOptions
+>('credentials/issueCredential', async (data, { getState }) => {
+  const state = getState()
 
-    const response = await Api.issueCredential(data.connectionId, data.cred, state.credentials.protocolVersion)
-    return response.data
-  }
-)
+  const response = await Api.issueCredential(data.connectionId, data.cred, state.credentials.protocolVersion)
+  return response.data
+})
 
 export const fetchCredentialById = createAsyncThunk('credentials/fetchById', async (id: string) => {
   const response = await Api.getCredentialById(id)
