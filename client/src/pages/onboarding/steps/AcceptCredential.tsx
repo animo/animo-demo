@@ -2,23 +2,20 @@ import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
+import { CredentialEventTypes, CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { fade, fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { Modal } from '../../../components/Modal'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import {
-  deleteCredentialById,
-  fetchCredentialsByConId,
-  issueCredential,
-} from '../../../slices/credentials/credentialsThunks'
+import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
+import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { FailedRequestModal } from '../components/FailedRequestModal'
 import { StarterCredentials } from '../components/StarterCredentials'
@@ -49,11 +46,10 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )
 
-  let { protocolVersion } = useCredentials()
   useEffect(() => {
     if (credentials.length === 0) {
       currentCharacter.starterCredentials.forEach((item) => {
-        dispatch(issueCredential({ connectionId: connectionId, cred: item, protocolVersion }))
+        dispatch(issueCredential({ connectionId: connectionId, cred: item }))
         trackEvent('credential-issued')
       })
       setCredentialsIssued(true)
@@ -86,19 +82,21 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
     }
   }, [error])
 
-  useInterval(
-    () => {
-      if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
+  useWebhookEvent(
+    CredentialEventTypes.CredentialStateChanged,
+    (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      if (event.payload.credentialRecord.connectionId === connectionId) {
+        dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
+      }
     },
-    !credentialsAccepted ? 1000 : null
+    !credentialsAccepted,
+    [connectionId]
   )
 
   const routeError = () => {
     navigate('/demo')
     dispatch({ type: 'demo/resetDemo' })
   }
-
-  protocolVersion = useCredentials().protocolVersion
 
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
@@ -113,8 +111,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           )
         })
 
-        if (newCredential)
-          dispatch(issueCredential({ connectionId: connectionId, cred: newCredential, protocolVersion }))
+        if (newCredential) dispatch(issueCredential({ connectionId: connectionId, cred: newCredential }))
       }
     })
     closeFailedRequestModal()

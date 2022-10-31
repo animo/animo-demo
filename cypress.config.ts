@@ -7,6 +7,7 @@ export default defineConfig({
   viewportHeight: 860,
   env: {
     apiUrl: 'http://localhost:5000',
+    wsUrl: 'ws://localhost:5000',
   },
   e2e: {
     // We've imported your old cypress plugins here.

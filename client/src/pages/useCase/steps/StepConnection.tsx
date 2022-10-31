@@ -1,21 +1,20 @@
 import type { ConnectionState } from '../../../slices/connection/connectionSlice'
 import type { Entity, Step } from '../../../slices/types'
+import type { ConnectionRecord } from '@aries-framework/core'
 
+import { ConnectionEventTypes } from '@aries-framework/core'
 import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
-import {
-  createInvitation,
-  fetchConnectionById,
-  fetchConnectionByOutOfBandId,
-} from '../../../slices/connection/connectionThunks'
+import { setConnection } from '../../../slices/connection/connectionSlice'
+import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { StepInfo } from '../components/StepInfo'
 
 export interface Props {
@@ -36,20 +35,15 @@ export const StepConnection: React.FC<Props> = ({ step, connection, entity }) =>
     }
   }, [])
 
-  useInterval(
-    () => {
-      if (outOfBandId && document.visibilityState === 'visible') {
-        dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+  useWebhookEvent(
+    ConnectionEventTypes.ConnectionStateChanged,
+    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      if (event.payload.connectionRecord.outOfBandId === outOfBandId || event.payload.connectionRecord.id === id) {
+        dispatch(setConnection(event.payload.connectionRecord))
       }
     },
-    !id ? 1000 : null
-  )
-
-  useInterval(
-    () => {
-      if (id && document.visibilityState === 'visible') dispatch(fetchConnectionById(id))
-    },
-    !isCompleted && id ? 1000 : null
+    !id || (!isCompleted && id ? true : false),
+    [outOfBandId, id]
   )
 
   const renderQRCode = invitationUrl && <QRCode invitationUrl={invitationUrl} connectionState={state} />

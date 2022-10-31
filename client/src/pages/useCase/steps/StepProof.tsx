@@ -1,14 +1,16 @@
 import type { Entity, RequestedCredential, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 
+import { ProofEventTypes } from '@aries-framework/core'
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 import { fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
-import { createProof, deleteProofById, fetchProofById } from '../../../slices/proof/proofThunks'
+import { fetchProofEventById } from '../../../slices/proof/proofSlice'
+import { createProof, deleteProofById } from '../../../slices/proof/proofThunks'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
 import { StepInfo } from '../components/StepInfo'
@@ -74,13 +76,15 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
     if (!proof) createProofRequest()
   }, [])
 
-  useInterval(
-    () => {
-      if (!proofReceived && proof && document.visibilityState === 'visible') {
-        dispatch(fetchProofById(proof.id))
+  useWebhookEvent(
+    ProofEventTypes.ProofStateChanged,
+    (event: { payload: { proofRecord: ProofRecord } }) => {
+      if (event.payload.proofRecord.id === proof?.id) {
+        dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },
-    !proofReceived ? 1000 : null
+    !proofReceived,
+    [proof]
   )
 
   const sendNewRequest = () => {

@@ -1,3 +1,6 @@
+import type { ConnectionRecord } from '@aries-framework/core'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
 import { createSlice } from '@reduxjs/toolkit'
 
 import { createInvitation, fetchConnectionById, fetchConnectionByOutOfBandId } from './connectionThunks'
@@ -32,6 +35,11 @@ const connectionSlice = createSlice({
     },
     setUseLegacyInvitations: (state, action) => {
       state.useLegacyInvitations = action.payload
+    },
+    setConnection: (state, action: PayloadAction<ConnectionRecord>) => {
+      state.isLoading = false
+      state.id = action.payload.id
+      state.state = action.payload.state
     },
   },
   extraReducers: (builder) => {
@@ -79,6 +87,6 @@ const connectionSlice = createSlice({
   },
 })
 
-export const { clearConnection, setUseLegacyInvitations } = connectionSlice.actions
+export const { clearConnection, setUseLegacyInvitations, setConnection } = connectionSlice.actions
 
 export default connectionSlice.reducer

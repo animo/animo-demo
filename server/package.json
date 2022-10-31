@@ -16,7 +16,7 @@
   "dependencies": {
     "@aries-framework/core": "^0.2.3",
     "@aries-framework/node": "^0.2.3",
-    "@aries-framework/rest": "^0.9.2",
+    "@aries-framework/rest": "^0.9.4",
     "@types/cron": "^2.0.0",
     "@types/express": "^4.17.13",
     "@types/uuid": "^8.3.3",

@@ -1,4 +1,12 @@
+import type { Event } from '../types/event'
+
+import { ConnectionEventTypes, DidExchangeState } from '@aries-framework/core'
+
+import { isConnectionEvent } from '../config/event'
+import { webSocketConfig } from '../config/websocket'
+
 const API_URL = Cypress.env('apiUrl')
+
 const TEST_AGENT_URL = 'http://localhost:9000'
 
 describe('Onboarding demo test using issue credential protocol version 1', () => {
@@ -19,13 +27,24 @@ describe('Onboarding demo test using issue credential protocol version 1', () =>
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
+
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
@@ -68,13 +87,24 @@ describe('Onboarding demo test using issue credential protocol version 1', () =>
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
+
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
