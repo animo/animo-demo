@@ -79,11 +79,7 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
   useWebhookEvent(
     ProofEventTypes.ProofStateChanged,
     (event: { payload: { proofRecord: ProofRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional STPR 1`)
       if (event.payload.proofRecord.id === proof?.id) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional STPR 1`)
         dispatch(fetchProofEventById(event.payload.proofRecord))
       }
     },

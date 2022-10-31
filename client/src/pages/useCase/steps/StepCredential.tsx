@@ -69,11 +69,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   useWebhookEvent(
     CredentialEventTypes.CredentialStateChanged,
     (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
-      // eslint-disable-next-line no-console
-      console.log(`Outside the conditional STCR 1`)
       if (event.payload.credentialRecord.connectionId === connectionId) {
-        // eslint-disable-next-line no-console
-        console.log(`Inside the conditional STCR 1`)
         dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
       }
     },
