@@ -11,7 +11,7 @@ import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
 import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
+import { setCredential } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
@@ -70,7 +70,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     CredentialEventTypes.CredentialStateChanged,
     (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
       if (event.payload.credentialRecord.connectionId === connectionId) {
-        dispatch(fetchCredentialEventByConnectionId(event.payload.credentialRecord))
+        dispatch(setCredential(event.payload.credentialRecord))
       }
     },
     !credentialsAccepted,

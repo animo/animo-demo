@@ -10,7 +10,7 @@ import { useMediaQuery } from 'react-responsive'
 import { fade, fadeExit, fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { fetchProofEventById } from '../../../slices/proof/proofSlice'
+import { setProof } from '../../../slices/proof/proofSlice'
 import { createProofOOB } from '../../../slices/proof/proofThunks'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
 import { StepInfo } from '../components/StepInfo'
@@ -79,7 +79,7 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
     ProofEventTypes.ProofStateChanged,
     (event: { payload: { proofRecord: ProofRecord } }) => {
       if (event.payload.proofRecord.id === proof?.id) {
-        dispatch(fetchProofEventById(event.payload.proofRecord))
+        dispatch(setProof(event.payload.proofRecord))
       }
     },
     !proofReceived,

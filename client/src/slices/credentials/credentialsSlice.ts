@@ -41,7 +41,7 @@ const credentialSlice = createSlice({
     setProtocolVersion: (state, action) => {
       state.protocolVersion = action.payload
     },
-    fetchCredentialEventByConnectionId: (state, action) => {
+    setCredential: (state, action) => {
       state.credentials = [...state.credentials.filter((x) => x.id !== action.payload.id), action.payload]
     },
   },
@@ -107,6 +107,6 @@ const credentialSlice = createSlice({
   },
 })
 
-export const { clearCredentials, setProtocolVersion, fetchCredentialEventByConnectionId } = credentialSlice.actions
+export const { clearCredentials, setProtocolVersion, setCredential } = credentialSlice.actions
 
 export default credentialSlice.reducer
