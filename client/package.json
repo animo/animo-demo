@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.0.8",
     "@types/react-router": "^5.1.19",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.7",
