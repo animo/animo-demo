@@ -34,7 +34,7 @@
     "@typescript-eslint/parser": "^5.38.1",
     "@typescript-eslint/visitor-keys": "^5.10.2",
     "concurrently": "^7.0.0",
-    "cypress": "10.7.0",
+    "cypress": "10.11.0",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.0",
