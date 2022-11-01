@@ -36,6 +36,7 @@ services:
     ports:
       - '5000'
       - '5001'
+      - '443'
 
   client:
     image: ghcr.io/animo/animo-demo/client:main
