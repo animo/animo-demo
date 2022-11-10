@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react'
 import { fade, fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
-import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
@@ -118,7 +117,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             <AnimatePresence exitBeforeEnter>{renderCredentials}</AnimatePresence>
           ) : (
             <motion.div className="flex flex-col h-full m-auto">
-              <Loader />
+              <Credential title={``} credential={{} as CredentialExchangeRecord} data={{} as CredentialData} />
             </motion.div>
           )}
         </motion.div>

@@ -1,4 +1,4 @@
-import type { Character } from '../../../slices/types'
+import type { Character, CredentialData } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom'
 import { fade, fadeX } from '../../../FramerAnimations'
 import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
-import { Loader } from '../../../components/Loader'
 import { Modal } from '../../../components/Modal'
 import { useAppDispatch } from '../../../hooks/hooks'
 import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
@@ -129,7 +128,10 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           </AnimatePresence>
         ) : (
           <motion.div className="flex flex-col h-full m-auto">
-            <Loader />
+            <StarterCredentials
+              credentialData={[] as CredentialData[]}
+              credentials={[] as CredentialExchangeRecord[]}
+            />
           </motion.div>
         )}
         {isFailedRequestModalOpen && (
