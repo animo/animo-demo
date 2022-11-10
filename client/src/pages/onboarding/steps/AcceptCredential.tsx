@@ -1,4 +1,4 @@
-import type { Character, CredentialData } from '../../../slices/types'
+import type { Character } from '../../../slices/types'
 import type { Content } from '../../../utils/OnboardingUtils'
 import type { CredReqMetadata } from 'indy-sdk'
 
@@ -16,6 +16,7 @@ import { useCredentials } from '../../../slices/credentials/credentialsSelectors
 import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
+import { EmptyStarterCredential } from '../components/EmptyStarterCredential'
 import { FailedRequestModal } from '../components/FailedRequestModal'
 import { StarterCredentials } from '../components/StarterCredentials'
 import { StepInformation } from '../components/StepInformation'
@@ -128,10 +129,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           </AnimatePresence>
         ) : (
           <motion.div className="flex flex-col h-full m-auto">
-            <StarterCredentials
-              credentialData={[] as CredentialData[]}
-              credentials={[] as CredentialExchangeRecord[]}
-            />
+            <EmptyStarterCredential />
           </motion.div>
         )}
         {isFailedRequestModalOpen && (
