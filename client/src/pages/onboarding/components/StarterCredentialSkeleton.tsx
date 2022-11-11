@@ -3,9 +3,8 @@ import React from 'react'
 
 import { fadeX } from '../../../FramerAnimations'
 import { StateIndicator } from '../../../components/StateIndicator'
-import { prependApiUrl } from '../../../utils/Url'
 
-export const EmptyStarterCredential: React.FC = () => {
+export const StarterCredentialSkeleton: React.FC = () => {
   return (
     <motion.div
       variants={fadeX}
@@ -20,7 +19,7 @@ export const EmptyStarterCredential: React.FC = () => {
 
       <div className="flex-1 flex flex-row items-center justify-between my-2">
         <div className="bg-animo-lightgrey rounded-lg p-2 w-12">
-          <img className="h-8 m-auto" src={prependApiUrl('/public/credentials/icon-credential.svg')} alt="icon" />
+          <img className="h-8 m-auto" />
         </div>
         <div className="flex-1 px-4 justify-self-start dark:text-white text-sm sm:text-base">
           <p>Credential</p>

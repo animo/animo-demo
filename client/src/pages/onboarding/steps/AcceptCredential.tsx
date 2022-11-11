@@ -16,7 +16,7 @@ import { useCredentials } from '../../../slices/credentials/credentialsSelectors
 import { fetchCredentialEventByConnectionId } from '../../../slices/credentials/credentialsSlice'
 import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
-import { EmptyStarterCredential } from '../components/EmptyStarterCredential'
+import { CredentialSkeleton } from '../components/CredentialSkeleton'
 import { FailedRequestModal } from '../components/FailedRequestModal'
 import { StarterCredentials } from '../components/StarterCredentials'
 import { StepInformation } from '../components/StepInformation'
@@ -129,7 +129,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           </AnimatePresence>
         ) : (
           <motion.div className="flex flex-col h-full m-auto">
-            <EmptyStarterCredential />
+            <CredentialSkeleton />
           </motion.div>
         )}
         {isFailedRequestModalOpen && (

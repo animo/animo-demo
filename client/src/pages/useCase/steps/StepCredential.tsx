@@ -15,7 +15,7 @@ import { deleteCredentialById, issueCredential } from '../../../slices/credentia
 import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
-import { EmptyCredential } from '../../onboarding/components/EmptyCredential'
+import { CredentialSkeleton } from '../../onboarding/components/CredentialSkeleton'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { StepInfo } from '../components/StepInfo'
 
@@ -118,7 +118,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             <AnimatePresence exitBeforeEnter>{renderCredentials}</AnimatePresence>
           ) : (
             <motion.div className="flex flex-col h-full m-auto">
-              <EmptyCredential />
+              <CredentialSkeleton />
             </motion.div>
           )}
         </motion.div>
