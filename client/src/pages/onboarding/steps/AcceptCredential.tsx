@@ -129,7 +129,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
           </AnimatePresence>
         ) : (
           <motion.div className="flex flex-col h-full m-auto">
-            <CredentialSkeleton title="Starter Credentials" />
+            <CredentialSkeleton title="Starter credentials" />
           </motion.div>
         )}
         {isFailedRequestModalOpen && (
