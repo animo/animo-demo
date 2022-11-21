@@ -25,7 +25,7 @@ const proofSlice = createSlice({
       state.proofUrl = undefined
       state.isLoading = false
     },
-    fetchProofEventById: (state, action) => {
+    setProof: (state, action) => {
       state.isLoading = false
       state.proof = action.payload
     },
@@ -64,6 +64,6 @@ const proofSlice = createSlice({
   },
 })
 
-export const { clearProof, fetchProofEventById } = proofSlice.actions
+export const { clearProof, setProof } = proofSlice.actions
 
 export default proofSlice.reducer
