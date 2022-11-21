@@ -74,7 +74,7 @@ export const Club: UseCase = {
           id: uuid(),
           type: StepType.INFO,
           title: `The bouncer asks you to scan the QR-code`,
-          description: `After waiting in line the bounder shows you a QR-code to scan to prove that you're old enough to enter the club.`,
+          description: `After waiting in line the bouncer shows you a QR-code to scan to prove that you're old enough to enter the club.`,
           image: `${URL}/club-data.svg`,
         },
         {
