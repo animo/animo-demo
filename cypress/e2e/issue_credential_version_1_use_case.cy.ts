@@ -67,14 +67,6 @@ describe('Onboarding demo test using issue credential protocol version 1', () =>
           (credentialRecord) => credentialRecord.threadId === threadId && credentialRecord.state === 'offer-received'
         )
 
-        if (!testAgentRecord) {
-          throw new Error(
-            `Can't find credential record that matches threadId ${threadId} and state offer-received. ${JSON.stringify(
-              response.body
-            )}`
-          )
-        }
-
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         cy.streamRequest<Event>(webSocketConfig, {
