@@ -85,7 +85,7 @@ const credentialSlice = createSlice({
       })
       .addCase(deleteCredentialById.fulfilled, (state, action) => {
         state.isLoading = false
-        state.credentials.filter((cred) => cred.id !== action.payload)
+        state.credentials = state.credentials.filter((cred) => cred.id !== action.payload)
         return state
       })
       .addCase('clearUseCase', (state) => {
