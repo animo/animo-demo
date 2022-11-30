@@ -41,7 +41,7 @@ describe('Onboarding demo test using legacy invitation', () => {
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
       cy.streamRequest<Event>(webSocketConfig, {
-        streamTimeout: 20000,
+        streamTimeout: 10000,
         // Waits for connection event with oobId and state is completed or response-sent
         takeWhileFn: (event) => {
           if (!isConnectionEvent(event)) return true
@@ -74,7 +74,7 @@ describe('Onboarding demo test using legacy invitation', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         cy.streamRequest<Event>(webSocketConfig, {
-          streamTimeout: 20000,
+          streamTimeout: 10000,
           // Waits for credential event with threadId and state is done
           takeWhileFn: (event) => {
             if (!isCredentialEvent(event)) return true
@@ -111,7 +111,7 @@ describe('Onboarding demo test using legacy invitation', () => {
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
       cy.streamRequest<Event>(webSocketConfig, {
-        streamTimeout: 20000,
+        streamTimeout: 10000,
         // Waits for connection event with oobId and state is completed or response-sent
         takeWhileFn: (event) => {
           if (!isConnectionEvent(event)) return true
@@ -141,7 +141,7 @@ describe('Onboarding demo test using legacy invitation', () => {
         cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`)
 
         cy.streamRequest<Event>(webSocketConfig, {
-          streamTimeout: 20000,
+          streamTimeout: 10000,
           // Waits for proof event with threadId and state is done
           takeWhileFn: (event) => {
             if (!isProofEvent(event)) return true
@@ -180,7 +180,7 @@ describe('Onboarding demo test using legacy invitation', () => {
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
         cy.streamRequest<Event>(webSocketConfig, {
-          streamTimeout: 20000,
+          streamTimeout: 10000,
           // Waits for credential event with threadId and state is done
           takeWhileFn: (event) => {
             if (!isCredentialEvent(event)) return true
