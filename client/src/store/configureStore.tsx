@@ -6,10 +6,10 @@ import thunk from 'redux-thunk'
 import rootReducer from '../slices/index'
 
 export const persistConfig = {
-  key: 'animo-demo-redux-persist-store',
+  key: 'animo-demo-store',
   storage,
   whitelist: ['preferences', 'characters', 'onboarding', 'credentials', 'connection'],
-  version: 6,
+  version: 7,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
