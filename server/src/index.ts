@@ -7,6 +7,7 @@ import {
   Agent,
   AutoAcceptCredential,
   HttpOutboundTransport,
+  WsOutboundTransport,
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { startServer } from '@aries-framework/rest'
@@ -65,6 +66,7 @@ const run = async () => {
   agent.registerInboundTransport(httpInbound)
 
   agent.registerOutboundTransport(new HttpOutboundTransport())
+  agent.registerOutboundTransport(new WsOutboundTransport())
 
   await agent.initialize()
 
