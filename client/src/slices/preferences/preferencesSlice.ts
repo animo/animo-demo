@@ -52,6 +52,7 @@ const preferencesSlice = createSlice({
     builder
       .addCase('demo/resetDemo', (state) => {
         state.darkMode = localStorage.getItem('theme') === 'dark'
+        state.completedUseCaseSlugs = []
         state.connectionDate = undefined
       })
       .addCase(fetchLastServerReset.fulfilled, (state, action) => {
