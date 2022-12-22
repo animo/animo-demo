@@ -2,6 +2,7 @@ import type { InitConfig } from '@aries-framework/core'
 import type { Express } from 'express'
 
 import {
+  AutoAcceptProof,
   ConnectionInvitationMessage,
   LogLevel,
   Agent,
@@ -53,6 +54,7 @@ const run = async () => {
     endpoints: [endpoint],
     autoAcceptConnections: true,
     autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
+    autoAcceptProofs: AutoAcceptProof.ContentApproved,
     useLegacyDidSovPrefix: true,
     connectionImageUrl: 'https://i.imgur.com/g3abcCO.png',
   }

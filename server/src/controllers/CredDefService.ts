@@ -1,6 +1,7 @@
-import type { CredDef } from 'indy-sdk'
+import type { CredDef, Schema } from 'indy-sdk'
 
-import { Agent } from '@aries-framework/core'
+import { Agent, IndySdkError } from '@aries-framework/core'
+import { isIndyError } from '@aries-framework/core/build/utils/indyError'
 import { Inject, Service } from 'typedi'
 
 @Service()
@@ -24,6 +25,7 @@ export class CredDefService {
     return def.id
   }
 
+  // FIXME: this will break if called concurrently. We need to do this in setup, and agent can't be used until it is done.
   public async getAll() {
     if (this.credentialDefinitions.length === 0) {
       await this.init()
@@ -38,129 +40,196 @@ export class CredDefService {
     return filtered.map((c) => c.toJSON())
   }
 
+  // TODO: these should be auto-created based on the use cases.
   private async init() {
-    const cd1 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Animo ID:1.1',
-      supportRevocation: false,
-      tag: 'Animo ID Card',
+    const cd1 = await this.createSchemaCredentialDefinition({
+      schema: {
+        attributeNames: ['Name', 'Street', 'City', 'Date of birth', 'Nationality'],
+        name: 'Animo ID',
+        version: '1.1',
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'Animo ID Card',
+      },
     })
-    // "attributes": [
-    //   "Name", "Street", "City", "Date of birth", "Nationality"
-    // ]
 
-    const cd2 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Credit card:1.0.0',
-      supportRevocation: false,
-      tag: 'Credit card',
+    const cd2 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Credit card',
+        version: '1.0.0',
+        attributeNames: ['Security code', 'Card number', 'Issuer', 'Holder', 'Valid until'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'Credit card',
+      },
     })
-    //"attrNames": [
-    //   "Security code", "Card number", "Issuer", "Holder", "Valid until"
-    // ],
 
-    const cd3 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Airplane Ticket:1.0',
-      supportRevocation: false,
-      tag: 'Airplane Ticket',
+    const cd3 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Airplane Ticket',
+        version: '1.0',
+        attributeNames: ['Airline', 'Class', 'Seat', 'Passenger'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'Airplane Ticket',
+      },
     })
-    // "attrNames": [
-    //   "Airline", "Class", "Seat", "Passenger"
-    // ],
 
-    const cd4 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Conference Pass:1.0.0',
-      supportRevocation: false,
-      tag: 'Conference Pass',
+    const cd4 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Conference Pass',
+        version: '1.0.0',
+        attributeNames: ['Name', 'Nationality'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'Conference Pass',
+      },
     })
-    // "attrNames": [
-    //   "Name", "Nationality"
-    // ],
 
-    const cd5 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Hotel Keycard:1.0.0',
-      supportRevocation: false,
-      tag: 'Hotel Keycard',
+    const cd5 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Hotel Keycard',
+        version: '1.0.0',
+        attributeNames: ['name', 'room'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'Hotel Keycard',
+      },
     })
-    // "attrNames": [
-    //   "name", "room"
-    // ],
 
-    const cd6 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:University Card:1.0.2',
-      supportRevocation: false,
-      tag: 'University Card',
+    const cd6 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'University Card',
+        version: '1.0.2',
+        attributeNames: ['Date of birth', 'StudentID', 'Valid until', 'University', 'Faculty', 'Name'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: 'University Card',
+      },
     })
-    // "attrNames": [
-    //   "Date of birth", "StudentID", "Valid until", "University", "Faculty", "Name"
-    // ],
 
-    const cd7 = await this.createCredentialDefinition({
-      schemaId: "q7ATwTYbQDgiigVijUAej:2:Master's Degree:1.0.0",
-      supportRevocation: false,
-      tag: `Master's Degree`,
+    const cd7 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: "Master's Degree",
+        version: '1.0.0',
+        attributeNames: ['Graduate', 'Date', 'Field', 'Institute'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Master's Degree`,
+      },
     })
-    // "attrNames": [
-    //   "Graduate", "Date", "Field", "Institute"
-    // ],
 
-    const cd8 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Proof of Employment:1.0.0',
-      supportRevocation: false,
-      tag: `Proof of Employment`,
+    const cd8 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Proof of Employment',
+        version: '1.0.0',
+        attributeNames: ['Date', 'Organization', 'Title', 'Name'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Proof of Employment`,
+      },
     })
-    // "attrNames": [
-    //   "Date", "Organization", "Title", "Name"
-    // ]
 
-    const cd9 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Rent Agreement:1.0.1',
-      supportRevocation: false,
-      tag: `Rent Agreement`,
+    const cd9 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Rent Agreement',
+        version: '1.0.1',
+        attributeNames: ['Landlord', 'Name', 'Rent', 'Start date', 'End date'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Rent Agreement`,
+      },
     })
-    // "attributes": [
-    //   "Landlord", "Name", "Rent", "Start date", "End date"
-    // ]
 
-    const cd10 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Laptop Invoice:1.0.1',
-      supportRevocation: false,
-      tag: `Laptop Invoice`,
+    const cd10 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Laptop Invoice',
+        version: '1.0.1',
+        attributeNames: ['Street', 'Store', 'Name', 'City', 'Product', 'Price', 'Date'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Laptop Invoice`,
+      },
     })
-    // "attrNames": [
-    //  "Street", "Store", "Name", "City", "Product", "Price", "Date"
-    // ]
 
-    const cd11 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Crypto Wallet:1.0.2',
-      supportRevocation: false,
-      tag: `Crypto Wallet`,
+    const cd11 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Crypto Wallet',
+        version: '1.0.2',
+        attributeNames: ['Address', 'Balance'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Crypto Wallet`,
+      },
     })
-    // "attrNames": [
-    //  "Address", "Balance"
-    // ]
 
-    const cd12 = await this.createCredentialDefinition({
-      schemaId: 'q7ATwTYbQDgiigVijUAej:2:Gym Membership:1.0',
-      supportRevocation: false,
-      tag: `Gym Membership`,
+    const cd12 = this.createSchemaCredentialDefinition({
+      schema: {
+        name: 'Gym Membership',
+        version: '1.0',
+        attributeNames: ['Name', 'Valid until', 'Date of birth'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Gym Membership`,
+      },
     })
-    // "attrNames": [
-    //  "Name", "Valid until", "Date of birth"
-    // ],
 
-    this.credentialDefinitions = [cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12]
+    this.credentialDefinitions = await Promise.all([cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12])
   }
 
-  private async createCredentialDefinition(credentialDefinitionRequest: {
-    schemaId: string
-    supportRevocation: boolean
-    tag: string
+  private async createSchemaCredentialDefinition(options: {
+    schema: {
+      attributeNames: string[]
+      name: string
+      version: string
+    }
+    credentialDefinition: {
+      tag: string
+      supportRevocation: boolean
+    }
   }) {
-    const schema = await this.agent.ledger.getSchema(credentialDefinitionRequest.schemaId)
+    const publicDid = this.agent.publicDid?.did
+    if (!publicDid) {
+      throw new Error('Public DID not found')
+    }
+
+    const schemaId = `${publicDid}:2:${options.schema.name}:${options.schema.version}`
+
+    let schema: Schema
+
+    try {
+      schema = await this.agent.ledger.getSchema(schemaId)
+      this.agent.config.logger.info(`Schema ${schema.id} already exists`)
+    } catch (error) {
+      if (error instanceof IndySdkError && isIndyError(error.cause, 'LedgerNotFound')) {
+        this.agent.config.logger.info(`Schema ${schemaId} does not exist yet, creating it...`)
+        schema = await this.agent.ledger.registerSchema({
+          attributes: options.schema.attributeNames,
+          name: options.schema.name,
+          version: options.schema.version,
+        })
+      } else {
+        this.agent.config.logger.info(`Error fetching ${schemaId}`)
+        throw error
+      }
+    }
 
     return await this.agent.ledger.registerCredentialDefinition({
       schema,
-      supportRevocation: credentialDefinitionRequest.supportRevocation,
-      tag: credentialDefinitionRequest.tag,
+      supportRevocation: options.credentialDefinition.supportRevocation,
+      tag: options.credentialDefinition.tag,
     })
   }
 }
