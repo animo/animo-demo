@@ -8,7 +8,7 @@
     "@aries-framework/core": "^0.2.3",
     "@reduxjs/toolkit": "^1.7.2",
     "axios": "^0.27.2",
-    "framer-motion": "^7.5.1",
+    "framer-motion": "^8.0.2",
     "js-base64": "^3.7.2",
     "kbar": "0.1.0-beta.36",
     "plausible-tracker": "^0.3.8",
