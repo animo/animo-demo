@@ -23,19 +23,8 @@ const trinsic: Wallet = {
   ledgerImage: 'https://i.imgur.com/SINVCJv.png',
 }
 
-const bcWallet: Wallet = {
-  id: 3,
-  name: 'BC Wallet',
-  organization: 'Province of British Columbia, Canada',
-  recommended: false,
-  icon: '/public/wallets/icon-bc-wallet.jpeg',
-  url: 'https://onelink.to/nk4wrv',
-  apple: 'https://apps.apple.com/us/app/bc-wallet/id1587380443',
-  android: 'https://play.google.com/store/apps/details?id=ca.bc.gov.BCWallet',
-}
-
 const orbitEdge: Wallet = {
-  id: 4,
+  id: 3,
   name: 'Orbit Edge',
   organization: 'Northern Block Inc.',
   recommended: false,
@@ -43,6 +32,17 @@ const orbitEdge: Wallet = {
   url: 'https://onelink.to/bh2hcz',
   apple: 'https://apps.apple.com/us/app/orbit-edge/id1508037063',
   android: 'https://play.google.com/store/apps/details?id=com.northernblock',
+}
+
+const bcWallet: Wallet = {
+  id: 4,
+  name: 'BC Wallet',
+  organization: 'Province of British Columbia, Canada',
+  recommended: false,
+  icon: '/public/wallets/icon-bc-wallet.jpeg',
+  url: 'https://onelink.to/nk4wrv',
+  apple: 'https://apps.apple.com/us/app/bc-wallet/id1587380443',
+  android: 'https://play.google.com/store/apps/details?id=ca.bc.gov.BCWallet',
 }
 
 const indicioHoldrPlus: Wallet = {
@@ -56,4 +56,4 @@ const indicioHoldrPlus: Wallet = {
   android: 'https://play.google.com/store/apps/details?id=tech.indicio.holdrplus',
 }
 
-export const Wallets: Wallet[] = [lissi, trinsic, bcWallet]
+export const Wallets: Wallet[] = [lissi, trinsic, orbitEdge]
