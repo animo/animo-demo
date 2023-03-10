@@ -1,3 +1,4 @@
+import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
@@ -14,7 +15,8 @@ const container = document.getElementById('root')
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = createRoot(container!)
-root.render(
+
+const content = (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
@@ -25,3 +27,12 @@ root.render(
     </PersistGate>
   </Provider>
 )
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+if (window.Cypress) {
+  // Cypress is running, don't use StrictMode because it doesn't really like the double execution of effects in StrictMode
+  root.render(content)
+} else {
+  root.render(<React.StrictMode>{content}</React.StrictMode>)
+}
