@@ -34,7 +34,7 @@ jobs:
       - name: Start App
         run: |
           yarn
-          NODE_ENV=test AGENT_WALLET_KEY=ba8e2462-f9ac-4da0-a9c6-99592a7dbc12 REACT_APP_HOST_BACKEND=http://localhost:5000 AGENT_PUBLIC_DID_SEED=testtesttesttesttesttesttesttest yarn dev &
+          NODE_ENV=test AGENT_WALLET_KEY=ba8e2462-f9ac-4da0-a9c6-99592a7dbc12 REACT_APP_HOST_BACKEND=http://localhost:5000 REACT_APP_HOST_WEBSOCKET=ws://localhost:5000 AGENT_PUBLIC_DID_SEED=testtesttesttesttesttesttesttest yarn dev &
 
       - name: Wait for credential defs to be created
         run: sleep 120s
@@ -46,5 +46,20 @@ jobs:
           record: true
           browser: chrome
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # after the test run completes store videos and any screenshots
+      # NOTE: screenshots will be generated only if E2E test failed
+      # thus we store screenshots only on failures
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos

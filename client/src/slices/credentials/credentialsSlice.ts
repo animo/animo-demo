@@ -41,6 +41,9 @@ const credentialSlice = createSlice({
     setProtocolVersion: (state, action) => {
       state.protocolVersion = action.payload
     },
+    addCredential: (state, action) => {
+      state.credentials = [...state.credentials.filter((x) => x.id !== action.payload.id), action.payload]
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -82,7 +85,7 @@ const credentialSlice = createSlice({
       })
       .addCase(deleteCredentialById.fulfilled, (state, action) => {
         state.isLoading = false
-        state.credentials.filter((cred) => cred.id !== action.payload)
+        state.credentials = state.credentials.filter((cred) => cred.id !== action.payload)
         return state
       })
       .addCase('clearUseCase', (state) => {
@@ -104,6 +107,6 @@ const credentialSlice = createSlice({
   },
 })
 
-export const { clearCredentials, setProtocolVersion } = credentialSlice.actions
+export const { clearCredentials, setProtocolVersion, addCredential } = credentialSlice.actions
 
 export default credentialSlice.reducer

@@ -52,7 +52,7 @@ export const Section: React.FC<Props> = ({
   const style = isMobile ? { height: '680px' } : { minHeight: '680px', height: '80vh', maxHeight: '920px' }
 
   const [isBackDisabled, setIsBackDisabled] = useState(false)
-  const [isForwardDisabled, setIsForwardDisabled] = useState(false)
+  const [isForwardDisabled, setIsForwardDisabled] = useState(true)
 
   const [leaveModal, setLeaveModal] = useState(false)
   const LEAVE_MODAL_TITLE = 'Are you sure you want to leave?'
@@ -72,12 +72,13 @@ export const Section: React.FC<Props> = ({
   const next = () => dispatch(nextStep())
 
   const isConnectionCompleted = connection.state === 'response-sent' || connection.state === 'completed'
-  const isProofCompleted = proof?.state === 'presentation-received'
+  const isProofCompleted = proof?.state === 'presentation-received' || proof?.state === 'done'
   const credentialsReceived = Object.values(credentials).every(
     (x) => x.state === 'credential-issued' || x.state === 'done'
   )
 
   useEffect(() => {
+    setIsForwardDisabled(true)
     if (step?.type === StepType.CONNECTION) {
       if (isConnectionCompleted) {
         setIsForwardDisabled(false)

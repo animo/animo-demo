@@ -1,4 +1,6 @@
+import type { AsyncThunkOptions } from '../../store/configureStore'
 import type { CredentialData } from '../types'
+import type { CredentialExchangeRecord } from '@aries-framework/core'
 
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -9,13 +11,16 @@ export const fetchCredentialsByConId = createAsyncThunk('credentials/fetchAllByC
   return response.data
 })
 
-export const issueCredential = createAsyncThunk(
-  'credentials/issueCredential',
-  async (data: { connectionId: string; cred: CredentialData; protocolVersion: 'v1' | 'v2' }) => {
-    const response = await Api.issueCredential(data.connectionId, data.cred, data.protocolVersion)
-    return response.data
-  }
-)
+export const issueCredential = createAsyncThunk<
+  CredentialExchangeRecord,
+  { connectionId: string; cred: CredentialData },
+  AsyncThunkOptions
+>('credentials/issueCredential', async (data, { getState }) => {
+  const state = getState()
+
+  const response = await Api.issueCredential(data.connectionId, data.cred, state.credentials.protocolVersion)
+  return response.data
+})
 
 export const fetchCredentialById = createAsyncThunk('credentials/fetchById', async (id: string) => {
   const response = await Api.getCredentialById(id)

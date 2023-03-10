@@ -1,9 +1,26 @@
+import type { Event } from '../types/event'
+
+import {
+  ConnectionEventTypes,
+  CredentialEventTypes,
+  CredentialState,
+  DidExchangeState,
+  ProofEventTypes,
+  ProofState,
+} from '@aries-framework/core'
+
+import { isConnectionEvent, isCredentialEvent, isProofEvent } from '../config/event'
+import { webSocketConfig } from '../config/websocket'
+
 const API_URL = Cypress.env('apiUrl')
+
 const TEST_AGENT_URL = 'http://localhost:9000'
 
 describe('Onboarding demo test using legacy invitation', () => {
   it('successfully completes school use case', () => {
-    cy.visit('/demo')
+    cy.visit('/')
+    cy.get('[data-cy=try-demo-button]').click()
+
     cy.get('[data-cy=next-onboarding-step]').click()
     cy.get('[data-cy=use-wallet]').first().click()
     cy.get('[data-cy=small-button]').click()
@@ -17,13 +34,24 @@ describe('Onboarding demo test using legacy invitation', () => {
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
+
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
@@ -32,7 +60,6 @@ describe('Onboarding demo test using legacy invitation', () => {
     cy.get('[data-cy=next-onboarding-step]').click()
 
     cy.wait('@offerCredential').then((interception) => {
-      const connectionId = interception.response?.body.connectionId
       const threadId = interception.response?.body.threadId
 
       cy.request('GET', `${TEST_AGENT_URL}/credentials/`).should((response) => {
@@ -42,11 +69,22 @@ describe('Onboarding demo test using legacy invitation', () => {
 
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(5000) // wait for the test agent request to be processed
-        cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
-          const cred = resp.body.find((credentialRecord) => credentialRecord.threadId === threadId)
-          cy.wrap(cred).its('state').should('equal', 'done')
+        cy.streamRequest<Event>(webSocketConfig, {
+          streamTimeout: 10000,
+          // Waits for credential event with threadId and state is done
+          takeWhileFn: (event) => {
+            if (!isCredentialEvent(event)) return true
+
+            return (
+              event.payload.credentialRecord.threadId !== threadId &&
+              ![CredentialState.Done].includes(event.payload.credentialRecord.state)
+            )
+          },
+        }).then((results) => {
+          const length = (results && results.length) || 0
+          const result = results && results[length - 1]
+
+          expect(result).to.have.property('type', CredentialEventTypes.CredentialStateChanged)
         })
 
         cy.get('[data-cy="next-onboarding-step"]').click()
@@ -66,13 +104,24 @@ describe('Onboarding demo test using legacy invitation', () => {
 
       const oobId = interception.response?.body.outOfBandRecord.id
 
-      cy.intercept('GET', `${API_URL}/connections?outOfBandId=${oobId}`).as('getConnectionRecord')
-
       cy.request('POST', `${TEST_AGENT_URL}/oob/receive-invitation-url`, body)
 
-      cy.wait(['@getConnectionRecord']).then((inter) => {
-        const record = inter.response?.body[0]
-        cy.wrap(record).its('state').should('not.equal', 'invited')
+      cy.streamRequest<Event>(webSocketConfig, {
+        streamTimeout: 10000,
+        // Waits for connection event with oobId and state is completed or response-sent
+        takeWhileFn: (event) => {
+          if (!isConnectionEvent(event)) return true
+
+          return (
+            event.payload.connectionRecord.outOfBandId !== oobId &&
+            ![DidExchangeState.Completed, DidExchangeState.ResponseSent].includes(event.payload.connectionRecord.state)
+          )
+        },
+      }).then((results) => {
+        const length = (results && results.length) || 0
+        const result = results && results[length - 1]
+
+        expect(result).to.have.property('type', ConnectionEventTypes.ConnectionStateChanged)
       })
     })
 
@@ -85,9 +134,25 @@ describe('Onboarding demo test using legacy invitation', () => {
       const threadId = interception.response?.body.threadId
       cy.request('GET', `${TEST_AGENT_URL}/proofs/`).should((response) => {
         const record = response.body.find((x) => x.threadId === threadId && x.state === 'request-received')
-        cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`).then(() => {
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(5000) // wait for the test agent request to be processed
+        cy.request('POST', `${TEST_AGENT_URL}/proofs/${record.id}/accept-request`)
+
+        cy.streamRequest<Event>(webSocketConfig, {
+          streamTimeout: 10000,
+          // Waits for proof event with threadId and state is done
+          takeWhileFn: (event) => {
+            if (!isProofEvent(event)) return true
+
+            return (
+              event.payload.proofRecord.threadId !== threadId &&
+              ![ProofState.Done].includes(event.payload.proofRecord.state)
+            )
+          },
+        }).then((results) => {
+          const length = (results && results.length) || 0
+          const result = results && results[length - 1]
+
+          expect(result).to.have.property('type', ProofEventTypes.ProofStateChanged)
+
           cy.get('[data-cy=section')
           cy.get('[data-cy="small-button"]').click()
         })
@@ -103,7 +168,6 @@ describe('Onboarding demo test using legacy invitation', () => {
     cy.get('[data-cy="small-button"]').click()
 
     cy.wait('@offerCredential').then((interception) => {
-      const connectionId = interception.response?.body.connectionId
       const threadId = interception.response?.body.threadId
 
       cy.request('GET', `${TEST_AGENT_URL}/credentials/`).should((response) => {
@@ -111,15 +175,27 @@ describe('Onboarding demo test using legacy invitation', () => {
 
         cy.request('POST', `${TEST_AGENT_URL}/credentials/${testAgentRecord.id}/accept-offer`)
 
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(5000) // wait for the test agent request to be processed
-        cy.request('GET', `${API_URL}/demo/credentials/${connectionId}`).should((resp) => {
-          const cred = resp.body.find((x) => x.threadId === threadId)
-          cy.wrap(cred).its('state').should('equal', 'done')
-        })
+        cy.streamRequest<Event>(webSocketConfig, {
+          streamTimeout: 10000,
+          // Waits for credential event with threadId and state is done
+          takeWhileFn: (event) => {
+            if (!isCredentialEvent(event)) return true
 
-        cy.get('[data-cy=section')
-        cy.get('[data-cy="small-button"]').click()
+            return (
+              event.payload.credentialRecord.threadId !== threadId &&
+              ![CredentialState.Done].includes(event.payload.credentialRecord.state)
+            )
+          },
+        }).then((results) => {
+          const length = (results && results.length) || 0
+          const result = results && results[length - 1]
+
+          expect(result).to.have.property('type', CredentialEventTypes.CredentialStateChanged)
+
+          cy.get('[data-cy=section')
+
+          cy.get('[data-cy="small-button"]').click()
+        })
       })
     })
 

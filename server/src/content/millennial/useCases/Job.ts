@@ -122,7 +122,7 @@ export const Job: UseCase = {
           id: uuid(),
           type: StepType.CREDENTIAL,
           title: `Here's your employee badge.`,
-          description: `Open your wallet, and accept your new student pass. You can use it to access all kinds of eCorp employee benefits or to prove that you work there.`,
+          description: `Open your wallet, and accept your new employee badge. You can use it to access all kinds of eCorp employee benefits or to prove that you work there.`,
           requestOptions: {
             name: 'eCorp Employee Badge',
             comment: 'Here is your proof of employment.',

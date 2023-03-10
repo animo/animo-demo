@@ -51,7 +51,7 @@ export const DashboardPage: React.FC = () => {
   const dashboardCard = (
     <DashboardCard
       title="Get to know Animo."
-      info="We’ve a lot more going on then just this (awesome) demo and we would love to discuss self-sovereign identity with you. Get in touch!"
+      info="We’ve a lot more going on than just this (awesome) demo and we would love to discuss self-sovereign identity with you. Get in touch!"
       button={
         <SmallButtonText text="CONTACT" onClick={() => window.open('https://animo.id', '_blank')} disabled={false} />
       }

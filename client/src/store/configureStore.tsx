@@ -6,10 +6,10 @@ import thunk from 'redux-thunk'
 import rootReducer from '../slices/index'
 
 export const persistConfig = {
-  key: 'redux-store-root',
+  key: 'animo-demo-store',
   storage,
   whitelist: ['preferences', 'characters', 'onboarding', 'credentials', 'connection'],
-  version: 5,
+  version: 7,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -27,3 +27,8 @@ export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+
+export type AsyncThunkOptions = {
+  dispatch: AppDispatch
+  state: RootState
+}

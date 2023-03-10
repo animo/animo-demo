@@ -1,21 +1,21 @@
+/* eslint-disable no-console */
 import type { Content } from '../../../utils/OnboardingUtils'
+import type { ConnectionRecord } from '@aries-framework/core'
 
+import { ConnectionEventTypes } from '@aries-framework/core'
 import { motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { FiExternalLink } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
 
 import { fade, fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { Loader } from '../../../components/Loader'
 import { QRCode } from '../../../components/QRCode'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
 import { useConnection } from '../../../slices/connection/connectionSelectors'
-import {
-  createInvitation,
-  fetchConnectionById,
-  fetchConnectionByOutOfBandId,
-} from '../../../slices/connection/connectionThunks'
+import { setConnection } from '../../../slices/connection/connectionSlice'
+import { createInvitation } from '../../../slices/connection/connectionThunks'
 import { setOnboardingConnectionId } from '../../../slices/onboarding/onboardingSlice'
 import { setConnectionDate } from '../../../slices/preferences/preferencesSlice'
 import { StepInformation } from '../components/StepInformation'
@@ -51,22 +51,18 @@ export const SetupConnection: React.FC<Props> = ({
     }
   }, [connectionId])
 
-  useInterval(
-    () => {
-      if (outOfBandId && document.visibilityState === 'visible') {
-        dispatch(fetchConnectionByOutOfBandId(outOfBandId))
+  useWebhookEvent(
+    ConnectionEventTypes.ConnectionStateChanged,
+    (event: { payload: { connectionRecord: ConnectionRecord } }) => {
+      if (
+        event.payload.connectionRecord.outOfBandId === outOfBandId ||
+        event.payload.connectionRecord.id === connectionId
+      ) {
+        dispatch(setConnection(event.payload.connectionRecord))
       }
     },
-    !connectionId ? 1000 : null
-  )
-
-  useInterval(
-    () => {
-      if (connectionId && document.visibilityState === 'visible') {
-        dispatch(fetchConnectionById(connectionId))
-      }
-    },
-    !isCompleted && connectionId ? 1000 : null
+    !connectionId || (!isCompleted && connectionId ? true : false),
+    [outOfBandId, connectionId]
   )
 
   const renderQRCode = invitationUrl ? (

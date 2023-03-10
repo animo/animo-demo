@@ -2,24 +2,20 @@ import type { Attribute, CredentialData, Step } from '../../../slices/types'
 import type { ProofRecord } from '@aries-framework/core'
 import type { CredReqMetadata } from 'indy-sdk'
 
-import { JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
+import { CredentialEventTypes, JsonTransformer, CredentialExchangeRecord } from '@aries-framework/core'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 import { fade, fadeX } from '../../../FramerAnimations'
+import { useWebhookEvent } from '../../../api/Webhook'
 import { ActionCTA } from '../../../components/ActionCTA'
-import { Loader } from '../../../components/Loader'
 import { useAppDispatch } from '../../../hooks/hooks'
-import { useInterval } from '../../../hooks/useInterval'
-import { useCredentials } from '../../../slices/credentials/credentialsSelectors'
-import {
-  deleteCredentialById,
-  fetchCredentialsByConId,
-  issueCredential,
-} from '../../../slices/credentials/credentialsThunks'
+import { addCredential } from '../../../slices/credentials/credentialsSlice'
+import { deleteCredentialById, issueCredential } from '../../../slices/credentials/credentialsThunks'
 import { trackEvent } from '../../../utils/Analytics'
 import { getAttributesFromProof } from '../../../utils/ProofUtils'
 import { Credential } from '../../onboarding/components/Credential'
+import { CredentialSkeleton } from '../../onboarding/components/CredentialSkeleton'
 import { FailedRequestModal } from '../../onboarding/components/FailedRequestModal'
 import { StepInfo } from '../components/StepInfo'
 
@@ -43,8 +39,6 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
   )
   const [issuedCredData, setIssuedCredData] = useState<CredentialData[]>([])
 
-  let { protocolVersion } = useCredentials()
-
   const issueCreds = () => {
     // get attributes from proof
     let attributes: Attribute[] = []
@@ -63,7 +57,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
 
     // issue credentials
     credentialData.forEach((item) => {
-      dispatch(issueCredential({ connectionId: connectionId, cred: item, protocolVersion }))
+      dispatch(issueCredential({ connectionId: connectionId, cred: item }))
       trackEvent('credential-issued')
     })
   }
@@ -72,14 +66,16 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
     if (credentials.length === 0) issueCreds()
   }, [])
 
-  useInterval(
-    () => {
-      if (document.visibilityState === 'visible') dispatch(fetchCredentialsByConId(connectionId))
+  useWebhookEvent(
+    CredentialEventTypes.CredentialStateChanged,
+    (event: { payload: { credentialRecord: CredentialExchangeRecord } }) => {
+      if (event.payload.credentialRecord.connectionId === connectionId) {
+        dispatch(addCredential(event.payload.credentialRecord))
+      }
     },
-    !credentialsAccepted ? 1000 : null
+    !credentialsAccepted,
+    [connectionId]
   )
-
-  protocolVersion = useCredentials().protocolVersion
 
   const sendNewCredentials = () => {
     credentials.forEach((cred) => {
@@ -93,8 +89,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             credClass.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
           )
         })
-        if (newCredential)
-          dispatch(issueCredential({ connectionId: connectionId, cred: newCredential, protocolVersion }))
+        if (newCredential) dispatch(issueCredential({ connectionId: connectionId, cred: newCredential }))
       }
     })
     closeFailedRequestModal()
@@ -123,7 +118,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
             <AnimatePresence mode="wait">{renderCredentials}</AnimatePresence>
           ) : (
             <motion.div className="flex flex-col h-full m-auto">
-              <Loader />
+              <CredentialSkeleton title="Credential" />
             </motion.div>
           )}
         </motion.div>
