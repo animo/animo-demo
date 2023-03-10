@@ -122,7 +122,7 @@ export const AcceptCredential: React.FC<Props> = ({ content, connectionId, crede
       <StepInformation title={content.title} text={content.text} />
       <div className="flex flex-row m-auto content-center">
         {currentCharacter.starterCredentials.length === credentials.length ? (
-          <AnimatePresence exitBeforeEnter>
+          <AnimatePresence mode="wait">
             <motion.div className={`flex flex-1 flex-col m-auto`} variants={fade} animate="show" exit="exit">
               <StarterCredentials credentialData={currentCharacter.starterCredentials} credentials={credentials} />
             </motion.div>

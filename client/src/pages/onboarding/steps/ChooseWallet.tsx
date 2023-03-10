@@ -65,7 +65,7 @@ export const ChooseWallet: React.FC<Props> = ({ content, addOnboardingProgress }
       >
         {renderWallets}
       </motion.div>
-      <AnimatePresence initial={false} exitBeforeEnter onExitComplete={() => null}>
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {selectedWallet && (
           <WalletModal
             isWalletModalOpen={isChooseWalletModalOpen}

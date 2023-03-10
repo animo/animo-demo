@@ -111,7 +111,7 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
   return (
     <motion.div variants={fadeX} initial="hidden" animate="show" exit="exit" className="flex flex-col h-full">
       <StepInfo title={step.title} description={step.description} />
-      <AnimatePresence initial={false} exitBeforeEnter onExitComplete={() => null}>
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {!proofReceived ? (
           <motion.div
             variants={fadeExit}

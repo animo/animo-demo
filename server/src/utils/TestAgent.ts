@@ -24,7 +24,7 @@ const agentConfig: InitConfig = {
     },
   ],
   logger: logger,
-  publicDidSeed: 'qPa9E2iIwV2Sh37aqEj3LS3oLjZhiu5B',
+  publicDidSeed: 'rittrjmbybhggminojbbnzpkmfvmrltd',
   endpoints: ['http://localhost:9001'],
   autoAcceptConnections: true,
   autoAcceptCredentials: AutoAcceptCredential.ContentApproved,

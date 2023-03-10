@@ -115,7 +115,7 @@ export const StepCredential: React.FC<Props> = ({ step, connectionId, issueCrede
       <div className="flex flex-1-1 m-auto">
         <motion.div className={`flex flex-1-1 flex-col m-auto`} variants={fade} animate="show" exit="exit">
           {credentials.length <= (issueCredentials?.length ?? 0) ? (
-            <AnimatePresence exitBeforeEnter>{renderCredentials}</AnimatePresence>
+            <AnimatePresence mode="wait">{renderCredentials}</AnimatePresence>
           ) : (
             <motion.div className="flex flex-col h-full m-auto">
               <CredentialSkeleton title="Credential" />
