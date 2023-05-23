@@ -1,6 +1,19 @@
-FROM nginx
+FROM node:16.10.0 as build
 
-COPY ./build /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-EXPOSE 80
+COPY package.json /app/
+# COPY yarn.lock /app/
+COPY package.json /app/package.json
+
+RUN yarn install
+
+COPY ./ /app/
+
+# WORKDIR /app/client
+
+EXPOSE 3000
+
+RUN yarn build
+
+CMD ["yarn", "start"]

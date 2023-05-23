@@ -15,7 +15,6 @@ import { createProofOOB } from '../../../slices/proof/proofThunks'
 import { ProofAttributesCard } from '../components/ProofAttributesCard'
 import { StepInfo } from '../components/StepInfo'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const QR = require('qrcode.react')
 
 export interface Props {
@@ -31,9 +30,7 @@ export const StepProofOOB: React.FC<Props> = ({ proof, proofUrl, step, requested
   const proofReceived = proof?.state === 'presentation-received'
 
   const createProofRequest = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const proofs: any = []
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const predicates: any = []
 
     requestedCredentials?.forEach((item) => {

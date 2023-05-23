@@ -28,14 +28,21 @@ RUN apt-get update -y && apt-get install -y --allow-unauthenticated \
 # Install yarn seperately due to `no-install-recommends` to skip nodejs install 
 RUN apt-get install -y --no-install-recommends yarn
 
+FROM base as final
+
 # AFJ specifc setup
 WORKDIR /www
+ENV RUN_MODE="docker"
 
-COPY build ./build
 COPY package.json package.json
+# COPY yarn.lock yarn.lock
 
-RUN yarn install --production
+RUN yarn install 
 
-EXPOSE 5000 5001
+COPY . .
 
-ENTRYPOINT [ "node", "build/index.js"]
+EXPOSE 5000
+
+CMD [ "node", "index.ts" ]
+
+ENTRYPOINT yarn run dev

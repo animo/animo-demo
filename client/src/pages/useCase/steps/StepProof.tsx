@@ -32,9 +32,7 @@ export const StepProof: React.FC<Props> = ({ proof, step, connectionId, requeste
   const closeFailedRequestModal = () => setIsFailedRequestModalOpen(false)
 
   const createProofRequest = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const proofs: any = []
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const predicates: any = []
 
     requestedCredentials?.forEach((item) => {

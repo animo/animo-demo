@@ -24,7 +24,6 @@ const rootReducer = combineReducers({
   useCases: useCaseSlice,
 })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pReducer = (state: any, action: any) => {
   if (action.type === 'persist/REHYDRATE') {
     const storageVersion = action.payload?._persist.version

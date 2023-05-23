@@ -5,7 +5,6 @@ import { trackEvent } from '../utils/Analytics'
 
 import { CheckMark } from './Checkmark'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const QR = require('qrcode.react')
 
 export interface Props {
