@@ -10,7 +10,7 @@ RUN apt-get update -y && apt-get install -y \
     build-essential 
 
 # libindy
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CE7709D068DB5E88
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CE7709D068DB5E88
 RUN add-apt-repository "deb https://repo.sovrin.org/sdk/deb bionic stable"
 
 # nodejs
