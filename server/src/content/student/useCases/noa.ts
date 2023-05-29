@@ -4,35 +4,35 @@ import { v4 as uuid } from 'uuid'
 
 import { StepType } from '../../types'
 
-const URL = '/public/student/useCases/school'
+const URL = '/public/student/useCases/noa'
 
-export const School: UseCase = {
-  slug: 'school',
+export const Noa: UseCase = {
+  slug: 'noa',
   card: {
-    title: 'Enroll into law school',
+    title: 'Get your Notice of Assessment',
     image: `${URL}/card-school.svg`,
-    description: `Let's enroll into university and get our student pass using the power of verifiable credentials.`,
+    description: `Your notice of assessment (NOA) is an evaluation of your tax return that the Canada Revenue Agency sends you every year after you file your tax return.`
   },
 
   stepper: [
     {
       id: uuid(),
-      name: `Connect with the university`,
-      description: `Setup a secure connection with the university.`,
+      name: `Connect with the CRA`,
+      description: `Setup a secure connection with the CRA.`,
       steps: 1,
       section: 1,
     },
     {
       id: uuid(),
       name: 'Submit your application',
-      description: 'Use the connection to submit your application.',
+      description: 'Use the connection to submit your credentials.',
       steps: 4,
       section: 1,
     },
     {
       id: uuid(),
       name: 'Receive your student pass',
-      description: 'Accept your new Student pass that is issued by the University.',
+      description: 'Accept your new noa credential that is issued by the CRA.',
       steps: 7,
       section: 1,
     },
@@ -42,7 +42,7 @@ export const School: UseCase = {
     {
       id: uuid(),
       entity: {
-        name: 'University of Law',
+        name: 'Canada Revenue Agency',
         icon: `${URL}/logo-university.png`,
         imageUrl: 'https://i.imgur.com/KPrshWf.png',
       },
@@ -61,13 +61,14 @@ export const School: UseCase = {
       issueCredentials: [
         {
           id: uuid(),
-          name: 'University Card',
+          name: 'NOA Card',
           properties: [{ name: 'Name' }, { name: 'Date of birth' }],
           attributes: [
-            { name: 'University', value: 'University of Law' },
-            { name: 'Faculty', value: 'Law' },
-            { name: 'StudentID', value: '121098' },
-            { name: 'Valid until', value: '20230831' },
+            { name: 'Corporation', value: 'Canada Revenue Agency' },
+            { name: 'Faculty', value: 'Administration' },
+            { name: 'Sin', value: '123456789' },
+            { name: 'Date Issued', value: '20230331' },
+            { name: 'Net Income', value: '50000' },
           ],
           icon: `${URL}/icon-university-card.png`,
         },
@@ -77,14 +78,14 @@ export const School: UseCase = {
           id: uuid(),
           type: StepType.START,
           image: `${URL}/card-school.svg`,
-          title: 'Enroll into law school.',
-          description: `You are ready to kickstart your career in Law and found a great university not far from your hometown. The university supports the use of verifiable credentials, so enrolling should be easy. Let's try it!`,
+          title: 'Get your Notice of Assessment(NOA).',
+          description: `Few clicks away to get your NOA`,
         },
         {
           id: uuid(),
           type: StepType.CONNECTION,
-          title: 'Scan the QR-code to connect with the university.',
-          description: `You're ready to submit your application  on their website. Scan the QR-Code to set up a secure connection with the university. The university connection will appear in your wallet!`,
+          title: 'Scan the QR-code to connect with the agency.',
+          description: `You're ready to submit your credentials on their website. Scan the QR-Code to set up a secure connection with the agency. The agency connection will appear in your wallet!`,
         },
         {
           id: uuid(),
@@ -96,35 +97,35 @@ export const School: UseCase = {
         {
           id: uuid(),
           type: StepType.PROOF,
-          title: 'The university wants some information.',
+          title: 'The agency wants some information.',
           description: `Grab your wallet, you've received a request for some information! To finish the application process, share the information by accepting the request. `,
           requestOptions: {
-            name: 'University of Law Request',
-            comment: 'The university would like some of your personal information.',
+            name: 'Notice of Assessment Request',
+            comment: 'The CRA would like some of your personal information.',
           },
         },
         {
           id: uuid(),
           type: StepType.INFO,
           title: `You've submitted your application.`,
-          description: `Your application  is being processed by the University. This shouldn't take too long, because all the data you've shared can be verified in seconds`,
+          description: `Your application  is being processed by the agency. This shouldn't take too long, because all the data you've shared can be verified in seconds`,
           image: `${URL}/student-secure.svg`,
         },
         {
           id: uuid(),
           type: StepType.INFO,
           title: 'You got in!',
-          description: `Congrats! The university accepted your application. Before you go tell your mom, the university will first issue you a student pass. `,
+          description: `Congrats! The agency has verified your credentials. Now the agency will issue you a NOA credential which can be used to prove your Net Icome `,
           image: `${URL}/student-accepted.svg`,
         },
         {
           id: uuid(),
           type: StepType.CREDENTIAL,
-          title: `The university issues you your student pass.`,
-          description: `Open your wallet, and accept your new student pass. You can use this pass to access the university's facilities and obtain some great student discounts.`,
+          title: `The agency issues you your NOA credential`,
+          description: `Open your wallet, and accept your new NOA credential. You can use to prove your income at various banks.`,
           requestOptions: {
-            name: 'Student pass',
-            comment: 'Here is your student pass.',
+            name: 'Notice of Assessment',
+            comment: 'Here is your NOA credential.',
           },
           useProof: true,
         },
@@ -136,20 +137,20 @@ export const School: UseCase = {
           endStepper: [
             {
               id: uuid(),
-              title: `You connected with the university`,
-              description: 'This secure channel can be used for all of your communication with the university.',
+              title: `You connected with the agency`,
+              description: 'This secure channel can be used for all of your communication with the agency.',
               image: `${URL}/student-on-laptop.svg`,
             },
             {
               id: uuid(),
               title: 'You safely presented your data',
-              description: `Without showing all of your data, you successfully applied by accepting the university's request.`,
+              description: `Without showing all of your data, you successfully applied by accepting the agency's request.`,
               image: `${URL}/student-secure.svg`,
             },
             {
               id: uuid(),
               title: 'You got in!',
-              description: `Your application was accepted and the university issued you your Student pass. This pass is now safely stored in your digital wallet.`,
+              description: `Your application was accepted and the agency issued you your NOA credential. This credential is now safely stored in your digital wallet.`,
               image: `${URL}/student-accepted.svg`,
             },
           ],

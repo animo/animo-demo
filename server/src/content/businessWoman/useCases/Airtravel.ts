@@ -53,7 +53,7 @@ export const AirTravel: UseCase = {
       requestedCredentials: [
         {
           id: uuid(),
-          name: 'Animo ID Card',
+          name: 'CRA ID Card',
           icon: `/public/businesswoman/icon-businesswoman.svg`,
           properties: ['Name', 'Date of birth', 'Nationality'],
         },

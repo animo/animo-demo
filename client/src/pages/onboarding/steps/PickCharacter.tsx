@@ -48,7 +48,7 @@ export const PickCharacter: React.FC<Props> = ({ content, currentCharacter, char
           className={`m-auto h-16 w-16 p-2 sm:h-20 sm:w-20 md:h-24 md:w-24 md:p-4 lg:h-36 lg:w-36 lg:p-8 rounded-full bg-animo-white dark:bg-animo-black my-6 shadow ${
             currentCharacter?.id === char.id ? cardStyleSelected : cardStyleUnselected
           }`}
-          src={prependApiUrl(char.starterCredentials.find((x) => x.name.includes('Animo'))?.icon ?? '')}
+          src={prependApiUrl(char.starterCredentials.find((x) => x.name.includes('CRA'))?.icon ?? '')}
           alt={char.name}
         />
         <div className="m-auto p-4 flex flex-1 flex-col text-left lg:text-center dark:text-white">

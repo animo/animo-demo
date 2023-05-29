@@ -57,7 +57,7 @@ export const Sport: UseCase = {
       requestedCredentials: [
         {
           id: uuid(),
-          name: 'Animo ID Card',
+          name: 'CRA ID Card',
           icon: '/public/student/icon-student.svg',
           properties: ['Name', 'Date of birth'],
         },

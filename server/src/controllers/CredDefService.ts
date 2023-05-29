@@ -45,12 +45,12 @@ export class CredDefService {
     const cd1 = await this.createSchemaCredentialDefinition({
       schema: {
         attributeNames: ['Name', 'Street', 'City', 'Date of birth', 'Nationality'],
-        name: 'Animo ID',
+        name: 'CRA ID',
         version: '1.1',
       },
       credentialDefinition: {
         supportRevocation: false,
-        tag: 'Animo ID Card',
+        tag: 'CRA ID Card',
       },
     })
 
@@ -111,6 +111,18 @@ export class CredDefService {
       credentialDefinition: {
         supportRevocation: false,
         tag: 'University Card',
+      },
+    })
+
+    const cdNoa = this.createSchemaCredentialDefinition({
+      schema: {
+        name: "Notice of Assessment",
+        version: '1.0.0',
+        attributeNames: ['Corporation', 'Faculty', 'Sin', 'Date Issued', 'Net Income','Name','Date of birth'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `NOA Card`,
       },
     })
 
@@ -186,7 +198,7 @@ export class CredDefService {
       },
     })
 
-    this.credentialDefinitions = await Promise.all([cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12])
+    this.credentialDefinitions = await Promise.all([cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12,cdNoa])
   }
 
   private async createSchemaCredentialDefinition(options: {

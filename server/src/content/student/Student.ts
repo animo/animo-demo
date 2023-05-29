@@ -12,7 +12,7 @@ export const Student: Character = {
   starterCredentials: [
     {
       id: uuid(),
-      name: 'Animo ID Card',
+      name: 'CRA ID Card',
       icon: '/public/student/icon-student.svg',
       attributes: [
         { name: 'Name', value: 'Jan van Dalen' },

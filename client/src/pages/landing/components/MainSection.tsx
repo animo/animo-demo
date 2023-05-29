@@ -51,7 +51,7 @@ export const MainSection: React.FC = () => {
           variants={fade}
           whileHover={buttonHover}
           className="bg-white dark:bg-black text-black dark:text-white py-3 px-5 mx-8 mt-4 rounded-lg font-semibold shadow-sm dark:shadow-none select-none "
-          onClick={() => window.open('https://animo.id', '_blank')}
+          onClick={() => window.open('https://www.canada.ca/en/revenue-agency.html', '_blank')}
         >
           Get to know us &nbsp;
           <FiExternalLink className="inline h-6 pb-1" />
@@ -92,7 +92,7 @@ export const MainSection: React.FC = () => {
           Try demo &nbsp;
           <FiArrowRight className="inline h-6 pb-1" />
         </motion.button>
-        <a href="https://animo.id" target="_blank">
+        <a href="https://www.canada.ca/en/revenue-agency.html" target="_blank">
           <motion.button
             variants={fadeDelay}
             whileHover={buttonHover}
