@@ -101,7 +101,7 @@ export const DashboardPage: React.FC = () => {
             </div>
             <div className="flex flex-1 flex-col p-2 mx-2 dark:text-white">
               <ProfileCard currentCharacter={currentCharacter} />
-              {!isMobile && dashboardCard}
+              {/* {!isMobile && dashboardCard} */}
             </div>
           </div>
         </>

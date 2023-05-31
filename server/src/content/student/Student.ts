@@ -16,7 +16,7 @@ export const Student: Character = {
       icon: '/public/student/icon-student.svg',
       attributes: [
         { name: 'Name', value: 'Jan van Dalen' },
-        { name: 'Date of birth', value: '19990101' },
+        { name: 'Date of birth', value: '101' },
         { name: 'Street', value: 'Ambachtstraat 61' },
         { name: 'City', value: 'Utrecht' },
         { name: 'Nationality', value: 'The Netherlands' },

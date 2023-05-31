@@ -126,6 +126,18 @@ export class CredDefService {
       },
     })
 
+    const cdLoan = this.createSchemaCredentialDefinition({
+      schema: {
+        name: "Morgage Loan",
+        version: '1.0.2',
+        attributeNames: ['Name','Date of birth','Sin','Net Income','Corporation','Approved Loan Amount'],
+      },
+      credentialDefinition: {
+        supportRevocation: false,
+        tag: `Morgage Loan`,
+      },
+    })
+
     const cd7 = this.createSchemaCredentialDefinition({
       schema: {
         name: "Master's Degree",
@@ -198,7 +210,7 @@ export class CredDefService {
       },
     })
 
-    this.credentialDefinitions = await Promise.all([cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12,cdNoa])
+    this.credentialDefinitions = await Promise.all([cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8, cd9, cd10, cd11, cd12,cdNoa, cdLoan])
   }
 
   private async createSchemaCredentialDefinition(options: {

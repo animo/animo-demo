@@ -86,7 +86,7 @@ export const MainSection: React.FC = () => {
           data-cy="try-demo-button"
           variants={fadeDelay}
           whileHover={buttonHover}
-          className="bg-animo-black dark:bg-animo-white text-animo-white dark:text-animo-black py-3 px-5 rounded-lg font-semibold shadow-sm dark:shadow-none select-none "
+          className="bg-animo-green dark:bg-animo-white text-animo-white dark:text-animo-black py-3 px-5 rounded-lg font-semibold shadow-sm dark:shadow-none select-none "
           onClick={handleStart}
         >
           Try demo &nbsp;
