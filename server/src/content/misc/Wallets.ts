@@ -56,4 +56,4 @@ const indicioHoldrPlus: Wallet = {
   android: 'https://play.google.com/store/apps/details?id=tech.indicio.holdrplus',
 }
 
-export const Wallets: Wallet[] = [lissi, trinsic, orbitEdge]
+export const Wallets: Wallet[] = [lissi, bcWallet, orbitEdge]

@@ -58,7 +58,7 @@ export const OnboardingContainer: React.FC<Props> = ({
   )
   const isBackDisabled = [Progress.SETUP_START, Progress.ACCEPT_CREDENTIAL].includes(onboardingStep)
   const isForwardDisabled =
-    onboardingStep === Progress.CHOOSE_WALLET ||
+    // onboardingStep === Progress.CHOOSE_WALLET ||
     (onboardingStep === Progress.RECEIVE_IDENTITY && !connectionCompleted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && !credentialsAccepted) ||
     (onboardingStep === Progress.ACCEPT_CREDENTIAL && credentials.length === 0) ||
