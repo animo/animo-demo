@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = process.env.REACT_APP_HOST_BACKEND
+const baseUrl = process.env.NEXT_PUBLIC_HOST_BACKEND || 'http://localhost:3000/api'
 
-export const wsUrl: string | URL = String(process.env.REACT_APP_HOST_WEBSOCKET)
+export const wsUrl: string | URL = process.env.NEXT_PUBLIC_HOST_WEBSOCKET || 'ws://localhost:3000'
 
 export const apiCall = axios.create({ baseURL: baseUrl })
