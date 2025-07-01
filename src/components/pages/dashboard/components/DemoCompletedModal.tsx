@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { standardFade, dropIn } from '../../../FramerAnimations'
-import { SmallButton } from '../../../components/SmallButton'
-import { SmallButtonText } from '../../../components/SmallButtonText'
+import { standardFade, dropIn } from '@/FramerAnimations'
+import { SmallButton } from '@/components/SmallButton'
+import { SmallButtonText } from '@/components/SmallButtonText'
 
 export interface Props {
   action(): void

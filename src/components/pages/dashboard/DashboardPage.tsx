@@ -1,23 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
-import { page } from '../../FramerAnimations'
-import { Modal } from '../../components/Modal'
-import { SmallButtonText } from '../../components/SmallButtonText'
-import { useAppDispatch } from '../../hooks/hooks'
-import { useTitle } from '../../hooks/useTitle'
-import { useCurrentCharacter } from '../../slices/characters/charactersSelectors'
-import { useCredentials } from '../../slices/credentials/credentialsSelectors'
-import { usePreferences } from '../../slices/preferences/preferencesSelectors'
-import { setDemoCompleted } from '../../slices/preferences/preferencesSlice'
-import { useAllUseCases } from '../../slices/useCases/useCasesSelectors'
-import { fetchAllUseCasesByCharId } from '../../slices/useCases/useCasesThunks'
-import { trackEvent } from '../../utils/Analytics'
+import { page } from '@/FramerAnimations'
+import { Modal } from '@/components/Modal'
+import { SmallButtonText } from '@/components/SmallButtonText'
+import { useTitle } from '@/hooks/useTitle'
+import { useCurrentCharacter, usePreferences } from '@/contexts/AppStateContext'
+import { useUseCasesByCharacter } from '@/hooks/useUseCases'
+import { trackEvent } from '@/utils/Analytics'
 import { Footer } from '../landing/components/Footer'
 import { NavBar } from '../landing/components/Navbar'
-
 import { DashboardCard } from './components/DashboardCard'
 import { DemoCompletedModal } from './components/DemoCompletedModal'
 import { ProfileCard } from './components/ProfileCard'
@@ -26,25 +20,20 @@ import { UseCaseContainer } from './components/UseCaseContainer'
 export const DashboardPage: React.FC = () => {
   useTitle('Dashboard | Animo Self-Sovereign Identity Demo')
 
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { issuedCredentials } = useCredentials()
-  const { completedUseCaseSlugs, demoCompleted } = usePreferences()
-  const currentCharacter = useCurrentCharacter()
-  const useCases = useAllUseCases()
-
-  useEffect(() => {
-    // if user doesn't come from onboarding flow
-    if (useCases.length === 0 && currentCharacter) {
-      dispatch(fetchAllUseCasesByCharId(currentCharacter.id))
-    }
-  }, [])
+  const router = useRouter()
+  const { completedUseCaseSlugs, demoCompleted, setDemoCompleted } = usePreferences()
+  const { currentCharacter } = useCurrentCharacter()
+  
+  // Use React Query to fetch use cases for the current character
+  const { data: useCases = [], isLoading } = useUseCasesByCharacter(
+    currentCharacter?.id || ''
+  )
 
   useEffect(() => {
     if (completedUseCaseSlugs.length !== 0 && completedUseCaseSlugs.length === useCases.length) {
-      dispatch(setDemoCompleted())
+      setDemoCompleted()
     }
-  }, [completedUseCaseSlugs, useCases])
+  }, [completedUseCaseSlugs, useCases, setDemoCompleted])
 
   const isMobile = useMediaQuery({ query: '(max-width: 976px)' })
 
@@ -61,13 +50,13 @@ export const DashboardPage: React.FC = () => {
   const ERROR_TITLE = `Woops...`
   const ERROR_DESCRIPTION = `That's not gone well. Please restart the demo.`
   const routeError = () => {
-    navigate('/demo')
-    dispatch({ type: 'demo/resetDemo' })
+    router.push('/demo')
+    // TODO: Reset demo state
   }
 
   const completeDemo = () => {
-    navigate('/')
-    dispatch({ type: 'demo/resetDemo' })
+    router.push('/')
+    // TODO: Reset demo state
 
     if (currentCharacter)
       trackEvent('demo-character-completed', {
@@ -93,7 +82,6 @@ export const DashboardPage: React.FC = () => {
           <div className="flex flex-col lg:flex-row mb-auto">
             <div className="w-full lg:w-2/3 order-last lg:order-first">
               <UseCaseContainer
-                issuedCredentials={issuedCredentials}
                 completedUseCaseSlugs={completedUseCaseSlugs}
                 useCases={useCases}
               />
@@ -106,7 +94,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </>
       ) : (
-        <AnimatePresence initial={false} exitBeforeEnter onExitComplete={() => null}>
+        <AnimatePresence mode="wait" onExitComplete={() => null}>
           <Modal title={ERROR_TITLE} description={ERROR_DESCRIPTION} onOk={routeError} />
         </AnimatePresence>
       )}

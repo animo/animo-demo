@@ -2,21 +2,21 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { FiExternalLink, FiArrowRight } from 'react-icons/fi'
 import { useMediaQuery } from 'react-responsive'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
-import { buttonHover, fade, fadeDelay, landingTitle } from '../../../FramerAnimations'
-import homeIllustrationDark from '../../../assets/dark/animo-home-illustration-dark.svg'
-import homeIllustrationLight from '../../../assets/light/animo-home-illustration-light.svg'
-import { useDarkMode } from '../../../hooks/useDarkMode'
+import { buttonHover, fade, fadeDelay, landingTitle } from '@/FramerAnimations'
+import homeIllustrationDark from '@/assets/dark/animo-home-illustration-dark.svg'
+import homeIllustrationLight from '@/assets/light/animo-home-illustration-light.svg'
+import { usePreferences } from '@/contexts/AppStateContext'
 
 export const MainSection: React.FC = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
-  const darkMode = useDarkMode()
+  const { darkMode } = usePreferences()
 
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const handleStart = () => {
-    navigate('/demo')
+    router.push('/demo')
   }
 
   const renderMobileTitle = (

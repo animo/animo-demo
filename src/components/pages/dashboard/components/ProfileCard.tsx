@@ -1,13 +1,13 @@
-import type { Character } from '../../../slices/types'
+import type { Character } from '@/slices/types'
 
 import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 
-import { fade } from '../../../FramerAnimations'
-import { Modal } from '../../../components/Modal'
-import { SmallButtonText } from '../../../components/SmallButtonText'
-import { useAppDispatch } from '../../../hooks/hooks'
-import { prependApiUrl } from '../../../utils/Url'
+import { fade } from '@/FramerAnimations'
+import { Modal } from '@/components/Modal'
+import { SmallButtonText } from '@/components/SmallButtonText'
+import { prependApiUrl } from '@/utils/Url'
+import { useAppState } from '@/contexts/AppStateContext'
 
 export interface Props {
   currentCharacter: Character
@@ -15,14 +15,14 @@ export interface Props {
 
 export const ProfileCard: React.FC<Props> = ({ currentCharacter }) => {
   const [isChangeModalOpen, setIsChangeModalOpen] = useState(false)
-  const dispatch = useAppDispatch()
+  const { dispatch } = useAppState()
 
   const MODAL_TITLE = 'This will reset your dashboard.'
   const MODAL_DESCRIPTION = `Your current credentials will become invalid. Please make sure you've completed all the use cases
   before you switch to another character.`
 
   const reset = () => {
-    dispatch({ type: 'demo/resetDemo' })
+    dispatch({ type: 'RESET_DEMO' })
   }
 
   const cancel = () => {
