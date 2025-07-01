@@ -1,4 +1,10 @@
-import type { ProofAttribute, ProofPredicateInfo } from '@aries-framework/core'
+// Updated types using Paradym SDK types
+import type {
+  DidcommConnection,
+  DidcommInvitation,
+  DidcommIssuance,
+  DidcommVerification,
+} from '@/lib/paradym'
 
 export interface Connection {
   id: string
@@ -6,11 +12,26 @@ export interface Connection {
   invitationUrl: string
 }
 
+// Updated to remove Aries Framework dependency
 export interface ProofRequestData {
   connectionId: string
   attributes?: ProofAttribute[]
   predicates?: ProofPredicateInfo[]
   requestOptions?: RequestOptions
+}
+
+// Basic types for proof attributes and predicates (simplified)
+export interface ProofAttribute {
+  name: string
+  names?: string[]
+  restrictions?: any[]
+}
+
+export interface ProofPredicateInfo {
+  name: string
+  p_type: '>=' | '>' | '<=' | '<'
+  p_value: number
+  restrictions?: any[]
 }
 
 export interface Character {
@@ -140,4 +161,12 @@ export interface Wallet {
   apple: string
   android: string
   ledgerImage?: string
+}
+
+// Re-export Paradym types for use in the app
+export type {
+  DidcommConnection,
+  DidcommInvitation,
+  DidcommIssuance,
+  DidcommVerification,
 }

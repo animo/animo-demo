@@ -1,42 +1,24 @@
-// Temporary types to replace Aries Framework types until we migrate to Paradym
-export interface ConnectionRecord {
-  id: string
-  state: string
-  theirLabel?: string
-  createdAt: Date
-  updatedAt: Date
-}
+// Re-export Paradym types for backward compatibility
+export type {
+  DidcommConnection as ConnectionRecord,
+  DidcommIssuance as CredentialExchangeRecord,
+  DidcommVerification as ProofRecord,
+} from '@/lib/paradym'
 
-export interface CredentialExchangeRecord {
-  id: string
-  state: string
-  connectionId: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface ProofRecord {
-  id: string
-  state: string
-  connectionId?: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-// Event types for webhooks
+// Event types for webhooks (mapped to Paradym event types)
 export interface CredentialEventTypes {
-  CredentialStateChanged: string
+  CredentialStateChanged: 'didcomm.issuance.offered' | 'didcomm.issuance.completed' | 'didcomm.issuance.failed'
 }
 
 export interface ConnectionEventTypes {
-  ConnectionStateChanged: string
+  ConnectionStateChanged: 'didcomm.connection.created' | 'didcomm.connection.reused'
 }
 
 export interface ProofEventTypes {
-  ProofStateChanged: string
+  ProofStateChanged: 'didcomm.verification.requested' | 'didcomm.verification.verified' | 'didcomm.verification.failed'
 }
 
-// JSON Transformer placeholder
+// JSON Transformer placeholder (still needed for compatibility)
 export class JsonTransformer {
   static toJSON(obj: any) {
     return JSON.stringify(obj)
