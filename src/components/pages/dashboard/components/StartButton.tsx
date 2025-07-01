@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { FiCheck, FiLock } from 'react-icons/fi'
 
-import { buttonHover } from '../../../FramerAnimations'
+import { buttonHover } from '@/FramerAnimations'
 
 export interface Props {
   text: string

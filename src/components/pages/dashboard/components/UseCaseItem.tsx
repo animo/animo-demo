@@ -1,23 +1,22 @@
-import type { RequestedCredential, UseCaseCard } from '../../../slices/types'
+import type { UseCaseCard } from '@/slices/types'
 
 import { motion } from 'framer-motion'
 import React from 'react'
 
-import { rowFadeX } from '../../../FramerAnimations'
-import { prependApiUrl } from '../../../utils/Url'
+import { rowFadeX } from '@/FramerAnimations'
+import { prependApiUrl } from '@/utils/Url'
 
 import { StartButton } from './StartButton'
 
 export interface Props {
   slug: string
   card: UseCaseCard
-  requiredCredentials: RequestedCredential[]
   isCompleted: boolean
   isLocked: boolean
   start(slug: string): void
 }
 
-export const UseCaseItem: React.FC<Props> = ({ slug, card, isCompleted, requiredCredentials, isLocked, start }) => {
+export const UseCaseItem: React.FC<Props> = ({ slug, card, isCompleted, isLocked, start }) => {
   return (
     <motion.div variants={rowFadeX} key={slug}>
       <div

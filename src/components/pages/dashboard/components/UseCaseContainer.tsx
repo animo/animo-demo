@@ -1,45 +1,30 @@
-import type { CredentialData, RequestedCredential, UseCase } from '../../../slices/types'
-import type { CredReqMetadata } from 'indy-sdk'
+import type { UseCase } from '@/slices/types'
+import type { CredentialExchangeRecord } from '@/types/aries'
 
-import { CredentialExchangeRecord, JsonTransformer } from '@aries-framework/core'
+import { JsonTransformer } from '@/types/aries'
 import { motion } from 'framer-motion'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
-import { dashboardSub, dashboardTitle, rowContainer } from '../../../FramerAnimations'
+import { dashboardSub, dashboardTitle, rowContainer } from '@/FramerAnimations'
 
 import { UseCaseItem } from './UseCaseItem'
 
 export interface Props {
   useCases: UseCase[]
-  issuedCredentials: CredentialExchangeRecord[]
   completedUseCaseSlugs: string[]
 }
 
-export const UseCaseContainer: React.FC<Props> = ({ useCases, completedUseCaseSlugs, issuedCredentials }) => {
-  const navigate = useNavigate()
+export const UseCaseContainer: React.FC<Props> = ({ useCases, completedUseCaseSlugs }) => {
+  const router = useRouter()
 
   const startUseCase = (slug: string) => {
-    navigate(`/uc/${slug}`)
+    router.push(`/uc/${slug}`)
   }
 
   const renderUseCases = useCases.map((item) => {
-    const issueCredentials = item.sections.flatMap((x) => x.issueCredentials).filter((y) => y) as CredentialData[]
-
-    const requiredCredentials = item.sections
-      .flatMap((x) => x.requestedCredentials)
-      .filter((o) => !issueCredentials.find((obj) => obj.name === o?.name))
-      .filter((y) => y) as RequestedCredential[]
-
-    const isLocked = !Object.values(requiredCredentials).every((x) =>
-      issuedCredentials
-        .map((y) => {
-          const z = JsonTransformer.fromJSON(y, CredentialExchangeRecord)
-          return z.metadata.get<CredReqMetadata>('_internal/indyCredential')?.credentialDefinitionId
-        })
-        .includes(x.credentialDefinitionId)
-    )
-
+    // Simplified logic for now - we'll implement proper credential checking later
+    const isLocked = false // TODO: Implement with Paradym
     const isCompleted = completedUseCaseSlugs.includes(item.slug)
 
     return (
@@ -47,7 +32,6 @@ export const UseCaseContainer: React.FC<Props> = ({ useCases, completedUseCaseSl
         key={item.slug}
         slug={item.slug}
         card={item.card}
-        requiredCredentials={requiredCredentials}
         start={startUseCase}
         isLocked={isLocked}
         isCompleted={isCompleted}
