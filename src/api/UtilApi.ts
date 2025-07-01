@@ -1,7 +1,6 @@
-import type { AxiosResponse } from 'axios'
-
 import { apiCall } from './BaseUrl'
 
-export const getLastServerReset = (): Promise<AxiosResponse> => {
-  return apiCall.get('/server/last-reset')
+export const getLastServerReset = async () => {
+  const response = await apiCall('/server/last-reset')
+  return response.json()
 }

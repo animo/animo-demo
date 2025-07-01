@@ -4,46 +4,37 @@ import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-import { useAppDispatch } from '@/hooks/hooks'
 import { useAnalytics } from '@/hooks/useAnalytics'
-import { usePreferences } from '@/slices/preferences/preferencesSelectors'
-import { setDarkMode } from '@/slices/preferences/preferencesSlice'
-import { fetchLastServerReset } from '@/slices/preferences/preferencesThunks'
+import { usePreferences } from '@/contexts/AppStateContext'
 import { AuthProvider } from '@/utils/AuthContext'
 import { ThemeProvider } from '@/utils/ThemeContext'
 import { KBar } from '@/utils/KBar'
-import { ReduxProvider } from '@/components/providers/ReduxProvider'
+import ReactQueryProvider from '@/components/providers/ReactQueryProvider'
+import { AppStateProvider } from '@/contexts/AppStateContext'
 
 function AppContent({ children }: { children: React.ReactNode }) {
   useAnalytics()
-  const dispatch = useAppDispatch()
   const router = useRouter()
   const pathname = usePathname()
-  const { connectionDate, lastServerReset } = usePreferences()
+  const { connectionDate, lastServerReset, setDarkMode } = usePreferences()
 
   const localStorageTheme = typeof window !== 'undefined' && localStorage.theme === 'dark'
   const windowMedia = typeof window !== 'undefined' && !('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches
 
   useEffect(() => {
     if (localStorageTheme || windowMedia) {
-      dispatch(setDarkMode(true))
+      setDarkMode(true)
     }
-  }, [dispatch, localStorageTheme, windowMedia])
-
-  useEffect(() => {
-    if (connectionDate) {
-      dispatch(fetchLastServerReset())
-    }
-  }, [connectionDate, dispatch])
+  }, [setDarkMode, localStorageTheme, windowMedia])
 
   useEffect(() => {
     if (connectionDate && lastServerReset) {
       if (connectionDate < lastServerReset) {
         router.push('/')
-        dispatch({ type: 'demo/resetDemo' })
+        // TODO: Reset demo state
       }
     }
-  }, [connectionDate, lastServerReset, router, dispatch])
+  }, [connectionDate, lastServerReset, router])
 
   return (
     <ThemeProvider>
@@ -62,10 +53,12 @@ function AppContent({ children }: { children: React.ReactNode }) {
 
 export default function ClientApp({ children }: { children: React.ReactNode }) {
   return (
-    <ReduxProvider>
-      <AppContent>
-        {children}
-      </AppContent>
-    </ReduxProvider>
+    <ReactQueryProvider>
+      <AppStateProvider>
+        <AppContent>
+          {children}
+        </AppContent>
+      </AppStateProvider>
+    </ReactQueryProvider>
   )
 }

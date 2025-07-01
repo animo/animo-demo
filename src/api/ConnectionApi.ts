@@ -1,27 +1,35 @@
-import type { AxiosResponse } from 'axios'
-
 import { apiCall } from './BaseUrl'
 
-export const createOobInvitation = (agentName?: string, agentImageUrl?: string): Promise<AxiosResponse> => {
-  return apiCall.post('/oob/create-invitation', {
-    autoAcceptConnection: true,
-    label: agentName,
-    imageUrl: agentImageUrl,
+export const createOobInvitation = async (agentName?: string, agentImageUrl?: string) => {
+  const response = await apiCall('/oob/create-invitation', {
+    method: 'POST',
+    body: JSON.stringify({
+      autoAcceptConnection: true,
+      label: agentName,
+      imageUrl: agentImageUrl,
+    }),
   })
+  return response.json()
 }
 
-export const createLegacyInvitation = (agentName?: string, agentImageUrl?: string): Promise<AxiosResponse> => {
-  return apiCall.post('/oob/create-legacy-invitation', {
-    autoAcceptConnection: true,
-    label: agentName,
-    imageUrl: agentImageUrl,
+export const createLegacyInvitation = async (agentName?: string, agentImageUrl?: string) => {
+  const response = await apiCall('/oob/create-legacy-invitation', {
+    method: 'POST',
+    body: JSON.stringify({
+      autoAcceptConnection: true,
+      label: agentName,
+      imageUrl: agentImageUrl,
+    }),
   })
+  return response.json()
 }
 
-export const getConnectionById = (connectionId: string): Promise<AxiosResponse> => {
-  return apiCall.get(`/connections/${connectionId}`)
+export const getConnectionById = async (connectionId: string) => {
+  const response = await apiCall(`/connections/${connectionId}`)
+  return response.json()
 }
 
-export const getConnectionByOutOfBandId = (outOfBandId: string): Promise<AxiosResponse> => {
-  return apiCall.get(`/connections?outOfBandId=${outOfBandId}`)
+export const getConnectionByOutOfBandId = async (outOfBandId: string) => {
+  const response = await apiCall(`/connections?outOfBandId=${outOfBandId}`)
+  return response.json()
 }

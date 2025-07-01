@@ -1,11 +1,11 @@
-import type { AxiosResponse } from 'axios'
-
 import { apiCall } from './BaseUrl'
 
-export const getUseCasesByCharId = (characterId: string): Promise<AxiosResponse> => {
-  return apiCall.get(`/demo/usecases/character/${characterId}`, {})
+export const getUseCasesByCharId = async (characterId: string) => {
+  const response = await apiCall(`/demo/usecases/character/${characterId}`)
+  return response.json()
 }
 
-export const getUseCaseBySlug = (slug: string): Promise<AxiosResponse> => {
-  return apiCall.get(`/demo/usecases/${slug}`)
+export const getUseCaseBySlug = async (slug: string) => {
+  const response = await apiCall(`/demo/usecases/${slug}`)
+  return response.json()
 }

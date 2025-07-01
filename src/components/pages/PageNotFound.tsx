@@ -1,13 +1,13 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
-import { SmallButtonText } from '../components/SmallButtonText'
+import { SmallButtonText } from '@/components/SmallButtonText'
 
 export const PageNotFound: React.FC = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const returnToHome = () => {
-    navigate('/')
+    router.push('/')
   }
   return (
     <div className="flex h-screen">
