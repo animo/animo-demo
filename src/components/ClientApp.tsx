@@ -14,7 +14,7 @@ import { ThemeProvider } from '@/utils/ThemeContext'
 import { KBar } from '@/utils/KBar'
 import { ReduxProvider } from '@/components/providers/ReduxProvider'
 
-function AppContent() {
+function AppContent({ children }: { children: React.ReactNode }) {
   useAnalytics()
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -51,7 +51,7 @@ function AppContent() {
         <KBar>
           <AnimatePresence mode="wait">
             <div key={pathname}>
-              {/* The page content will be rendered by the Next.js routing system */}
+              {children}
             </div>
           </AnimatePresence>
         </KBar>

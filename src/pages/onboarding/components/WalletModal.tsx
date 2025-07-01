@@ -1,4 +1,7 @@
+'use client'
+
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 
 import { standardFade, dropIn } from '../../../FramerAnimations'
 import appStore from '../../../assets/light/icon-app-store.png'
@@ -71,10 +74,10 @@ export const WalletModal: React.FC<Props> = ({ isWalletModalOpen, setIsWalletMod
                     </div>
                     <div className="flex flex-row my-2 mb-4 justify-center sm:justify-start">
                       <a href={wallet.apple} target="_blank" rel="noreferrer">
-                        <img className="h-8 m-2" src={appStore} alt="app-store" />
+                        <Image className="h-8 m-2 w-auto" src={appStore} alt="app-store" height={32} />
                       </a>
                       <a href={wallet.android} target="_blank" rel="noreferrer">
-                        <img className="h-8 m-2" src={playStore} alt="play-store" />
+                        <Image className="h-8 m-2 w-auto" src={playStore} alt="play-store" height={32} />
                       </a>
                     </div>
                   </div>

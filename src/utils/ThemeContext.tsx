@@ -1,3 +1,5 @@
+'use client'
+
 import type { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 import { createContext } from 'react'
